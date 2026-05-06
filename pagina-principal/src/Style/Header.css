@@ -34,7 +34,6 @@
   font-family: 'Segoe UI', Roboto, sans-serif;
   margin: 0 auto; 
   max-width: 1400px; 
-  border-radius: 15px 15px 15px 15px;
 }
 
 .nav-links {
@@ -151,16 +150,16 @@
   transform: translateY(0);
 }
 
-.logo {
+.group {
 
-  height: clamp(50px, 10vh, 80px); 
+  height: clamp(50px, 10vh, 60px); 
   width: auto; 
   display: block;
-  object-fit: contain; /* Asegura que no se deforme */
+  object-fit: contain; 
   transition: transform 0.3s ease;
 }
 
 
-.logo:hover {
+.group:hover {
   transform: scale(1.1);
 }

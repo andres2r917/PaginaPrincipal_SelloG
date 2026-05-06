@@ -1,15 +1,13 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 import '../Style/Header.css'
-import logo from '../assets/logo.svg'
+import Group from '../assets/Group.svg'
 const Header = () => {
   return (
      <header> 
           <nav className="nav-bar">
             <div className="nav-links">
-                <div>
-                  <img className="logo" src={logo} alt="Logo"/>
-                </div>
+               <img className='group' src={Group} alt="group" />
               <div className="items">
                 <Link to="/home" className="nav-item">Inicio</Link>
                 <Link to="/adopta" className="nav-item">Adopta</Link>

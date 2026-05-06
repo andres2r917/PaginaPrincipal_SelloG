@@ -1,0 +1,184 @@
+.sec1 {
+  padding: 5rem 2.5rem;
+  background: #f0fdf4;
+  font-family: 'Nunito', sans-serif;
+}
+
+.sec1__header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 2.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.sec1__eyebrow {
+  display: block;
+  color: #16a34a;
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 0.4rem;
+}
+
+.sec1__title {
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  font-weight: 900;
+  color: #14532d;
+  margin: 0 0 0.4rem;
+}
+
+.sec1__subtitle {
+  color: #4b7a5e;
+  font-size: 1rem;
+  margin: 0;
+}
+
+.sec1__ver-todos {
+  color: #16a34a;
+  font-weight: 800;
+  font-size: 0.95rem;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: gap 0.18s;
+}
+
+.sec1__ver-todos:hover {
+  text-decoration: underline;
+}
+
+.sec1__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1.5rem;
+}
+
+.sec1__card {
+  background: #fff;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+  transition: transform 0.22s, box-shadow 0.22s;
+}
+
+.sec1__card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 36px rgba(34,197,94,0.18);
+}
+
+.sec1__card-img-wrap {
+  position: relative;
+  height: 210px;
+  overflow: hidden;
+}
+
+.sec1__card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s;
+}
+
+.sec1__card:hover .sec1__card-img {
+  transform: scale(1.06);
+}
+
+.sec1__tag {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 0.22rem 0.7rem;
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.sec1__tag--red    { background: #fef2f2; color: #dc2626; }
+.sec1__tag--green  { background: #dcfce7; color: #16a34a; }
+.sec1__tag--yellow { background: #fefce8; color: #ca8a04; }
+.sec1__tag--blue   { background: #eff6ff; color: #2563eb; }
+
+.sec1__fav {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  background: rgba(255,255,255,0.85);
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  font-size: 1rem;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+  transition: background 0.18s, transform 0.18s;
+}
+
+.sec1__fav:hover {
+  background: #fff;
+  transform: scale(1.15);
+}
+
+.sec1__card-body {
+  padding: 1.1rem 1.2rem 1.3rem;
+}
+
+.sec1__card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.2rem;
+}
+
+.sec1__pet-name {
+  font-size: 1.15rem;
+  font-weight: 900;
+  color: #14532d;
+  margin: 0;
+}
+
+.sec1__pet-type {
+  font-size: 0.78rem;
+  color: #6b7280;
+  font-weight: 700;
+  background: #f3f4f6;
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+}
+
+.sec1__pet-breed {
+  color: #6b7280;
+  font-size: 0.85rem;
+  margin: 0 0 0.75rem;
+}
+
+.sec1__card-meta {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.82rem;
+  color: #374151;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.sec1__btn {
+  width: 100%;
+  padding: 0.65rem;
+  background: #22c55e;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 800;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.18s, transform 0.18s;
+}
+
+.sec1__btn:hover {
+  background: #16a34a;
+  transform: translateY(-1px);
+}

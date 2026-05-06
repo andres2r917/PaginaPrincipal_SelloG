@@ -3,7 +3,7 @@ import '../Style/Navbar.css'
 import portada from '../assets/portada.jpeg'
 const Navbar = () => {
   return (
-   <navbar className="hero">
+   <nav className="hero">
     <div>
     <img className='portada' src={portada} alt="portada"/>
     </div>
@@ -14,7 +14,7 @@ const Navbar = () => {
       nunca termina
     </h1>
     <p className="hero-text">
-      Anímate a denunciar, adoptar y proteger<br />a los que no tienen voz
+      Anímate a denunciar, adoptar y proteger <br /> a los que no tienen voz
     </p>
 
     <div className="hero-btns">
@@ -43,7 +43,7 @@ const Navbar = () => {
       </div>
     </div>
   </div>
-</navbar>
+</nav>
   )
 }
 
