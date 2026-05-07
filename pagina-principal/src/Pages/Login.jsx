@@ -5,7 +5,6 @@ import portada from '../assets/portada.jpeg'
 import logo from '../assets/logo.svg'
 const Login = () => {
   const [credentials, setCredentials] = useState({ email: '', password: '' });
-
   const handleChange = (e) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
   };

@@ -1,0 +1,146 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap');
+
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Nunito', sans-serif; 
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+}
+
+
+.auth-card {
+  background: rgba(255, 255, 255, 0.356);
+  backdrop-filter: blur(8px); /* Efecto de desenfoque para la imagen de fondo */
+  border-radius: 20px;
+  padding: 20px 30px;
+  width: 100%;
+  max-width: 360px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(0, 0, 0, 0.137);
+  position: relative;
+  z-index: 1;
+}
+
+/* Encabezado */
+.auth-card__header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.auth-card__logo-container {
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: center;
+}
+
+.auth-card__title {
+  font-size: 1.75rem;
+  font-weight: 900;
+  color: #14532d;
+  margin: 0;
+}
+
+.auth-card__subtitle {
+  color: #4b5563; /* Un gris un poco más oscuro para legibilidad */
+  font-size: 0.95rem;
+  margin-top: 0.4rem;
+}
+
+/* Formulario y Grupos */
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.auth-form__group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.auth-form__label {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #374151;
+  margin-left: 0.2rem;
+}
+
+.auth-form__input {
+  padding: 0.85rem 1.1rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  outline: none;
+  transition: all 0.25s ease;
+  font-family: inherit;
+  background: white;
+}
+
+.auth-form__input:focus {
+  border-color: #22c55e;
+  box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.12);
+}
+
+/* Botón de Registro */
+.auth-form__submit-btn {
+  margin-top: 0.75rem;
+  padding: 0.95rem;
+  background-color: #16a34a;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.05rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.auth-form__submit-btn:hover {
+  background-color: #15803d;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(21, 128, 61, 0.25);
+}
+
+.auth-form__submit-btn:active {
+  transform: translateY(0);
+}
+
+/* Footer de la tarjeta */
+.auth-card__footer {
+  margin-top: 2rem;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #4b5563;
+}
+
+.auth-card__link {
+  color: #16a34a;
+  font-weight: 700;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.auth-card__link:hover {
+  color: #14532d;
+  text-decoration: underline;
+}
+
+/* Logo */
+.logo {
+  height: clamp(50px, 10vh, 60px); 
+  width: auto; 
+  display: block;
+  margin: 0 auto;
+  object-fit: contain; 
+  transition: transform 0.3s ease;
+}
+
+.logo:hover {
+  transform: scale(1.1);
+}
