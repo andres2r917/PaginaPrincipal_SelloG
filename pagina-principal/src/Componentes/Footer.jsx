@@ -43,7 +43,7 @@ const Footer = () => {
       </div>
 
       <div className="footer-bottom">
-        <p> Sello Guardián. Todos los derechos reservados.</p>
+        <p> Sello Guardián 2026. Todos los derechos reservados.</p>
       </div>
     </footer>
   )

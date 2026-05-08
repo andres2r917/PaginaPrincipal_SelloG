@@ -15,58 +15,66 @@ const Login = () => {
   };
 
   return (
-    <div className="login-page"> 
-    <div>
-      <img className='portada' src={portada} alt="portada"/>
-    </div>
-      <div className="login-card">
-        <header className="login-card__brand">
-          <div className='logo-design'>
-         <img className='logo' src={logo} alt="logo"/> 
-          </div>
-          <h2 className="login-card__title">Iniciar Sesión</h2>
-        </header>
+   <div className="login-page"> 
+  <Link to="/home" className="back-home-link">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="m15 18-6-6 6-6"/>
+    </svg>
+    Inicio
+  </Link>
 
-        <form className="login-form" onSubmit={handleSubmit}>
-          <div className="login-form__group">
-            <label className="login-form__label">Correo electrónico</label>
-            <input
-              name="email"
-              type="email"
-              className="login-form__input"
-              placeholder="ingresar correo"
-              value={credentials.email}
-              onChange={handleChange}
-              required
-            />
-          </div>
+  <div>
+    <img className='portada' src={portada} alt="portada"/>
+  </div>
 
-          <div className="login-form__group">
-            <label className="login-form__label">Contraseña</label>
-            <input
-              name="password"
-              type="password"
-              className="login-form__input"
-              placeholder="ingresar contraseña"
-              value={credentials.password}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          <button type="submit" className="login-form__btn">
-            Ingresar
-          </button>
-        </form>
-
-        <footer className="login-card__footer">
-          <p>
-            ¿No tienes una cuenta?{' '}
-            <Link to="/registro" className="nav-item">Regístrate aquí</Link>
-          </p>
-        </footer>
+  <div className="login-card">
+    <header className="login-card__brand">
+      <div className='logo-design'>
+        <img className='logo' src={logo} alt="logo"/> 
       </div>
-    </div>
+      <h2 className="login-card__title">Iniciar Sesión</h2>
+    </header>
+
+    <form className="login-form" onSubmit={handleSubmit}>
+      <div className="login-form__group">
+        <label className="login-form__label">Correo electrónico</label>
+        <input
+          name="email"
+          type="email"
+          className="login-form__input"
+          placeholder="ingresar correo"
+          value={credentials.email}
+          onChange={handleChange}
+          required
+        />
+      </div>
+
+      <div className="login-form__group">
+        <label className="login-form__label">Contraseña</label>
+        <input
+          name="password"
+          type="password"
+          className="login-form__input"
+          placeholder="ingresar contraseña"
+          value={credentials.password}
+          onChange={handleChange}
+          required
+        />
+      </div>
+
+      <button type="submit" className="login-form__btn">
+        Ingresar
+      </button>
+    </form>
+
+    <footer className="login-card__footer">
+      <p>
+        ¿No tienes una cuenta?{' '}
+        <Link to="/registro" className="nav-item">Regístrate aquí</Link>
+      </p>
+    </footer>
+  </div>
+</div>
   );
 };
 

@@ -8,15 +8,16 @@ import Seccion1 from './Componentes/Seccion1.jsx'
 import Home from './Pages/Home.jsx'
 import Login from './Pages/Login.jsx'
 import Registro from './Pages/Registro.jsx'
-
+import Adpcion from './Pages/Adopcion.jsx'
 const App = () => {
   return (
     <div>
-      <Routes>
+      <Routes>  
         <Route path="/" element={<Home />} />    
         <Route path="/home" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/registro" element={<Registro />} />
+        <Route path="/adopcion" element={<Adpcion />} />
       </Routes>   
     </div>   
   )

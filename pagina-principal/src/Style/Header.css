@@ -13,13 +13,11 @@
 
 
 .main-navbar {
- 
-  position:absolute;  
+  position: absolute;  
   top: 0;
   left: 0;
-  width: 100%;
+  width: 100%; /* Esto ya está bien */
   z-index: 1000;
-  padding: 20px 30px;  
   box-sizing: border-box;  
 }
 
@@ -32,8 +30,11 @@
   box-shadow: 0 8px 20px rgba(40, 167, 69, 0.2);
   color: white;
   font-family: 'Segoe UI', Roboto, sans-serif;
-  margin: 0 auto; 
-  max-width: 1400px; 
+  
+
+  width: 100%;      
+  max-width: none;   
+  margin: 0;         
 }
 
 .nav-links {

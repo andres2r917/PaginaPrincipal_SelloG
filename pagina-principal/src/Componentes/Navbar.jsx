@@ -4,7 +4,7 @@ import portada from '../assets/portada.jpeg'
 const Navbar = () => {
   return (
    <nav className="hero">
-    <div>
+    <div className='portada-container'>
     <img className='portada' src={portada} alt="portada"/>
     </div>
   <div className="hero-container">
@@ -20,9 +20,6 @@ const Navbar = () => {
     <div className="hero-btns">
       <a href="#adopta" className="btn btn-primary">
          Adoptar ahora
-      </a>
-      <a href="#denuncia" className="btn btn-outline">
-         Hacer una denuncia
       </a>
     </div>
 
