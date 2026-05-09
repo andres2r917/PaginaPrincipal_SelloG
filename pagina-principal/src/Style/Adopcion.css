@@ -1,0 +1,459 @@
+
+:root {
+  --verde-principal: #20B350;
+  --verde-claro:     #0de454;
+  --verde-suave:     #04050559;
+  --verde-hover:     #0feb58;
+  --blanco:          #fff4f4;
+  --gris-texto:      #1a1818da;
+  --gris-suave:      #f5f5f5;
+  --gris-borde:      #e0e0e0;
+  --sombra:          rgba(0, 0, 0, 0.178);
+  --radio:           12px;
+  --radio-sm:        8px;
+  --transicion:      0.25s ease;
+}
+
+.hero {
+  min-height: 100vh;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 24px;
+  position: relative;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+}
+
+/*  Grid de tarjetas */
+.grid-adopcion {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 24px;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/*  Tarjeta de animal */
+.glass-effect.animal-card {
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: var(--radio);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition: transform var(--transicion), box-shadow var(--transicion);
+  cursor: pointer;
+}
+
+.glass-effect.animal-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
+}
+
+.animal-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.animal-card h3 {
+  color: var(--blanco);
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin: 14px 0 4px;
+}
+
+.animal-card p {
+  color: rgba(5, 3, 3, 0.8);
+  font-size: 0.875rem;
+  margin: 0 0 16px;
+}
+
+/* Botones*/
+.btn-ver-detalles {
+  background: var(--verde-principal);
+  color: var(--blanco);
+  border: none;
+  border-radius: var(--radio-sm);
+  padding: 10px 22px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 18px;
+  transition: background var(--transicion), transform var(--transicion);
+}
+
+.btn-ver-detalles:hover {
+  background: var(--verde-hover);
+  transform: scale(1.03);
+}
+
+.btn-enviar {
+  width: 100%;
+  background: var(--verde-principal);
+  color: white;
+  border: none;
+  border-radius: var(--radio-sm);
+  padding: 13px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: background var(--transicion), transform var(--transicion);
+}
+
+.btn-enviar:hover {
+  background: color white;
+  transform: scale(1.02);
+}
+
+/* Modal overlay */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+/* Modal contenedor */
+.modal-adopcion {
+  background: rgba(0, 0, 0, 0.637);
+  border-radius: var(--radio);
+  width: 100%;
+  max-width: 860px;
+  max-height: 90vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.425);
+}
+
+/*Botón cerrar */
+.modal-close {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  background: var(--gris-suave);
+  border: none;
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  font-size: 1rem;
+  cursor: pointer;
+  color: var(--gris-texto);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background var(--transicion);
+}
+
+.modal-close:hover {
+  background: #000000;
+}
+
+/* Lado izquierdo del modal (info del animal) */
+.modal-izquierda {
+  width: 300px;
+  min-width: 260px;
+  background: var(--verde-suave);
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  border-radius: var(--radio) 0 0 var(--radio);
+  border-right: 1px solid var(--gris-borde);
+}
+
+.modal-izquierda img {
+  width: 100%;
+  height: 190px;
+  object-fit: cover;
+  border-radius: var(--radio-sm);
+  margin-bottom: 16px;
+}
+
+.modal-izquierda h2 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: verde-hover;
+  margin: 0 0 12px;
+}
+
+/* Badges */
+.modal-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.badge {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+.badge-green {
+  background: #c8e6c9;
+  color: #20B350;
+}
+
+.badge-cyan {
+  background: #fdd41f;
+  color: #dba510fa;
+}
+
+.badge-violet {
+  background: #e1bee7;
+  color: #4a148c;
+}
+
+/* Info row temperamento  salud  */
+.modal-info-row {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.modal-info-item {
+  flex: 1;
+  background: black(--blanco);
+  border-radius: var(--radio-sm);
+  padding: 10px 8px;
+  border: 1px solid var(--gris-borde);
+}
+
+.modal-info-item label {
+  display: block;
+  font-size: 0.7rem;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+.modal-info-item span {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--verde-principal);
+}
+
+/* Historia */
+.modal-historia {
+  background: var(--blanco);
+  border-radius: var(--radio-sm);
+  padding: 14px;
+  border: 1px solid var(--gris-borde);
+  text-align: left;
+  width: 100%;
+}
+
+.modal-historia h5 {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--verde-principal);
+  margin: 0 0 8px;
+}
+
+.modal-historia p {
+  font-size: 0.85rem;
+  color: var(--gris-texto);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/*Lado derecho del modal (formulario)  */
+.modal-derecha {
+  flex: 1;
+  padding: 32px 28px;
+  overflow-y: auto;
+}
+
+.form-titulo {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--verde-hover);
+  margin: 0 0 4px;
+}
+
+.form-subtitulo {
+  font-size: 0.875rem;
+  color: #888;
+  margin: 0 0 20px;
+}
+
+/* Filas y grupos del formulario  */
+.form-fila {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.form-grupo {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  margin-bottom: 14px;
+}
+
+.form-grupo.col-2 {
+  flex: 1 1 100%;
+}
+
+.form-grupo label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--gris-texto);
+  margin-bottom: 5px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.form-grupo input,
+.form-grupo select,
+.form-grupo textarea {
+  border: 1.5px solid var(--gris-borde);
+  border-radius: var(--radio-sm);
+  padding: 9px 12px;
+  font-size: 0.875rem;
+  color: var(--gris-texto);
+  background: var(--blanco);
+  outline: none;
+  transition: border-color var(--transicion);
+  font-family: inherit;
+  resize: vertical;
+}
+
+.form-grupo input:focus,
+.form-grupo select:focus,
+.form-grupo textarea:focus {
+  border-color: var(--verde-claro);
+  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.15);
+}
+
+/*Radio buttons */
+.radio-opciones {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  padding: 9px 12px;
+  border: 1.5px solid var(--gris-borde);
+  border-radius: var(--radio-sm);
+  background: var(--blanco);
+}
+
+.radio-opciones span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.875rem;
+  color: var(--gris-texto);
+  cursor: pointer;
+}
+
+.radio-opciones input[type="radio"] {
+  accent-color: var(--verde-principal);
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+/* Mensaje de éxito */
+.modal-exito {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 28px;
+  text-align: center;
+  gap: 12px;
+}
+
+.exito-icono {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--verde-suave);
+  border: 3px solid var(--verde-claro);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  color: var(--verde-principal);
+  margin-bottom: 8px;
+}
+
+.modal-exito h3 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--verde-hover);
+  margin: 0;
+}
+
+.modal-exito p {
+  font-size: 0.95rem;
+  color: #666;
+  max-width: 320px;
+  line-height: 1.6;
+  margin: 0;
+}
+
+
+@media (max-width: 700px) {
+  .modal-adopcion {
+    flex-direction: column;
+    max-height: 95vh;
+  }
+
+  .modal-izquierda {
+    width: 100%;
+    min-width: unset;
+    border-radius: var(--radio) var(--radio) 0 0;
+    border-right: none;
+    border-bottom: 1px solid var(--gris-borde);
+  }
+
+  .modal-izquierda img {
+    height: 160px;
+  }
+
+  .form-fila {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .grid-adopcion {
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 16px;
+  }
+}
