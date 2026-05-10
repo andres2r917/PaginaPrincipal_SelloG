@@ -150,44 +150,6 @@
   transition: transform 0.3s ease;
 }
 
-
-
-.back-home-link {
- 
-  position: absolute;
-  top: 20px;      
-  left: 20px;      
-  z-index: 100;    
-
-  display: flex;
-  align-items: center;
-  gap: 8px;       
-  
-  text-decoration: none;
-  font-family: 'Nunito', sans-serif;
-  font-weight: 700;
-  font-size: 0.9rem;
-  color: #e3ffee; 
-  padding: 8px 16px;
-  background: rgba(255, 255, 255, 0.35); 
-  backdrop-filter: blur(10px);          
-  border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-  
-  /* 4. ANIMACIÓN */
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* --- EFECTO AL PASAR EL MOUSE --- */
-.back-home-link:hover {
-  background: rgb(255, 255, 255);
-  color: #00ff5e;      
-  transform: translateX(-4px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-}
-
-/* --- ESTILO PARA EL ICONO (SVG) --- */
 .back-home-link svg {
   transition: transform 0.3s ease;
 }

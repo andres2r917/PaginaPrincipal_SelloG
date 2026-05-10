@@ -44,12 +44,6 @@ const Registro = () => {
 
   return (
     <div className="auth-page">
-      <Link to="/home" className="back-home-link">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-      <path d="m15 18-6-6 6-6"/>
-    </svg>
-    Inicio
-  </Link>
       <div>
         <img className="portada" src={portada} alt="portada" />
       </div>

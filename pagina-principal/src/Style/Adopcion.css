@@ -21,16 +21,13 @@
   background-attachment: fixed;
   display: flex;
   align-items: center;
-  justify-content: center;
   padding: 60px 24px;
   position: relative;
 }
-
 .hero::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.45);
 }
 
 /*  Grid de tarjetas */
@@ -155,7 +152,7 @@
   position: absolute;
   top: 14px;
   right: 16px;
-  background: var(--gris-suave);
+  background: rgb(247, 247, 247);
   border: none;
   border-radius: 50%;
   width: 34px;
@@ -171,7 +168,7 @@
 }
 
 .modal-close:hover {
-  background: #000000;
+  background: #ffffffaf;
 }
 
 /* Lado izquierdo del modal (info del animal) */
@@ -199,7 +196,7 @@
 .modal-izquierda h2 {
   font-size: 1.4rem;
   font-weight: 700;
-  color: verde-hover;
+  color: rgb(255, 255, 255);
   margin: 0 0 12px;
 }
 
@@ -221,18 +218,18 @@
 }
 
 .badge-green {
-  background: #c8e6c9;
-  color: #20B350;
+  background: #6ad46d;
+  color: #000000;
 }
 
 .badge-cyan {
   background: #fdd41f;
-  color: #dba510fa;
+  color: #000000fa;
 }
 
 .badge-violet {
-  background: #e1bee7;
-  color: #4a148c;
+  background: #7c3bc7de;
+  color: #000000;
 }
 
 /* Info row temperamento  salud  */
