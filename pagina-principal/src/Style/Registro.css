@@ -1,172 +1,228 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;900&display=swap');
 
-.auth-page {
+/* ─── Página ─────────────────────────────────────────────────────────────────── */
+.registro-page {
   min-height: calc(100vh - 70px);
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
+  background: #f4fafd00;
+  padding: 40px 20px;
   font-family: 'Nunito', sans-serif;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  padding: 1px;
-  overflow-y: auto;
 }
 
-.auth-card {
-  background: rgba(255, 255, 255, 0.45);
-  backdrop-filter: blur(12px);
+/* ─── Contenedor principal (dos columnas) ─────────────────────────────────────── */
+.registro-container {
+  display: flex;
+  width: 100%;
+  max-width: 900px;
+  min-height: 580px;
   border-radius: 20px;
-  width: 130%;
-  max-width: 490px;
-  padding: 5px 15px 10px 15px;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.301);
-  border: 1px solid rgba(255, 255, 255, 0.473);
+  overflow: hidden;
+  box-shadow: 0 16px 48px rgba(22, 29, 31, 0.384);
+  background: rgba(0, 0, 0, 0.685) ;
+}
+
+/* ─── Lado izquierdo: imagen ─────────────────────────────────────────────────── */
+.registro-visual {
   position: relative;
-  z-index: 1;
+  width: 42%;
+  min-height: 400px;
+  flex-shrink: 0;
+  overflow: hidden;
 }
 
-.auth-card__header {
-  text-align: center;
-  margin-bottom: 1.5rem;
+.registro-visual__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-.logo {
-  height: 60px; 
-  width: auto;
-  margin-bottom: 10px;
-  transition: transform 0.3s ease;
+.registro-visual__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.3) 55%, transparent 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 32px 28px;
 }
 
-.auth-card__title {
-  font-size: 1.5rem;
-  font-weight: 900;
-  color: #16a34a; 
+.registro-visual__title {
+  color: #ffffffcc;
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.45;
+  margin: 0 0 10px;
+}
+
+.registro-visual__subtitle {
+  color: rgba(255,255,255,0.85);
+  font-size: 0.875rem;
+  line-height: 1.6;
   margin: 0;
 }
 
-.auth-card__subtitle {
-  color: #000000;
+/* ─── Lado derecho: formulario ───────────────────────────────────────────────── */
+.registro-form-side {
+  flex: 1;
+  padding: 40px 36px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.registro-form-header {
+  margin-bottom: 24px;
+}
+
+.registro-form-header__title {
+  font-size: 1.75rem;
+  font-weight: 900;
+  color: #20B355;
+  margin: 0 0 4px;
+}
+
+.registro-form-header__sub {
   font-size: 0.9rem;
-  margin-top: 0.3rem;
+  color: #fff9f9;
+  margin: 0;
 }
 
-.auth-form {
+/* ─── Formulario ─────────────────────────────────────────────────────────────── */
+.registro-form {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-}
-
-.auth-form__group {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.auth-form__row {
-  display: flex;
-  gap: 12px;
-}
-
-.auth-form__row .auth-form__group {
+  gap: 14px;
   flex: 1;
 }
 
-.auth-form__label {
-  font-size: 0.85rem;
+.rg-row {
+  display: flex;
+  gap: 14px;
+}
+
+.rg-row .rg-group {
+  flex: 1;
+}
+
+.rg-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.rg-label {
+  font-size: 0.78rem;
   font-weight: 700;
-  color: #1f2022de;
-  margin-left: 7px;
+  color: #ffffffee;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
 }
 
-.auth-form__input,
-.auth-form__select {
-  padding: 0.75rem 1rem;
-  border: 2px solid #e5e7eb;
+.rg-input {
+  height: 44px;
+  padding: 0 14px;
+  border: 1.5px solid #e5e7eb;
   border-radius: 10px;
-  font-size: 0.9rem;
+  font-size: 0.875rem;
+  font-family: 'Nunito', sans-serif;
+  color: #455063;
+  background: #ffffffe7;
   outline: none;
-  transition: all 0.25s ease;
-  background: rgba(255, 255, 255, 0.897);
+  transition: border-color 0.2s, box-shadow 0.2s;
+  appearance: none;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-.auth-form__input:focus,
-.auth-form__select:focus {
-  border-color: #22c55e;
+.rg-input:focus {
+  border-color: #0eff67d3;
   box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.15);
 }
 
-.auth-form__error {
-  color: #dc2626;
+/* ─── Error ──────────────────────────────────────────────────────────────────── */
+.rg-error {
   font-size: 0.85rem;
+  color: #dc2626;
   text-align: center;
+  margin: 0;
 }
 
-.auth-form__submit-btn {
-  margin-top: 10px;
-  padding: 0.85rem;
-  background-color: #16a34a; 
-  color: white;
+/* ─── Botón ──────────────────────────────────────────────────────────────────── */
+.rg-btn {
+  width: 100%;
+  height: 48px;
+  background: #20e066dc;
+  color: #ffffff;
   border: none;
   border-radius: 10px;
   font-size: 1rem;
   font-weight: 800;
+  font-family: 'Nunito', sans-serif;
   cursor: pointer;
-  transition: all 0.3s ease;
+  margin-top: 6px;
+  transition: background 0.25s, transform 0.2s, box-shadow 0.25s;
 }
 
-.auth-form__submit-btn:hover {
-  background-color: #1ba74e; 
+.rg-btn:hover {
+  background: #1cd45f98;
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(22, 163, 74, 0.596);
+  box-shadow: 0 6px 18px rgba(2, 1, 1, 0.705);
 }
 
-.auth-card__footer {
-  margin-top: 1.5rem;
+.rg-btn:active {
+  transform: scale(0.98);
+}
+
+/* ─── Footer del formulario ──────────────────────────────────────────────────── */
+.registro-footer {
+  margin-top: 20px;
   text-align: center;
-  font-size: 0.85rem;
-  color: #fafafa;
+  font-size: 0.875rem;
+  color: #fffffffa;
 }
 
-.auth-card__link {
-  color: #e9e9e9;
+.registro-footer__link {
+  color: #fcfcfc;
   font-weight: 700;
   text-decoration: none;
 }
 
-.auth-card__link:hover {
-  color: hsl(0, 0%, 98%);
+.registro-footer__link:hover {
+  color: #fafafa;
   text-decoration: underline;
 }
 
-.back-home-link:hover {
-  background: rgb(255, 237, 237);
-  color: #00ff62;      
-  transform: translateX(-4px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.774);
-}
-
-.back-home-link svg {
-  transition: transform 0.3s ease;
-}
-
-.back-home-link:hover svg {
-  transform: scale(1.1);
-}
-
-@media (max-width: 480px) {
-  .auth-page {
-    min-height: calc(100vh - 60px);
-  }
-
-  .back-home-link {
-    top: 15px;
-    left: 15px;
-    padding: 6px 12px;
-    font-size: 0.8rem;
-  }
-
-  .auth-form__row {
+/* ─── Responsive ─────────────────────────────────────────────────────────────── */
+@media (max-width: 680px) {
+  .registro-container {
     flex-direction: column;
   }
+
+  .registro-visual {
+    width: 100%;
+    height: 220px;
+    min-height: unset;
+  }
+
+  .registro-form-side {
+    padding: 28px 24px;
+  }
+
+  .rg-row {
+    flex-direction: column;
+    gap: 14px;
+  }
+}
+.portada {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
 }
