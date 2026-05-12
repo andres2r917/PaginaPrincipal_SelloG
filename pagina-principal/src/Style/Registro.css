@@ -51,7 +51,7 @@
 }
 
 .registro-visual__title {
-  color: #ffffffcc;
+  color: #20B355;
   font-size: 1.15rem;
   font-weight: 700;
   line-height: 1.45;
@@ -59,7 +59,7 @@
 }
 
 .registro-visual__subtitle {
-  color: rgba(255,255,255,0.85);
+  color: rgba(255, 255, 255, 0.93);
   font-size: 0.875rem;
   line-height: 1.6;
   margin: 0;
@@ -130,7 +130,7 @@
   font-size: 0.875rem;
   font-family: 'Nunito', sans-serif;
   color: #455063;
-  background: #ffffffe7;
+  background: #ffffff;
   outline: none;
   transition: border-color 0.2s, box-shadow 0.2s;
   appearance: none;

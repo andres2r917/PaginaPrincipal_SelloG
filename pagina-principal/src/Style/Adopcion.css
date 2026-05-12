@@ -304,7 +304,7 @@
 
 .form-subtitulo {
   font-size: 0.875rem;
-  color: #888;
+  color: #ffffff;
   margin: 0 0 20px;
 }
 
@@ -329,7 +329,7 @@
 .form-grupo label {
   font-size: 0.78rem;
   font-weight: 600;
-  color: var(--gris-texto);
+  color: rgba(255, 255, 255, 0.877);
   margin-bottom: 5px;
   text-transform: uppercase;
   letter-spacing: 0.4px;
@@ -419,7 +419,7 @@
 
 .modal-exito p {
   font-size: 0.95rem;
-  color: #666;
+  color: #d4d3d3;
   max-width: 320px;
   line-height: 1.6;
   margin: 0;

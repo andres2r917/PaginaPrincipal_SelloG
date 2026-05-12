@@ -6,6 +6,7 @@ import Home from './Pages/Home.jsx'
 import Login from './Pages/Login.jsx'
 import Registro from './Pages/Registro.jsx'
 import Adopcion from './Pages/Adopcion.jsx'
+import Denuncia from './Pages/Denuncia.jsx'
 const App = () => {
   return (
     <div>
@@ -17,6 +18,7 @@ const App = () => {
         <Route path="/login"element={<Login />} />
         <Route path="/registro"element={<Registro />} />
         <Route path="/adopcion"element={<Adopcion />} />
+        <Route path="/denuncia"element={<Denuncia />} />
       </Routes>
 
     </div>
