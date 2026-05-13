@@ -101,9 +101,13 @@ const Login = () => {
               <label htmlFor="remember">Recordarme en este dispositivo</label>
             </div>
 
-            <button type="submit" className="lg-btn">
-              Ingresar
-            </button>
+            
+              <Link to="/perfil" className="lg-btn">
+                <div>
+                 
+                  <button className='lg-btn'>ingresar</button>
+                </div>
+              </Link>
           </form>
 
           <div className="login-footer">

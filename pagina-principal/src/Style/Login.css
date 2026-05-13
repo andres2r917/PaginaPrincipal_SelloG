@@ -20,7 +20,9 @@
   border-radius: 20px;
   overflow: hidden;
   box-shadow: 0 16px 48px rgba(22, 29, 31, 0.288);
- background: rgba(0, 0, 0, 0.685) ;
+ background: rgba(0, 0, 0, 0.416) ;
+ backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 /* ─── Lado izquierdo: imagen ─────────────────────────────────────────────────── */
@@ -155,7 +157,7 @@
   font-size: 0.9rem;
   font-family: 'Nunito', sans-serif;
   color: hsl(0, 0%, 0%);
-  background: #ffffff;
+  background: #ffffff94;
   outline: none;
   transition: border-color 0.2s, box-shadow 0.2s;
   width: 100%;
@@ -190,11 +192,14 @@
   background: #20B355;
   color: #ffffff;
   border: none;
+  text-decoration: none;
   border-radius: 10px;
   font-size: 1rem;
   font-weight: 800;
   font-family: 'Nunito', sans-serif;
   cursor: pointer;
+  justify-content: center;
+  align-items: center;
   transition: background 0.25s, transform 0.2s, box-shadow 0.25s;
 }
 

@@ -7,6 +7,7 @@ import Login from './Pages/Login.jsx'
 import Registro from './Pages/Registro.jsx'
 import Adopcion from './Pages/Adopcion.jsx'
 import Denuncia from './Pages/Denuncia.jsx'
+import Perfil from './Pages/Perfil.jsx'
 const App = () => {
   return (
     <div>
@@ -19,6 +20,8 @@ const App = () => {
         <Route path="/registro"element={<Registro />} />
         <Route path="/adopcion"element={<Adopcion />} />
         <Route path="/denuncia"element={<Denuncia />} />
+        <Route path="/Perfil"element={< Perfil/>} />
+
       </Routes>
 
     </div>

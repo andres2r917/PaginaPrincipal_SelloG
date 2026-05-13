@@ -20,7 +20,10 @@
   border-radius: 20px;
   overflow: hidden;
   box-shadow: 0 16px 48px rgba(22, 29, 31, 0.384);
-  background: rgba(0, 0, 0, 0.685) ;
+   background: rgba(0, 0, 0, 0.416) ;
+   backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  
 }
 
 /* ─── Lado izquierdo: imagen ─────────────────────────────────────────────────── */
@@ -129,8 +132,8 @@
   border-radius: 10px;
   font-size: 0.875rem;
   font-family: 'Nunito', sans-serif;
-  color: #455063;
-  background: #ffffff;
+  color: #000000;
+  background: #ffffff9e;
   outline: none;
   transition: border-color 0.2s, box-shadow 0.2s;
   appearance: none;
