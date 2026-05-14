@@ -101,13 +101,7 @@ const Registro = () => {
                   placeholder="+57"
                   value={formData.phone} onChange={handleChange} />
               </div>
-              <div className="rg-group">
-                <label className="rg-label">Fecha de nacimiento</label>
-                <input name="birthdate" type="date" className="rg-input"
-                  value={formData.birthdate} onChange={handleChange} required />
-              </div>
             </div>
-
             <div className="rg-row">
               <div className="rg-group">
                 <label className="rg-label">Contraseña</label>
