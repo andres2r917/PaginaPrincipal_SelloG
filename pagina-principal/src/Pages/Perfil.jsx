@@ -66,11 +66,11 @@ const Perfil = () => {
                 <div className="foto-preview">
                   {preview
                     ? <img src={preview} alt="Vista previa" />
-                    : <span className="material-symbols-outlined foto-icono">person</span>
+                    : <span className="material-symbols-outlined foto-icono">foto</span>
                   }
                 </div>
                 <label className="foto-btn">
-                  <span className="material-symbols-outlined">edit</span>
+                  <span className="material-symbols-outlined">+</span>
                   <input
                     type="file"
                     accept="image/*"
@@ -209,7 +209,7 @@ const Perfil = () => {
               <button type="submit" className="btn-completar">
                 Completar Perfil
               </button>
-              <Link to="/inicio" className="btn-omitir">
+              <Link to="/home" className="btn-omitir">
                 Omitir por ahora
               </Link>
             </div>

@@ -83,25 +83,27 @@
 
 /* ===== CARD ===== */
 .perfil-card {
-  background-color: rgba(255, 255, 255, 0.507);
+  background-color: rgba(0, 0, 0, 0.336);
   border-radius: 12px;
   padding: 40px;
-  box-shadow: 0px 16px 40px rgba(0, 0, 0, 0.25);
-  border: 1px solid rgba(229, 124, 35, 0.15);
+  box-shadow: 0px 16px 40px rgba(0, 0, 0, 0.404);
+  border: 1px solid rgba(0, 0, 0, 0.253);
   box-sizing: border-box;
   backdrop-filter: blur(8px);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 .perfil-titulo {
   font-size: 26px;
   font-weight: 700;
-  color: #1a1a1a;
+  color: #20B355;
   margin: 0 0 10px 0;
 }
 
 .perfil-subtitulo {
   font-size: 14px;
-  color: #666666;
+  color: #ffffff;
   line-height: 1.6;
   margin: 0 0 28px 0;
 }
@@ -130,7 +132,7 @@
   width: 110px;
   height: 110px;
   border-radius: 50%;
-  background-color: #f0f0f0;
+  background-color: #f0f0f0fa;
   border: 4px solid #ffffff;
   overflow: hidden;
   display: flex;
@@ -164,7 +166,7 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  box-shadow: 0 2px 8px rgba(229, 124, 35, 0.4);
+  box-shadow: 0 2px 8px rgba(35, 229, 51, 0.4);
   transition: transform 0.2s;
 }
 
@@ -199,7 +201,7 @@
 .perfil-label {
   font-size: 13px;
   font-weight: 600;
-  color: #444444;
+  color: #ffffffe5;
   margin-left: 4px;
 }
 
@@ -209,9 +211,9 @@
   padding: 11px 14px;
   border: 1.5px solid #e0e0e0;
   border-radius: 10px;
-  background-color: #fafafa;
+  background-color: #fafafaa9;
   font-size: 14px;
-  color: #1a1a1a;
+  color: #1a1a1aab;
   outline: none;
   font-family: 'Inter', sans-serif;
   transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
@@ -220,12 +222,12 @@
 
 .perfil-input:focus {
   border-color: #20B355;
-  box-shadow: 0 0 0 3px rgba(229, 124, 35, 0.15);
-  background-color: #ffffff;
+  box-shadow: 0 0 0 3px rgba(35, 229, 67, 0.15);
+  background-color: #ffffffd8;
 }
 
 .perfil-input::placeholder {
-  color: #bbbbbb;
+  color: #0303037e;
 }
 
 /* ===== INPUT CON ICONO ===== */
@@ -239,7 +241,7 @@
   top: 50%;
   transform: translateY(-50%);
   font-size: 20px !important;
-  color: #888888;
+  color: hsla(0, 0%, 100%, 0.233);
   pointer-events: none;
 }
 
@@ -251,7 +253,7 @@
 .perfil-textarea {
   width: 100%;
   padding: 11px 14px;
-  border: 1.5px solid #e0e0e0;
+  border: 1.5px solid #1fc744;
   border-radius: 10px;
   background-color: #fafafa;
   font-size: 14px;
@@ -266,7 +268,7 @@
 
 .perfil-textarea:focus {
   border-color: #20B355;
-  box-shadow: 0 0 0 3px rgba(229, 124, 35, 0.15);
+  box-shadow: 0 0 0 3px rgba(35, 229, 45, 0.212);
   background-color: #ffffff;
 }
 
@@ -306,7 +308,7 @@
 
 .rol-card:hover {
   border-color: #20B355;
-  box-shadow: 0 0 0 3px rgba(229, 124, 35, 0.1);
+  box-shadow: 0 0 0 3px rgba(42, 229, 35, 0.1);
 }
 
 .rol-card .material-symbols-outlined {
@@ -325,7 +327,7 @@
 .rol-opcion input[type="radio"]:checked + .rol-card {
   border-color: #20B355;
   background-color: #fff8f3;
-  box-shadow: 0 0 0 3px rgba(229, 124, 35, 0.15);
+  box-shadow: 0 0 0 3px rgba(35, 229, 67, 0.26);
 }
 
 .rol-opcion input[type="radio"]:checked + .rol-card .material-symbols-outlined {
@@ -356,7 +358,7 @@
   font-weight: 600;
   cursor: pointer;
   font-family: 'Inter', sans-serif;
-  box-shadow: 0 4px 12px rgba(229, 124, 35, 0.35);
+  box-shadow: 0 4px 12px rgba(20, 128, 20, 0.61);
   transition: background-color 0.2s, transform 0.1s;
 }
 
@@ -375,14 +377,16 @@
   border: none;
   font-size: 13px;
   font-weight: 600;
-  color: #666666;
+  color: #ffffff;
   cursor: pointer;
   font-family: 'Inter', sans-serif;
   transition: color 0.2s;
+  text-align: center;
+  text-decoration: none;
 }
 
 .btn-omitir:hover {
-  color: #1a1a1a;
+  color: #20B355;
 }
 
 /* ===== RESPONSIVE ===== */
@@ -463,7 +467,7 @@
 
 .hijos-card:hover {
   border-color: #20B355;
-  box-shadow: 0 0 0 3px rgba(229, 124, 35, 0.1);
+  box-shadow: 0 0 0 3px rgba(35, 229, 61, 0.1);
 }
 
 .hijos-card .material-symbols-outlined {
@@ -475,7 +479,7 @@
 .hijos-opcion input[type="radio"]:checked + .hijos-card {
   border-color: #20B355;
   background-color: #fff8f3;
-  box-shadow: 0 0 0 3px rgba(229, 124, 35, 0.15);
+  box-shadow: 0 0 0 3px rgba(42, 229, 35, 0.15);
   color: #20B355;
 }
 
