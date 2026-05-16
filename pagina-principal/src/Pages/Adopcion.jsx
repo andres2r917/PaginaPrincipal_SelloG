@@ -75,7 +75,7 @@ const animales = [
       "Mia es una cachorra llena de energía. Necesita mucho ejercicio y estimulación. Perfecta para familias jóvenes con espacio.",
     img: "https://d21tucfpen3j82.cloudfront.net/wp-content/uploads/2024/03/27133737/Conozca-que-es-un-perro-criollo-y-sus-caracteristicas.jpg",
   },
-    {
+  {
     id: 7,
     nombre: "Milan",
     raza: "Doberman",
@@ -87,59 +87,50 @@ const animales = [
       "Milan es un cachorro lleno de energía. Necesita mucho ejercicio y estimulación. Perfecta para familias jóvenes con espacio.",
     img: "https://cdn.pixabay.com/photo/2019/10/08/11/10/doberman-pinscher-4534710_1280.jpg",
   },
-    {
+  {
     id: 8,
     nombre: "Balto",
-    raza: "Huscky",
+    raza: "Husky",
     edad: "1 año",
     tamano: "Grande",
     temperamento: "Inquieto",
     salud: "Vacunado",
     historia:
-      "Bol es una cachorro lleno de energía. Necesita mucho ejercicio y estimulación. Perfecta para familias jóvenes con espacio.",
+      "Balto es un cachorro lleno de energía. Necesita mucho ejercicio y estimulación. Perfecta para familias jóvenes con espacio.",
     img: "https://tse1.mm.bing.net/th/id/OIP.iu_Z6fcSBMddwDiuhtXnqwHaE7?rs=1&pid=ImgDetMain&o=7&rm=3",
   },
-
 ];
-
+ 
 const FORM_INICIAL = {
-  nombre: "",
-  cc: "",
-  profesion: "",
-  edad: "",
-  telefono: "",
-  direccion: "",
-  tipoCasa: "Apartamento",
-  salario: "",
-  hijos: "no",
-  motivacion: "",
+  mensaje_presentacion: "",
+  experiencia_mascotas: "",
+  tiempo_disponible: "",
+  compromiso_veterinario: false,
+  acepta_terminos: false,
 };
-
-
+ 
+/* ── Tarjeta de animal ── */
 const AnimalCard = ({ animal, onVerDetalles }) => (
   <div className="glass-effect animal-card">
     <img src={animal.img} alt={animal.nombre} />
     <h3>{animal.nombre}</h3>
-    <p>
-      {animal.edad} - {animal.temperamento}
-    </p>
+    <p>{animal.edad} - {animal.temperamento}</p>
     <button className="btn-ver-detalles" onClick={() => onVerDetalles(animal)}>
       Ver Detalles
     </button>
   </div>
 );
-
+ 
+/* ── Info del animal (columna izquierda) ── */
 const AnimalInfo = ({ animal }) => (
   <div className="modal-izquierda">
     <img src={animal.img} alt={animal.nombre} />
     <h2>{animal.nombre}</h2>
-
     <div className="modal-badges">
       <span className="badge badge-green">{animal.raza}</span>
       <span className="badge badge-cyan">{animal.edad}</span>
       <span className="badge badge-violet">{animal.tamano}</span>
     </div>
-
     <div className="modal-info-row">
       <div className="modal-info-item">
         <label>Temperamento</label>
@@ -150,210 +141,148 @@ const AnimalInfo = ({ animal }) => (
         <span>{animal.salud}</span>
       </div>
     </div>
-
     <div className="modal-historia">
       <h5>Historia</h5>
       <p>{animal.historia}</p>
     </div>
   </div>
 );
-
+ 
+/* ── Formulario de adopción ── */
 const FormularioAdopcion = ({ animal, formData, onChange, onSubmit }) => (
   <div className="modal-derecha">
     <h3 className="form-titulo">Formulario de Adopción</h3>
     <p className="form-subtitulo">
-      Completa los datos para adoptar a {animal.nombre}
+      Completa los siguientes detalles para iniciar tu proceso de solicitud. Buscamos el hogar perfecto para {animal.nombre}.
     </p>
-
+ 
     <form onSubmit={onSubmit}>
-      <div className="form-fila">
-        <div className="form-grupo col-2">
-          <label>Nombre Completo</label>
-          <input
-            name="nombre"
-            type="text"
-            placeholder="Tu nombre completo"
-            value={formData.nombre}
-            onChange={onChange}
-            required
-          />
-        </div>
-      </div>
-
-      {/* CC y Profesión */}
-      <div className="form-fila">
-        <div className="form-grupo">
-          <label>CC (Cédula de Ciudadanía)</label>
-          <input
-            name="cc"
-            type="text"
-            placeholder="Número de documento"
-            value={formData.cc}
-            onChange={onChange}
-            required
-          />
-        </div>
-        <div className="form-grupo">
-          <label>Profesión</label>
-          <input
-            name="profesion"
-            type="text"
-            placeholder="Tu ocupación"
-            value={formData.profesion}
-            onChange={onChange}
-          />
-        </div>
-      </div>
-
-      {/* Edad y Teléfono */}
-      <div className="form-fila">
-        <div className="form-grupo">
-          <label>Edad</label>
-          <input
-            name="edad"
-            type="number"
-            placeholder="Años"
-            value={formData.edad}
-            onChange={onChange}
-            required
-          />
-        </div>
-        <div className="form-grupo">
-          <label>Teléfono</label>
-          <input
-            name="telefono"
-            type="text"
-            placeholder="+57 300 000 0000"
-            value={formData.telefono}
-            onChange={onChange}
-          />
-        </div>
-      </div>
-
-      {/* Dirección */}
-      <div className="form-fila">
-        <div className="form-grupo col-2">
-          <label>Dirección</label>
-          <input
-            name="direccion"
-            type="text"
-            placeholder="Ejemplo: Calle 68 AN #13-79, Popayán"
-            value={formData.direccion}
-            onChange={onChange}
-          />
-        </div>
-      </div>
-
-      {/* Tipo de casa y Salario */}
-      <div className="form-fila">
-        <div className="form-grupo">
-          <label>Tipo de casa</label>
-          <select
-            name="tipoCasa"
-            value={formData.tipoCasa}
-            onChange={onChange}
-          >
-            <option>Apartamento</option>
-            <option>Casa con patio</option>
-            <option>Casa sin patio</option>
-            <option>Finca</option>
-          </select>
-        </div>
-        <div className="form-grupo">
-          <label>Salario aproximado</label>
-          <input
-            name="salario"
-            type="text"
-            placeholder="$ 0 COP"
-            value={formData.salario}
-            onChange={onChange}
-          />
-        </div>
-      </div>
-
-      {/* Hijos */}
-      <div className="form-fila">
-        <div className="form-grupo">
-          <label>¿Tienes hijos?</label>
-          <div className="radio-opciones">
-            <span>
-              <input
-                type="radio"
-                name="hijos"
-                value="si"
-                checked={formData.hijos === "si"}
-                onChange={onChange}
-              />{" "}
-              Sí
-            </span>
-            <span>
-              <input
-                type="radio"
-                name="hijos"
-                value="no"
-                checked={formData.hijos === "no"}
-                onChange={onChange}
-              />{" "}
-              No
-            </span>
-          </div>
-        </div>
-      </div>
-
+ 
+      {/* Mensaje de presentación */}
       <div className="form-grupo">
         <label>¿Por qué quieres adoptar?</label>
         <textarea
-          name="motivacion"
+          name="mensaje_presentacion"
           rows="3"
-          placeholder="Cuéntanos tu motivación..."
-          value={formData.motivacion}
+          placeholder="Cuéntanos tu motivación y por qué serías un buen hogar..."
+          value={formData.mensaje_presentacion}
           onChange={onChange}
+          required
         />
       </div>
-
-      <button type="submit" className="btn-enviar">
+ 
+      {/* Experiencia con mascotas */}
+      <div className="form-grupo">
+        <label>¿Has tenido mascotas antes?</label>
+        <select
+          name="experiencia_mascotas"
+          value={formData.experiencia_mascotas}
+          onChange={onChange}
+          required
+        >
+          <option value="">Selecciona una opción</option>
+          <option value="nunca">Nunca he tenido mascotas</option>
+          <option value="perros">Sí, he tenido perros</option>
+          <option value="gatos">Sí, he tenido gatos</option>
+          <option value="varios">Sí, he tenido varios animales</option>
+          <option value="actualmente">Actualmente tengo mascotas</option>
+        </select>
+      </div>
+ 
+      {/* Tiempo disponible */}
+      <div className="form-grupo">
+        <label>¿Cuánto tiempo le dedicarías al día?</label>
+        <select
+          name="tiempo_disponible"
+          value={formData.tiempo_disponible}
+          onChange={onChange}
+          required
+        >
+          <option value="">Selecciona una opción</option>
+          <option value="menos2">Menos de 2 horas</option>
+          <option value="2a4">Entre 2 y 4 horas</option>
+          <option value="4a6">Entre 4 y 6 horas</option>
+          <option value="mas6">Más de 6 horas</option>
+          <option value="todo">Estoy en casa todo el día</option>
+        </select>
+      </div>
+ 
+      {/* Checkboxes */}
+      <div className="form-grupo">
+        <label>Compromisos</label>
+        <div className="checkbox-grupo">
+          <label className="checkbox-label">
+            <input
+              type="checkbox"
+              name="compromiso_veterinario"
+              checked={formData.compromiso_veterinario}
+              onChange={onChange}
+            />
+            <span>Me comprometo a llevar la mascota al veterinario regularmente</span>
+          </label>
+          <label className="checkbox-label">
+            <input
+              type="checkbox"
+              name="acepta_terminos"
+              checked={formData.acepta_terminos}
+              onChange={onChange}
+              required
+            />
+            <span>Acepto los términos y condiciones del proceso de adopción</span>
+          </label>
+        </div>
+      </div>
+ 
+      <button
+        type="submit"
+        className="btn-enviar"
+        disabled={!formData.acepta_terminos}
+      >
         Enviar Solicitud de Adopción
       </button>
     </form>
   </div>
 );
-
+ 
+/* ── Mensaje de éxito ── */
 const MensajeExito = ({ onCerrar }) => (
   <div className="modal-exito">
     <div className="exito-icono">✓</div>
     <h3>¡Solicitud enviada!</h3>
     <p>
-      Nos pondremos en contacto contigo pronto para continuar el proceso de
-      adopción.
+      Nos pondremos en contacto contigo pronto para continuar el proceso de adopción.
     </p>
     <button className="btn-ver-detalles" onClick={onCerrar}>
       Cerrar
     </button>
   </div>
 );
-
-
+ 
+/* ── Página principal ── */
 const Adopcion = () => {
   const [animalSeleccionado, setAnimalSeleccionado] = useState(null);
   const [formData, setFormData] = useState(FORM_INICIAL);
   const [enviado, setEnviado] = useState(false);
-
+ 
   const abrirModal = (animal) => {
     setAnimalSeleccionado(animal);
     setFormData(FORM_INICIAL);
     setEnviado(false);
   };
-
+ 
   const cerrarModal = () => {
     setAnimalSeleccionado(null);
     setEnviado(false);
   };
-
+ 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    const { name, value, type, checked } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value,
+    }));
   };
-
+ 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Solicitud enviada:", {
@@ -362,13 +291,13 @@ const Adopcion = () => {
     });
     setEnviado(true);
   };
-
+ 
   return (
     <>
       <section className="hero">
-         <div>
-            <img className='portada' src={portada} alt="portada"/>
-          </div>
+        <div>
+          <img className="portada" src={portada} alt="portada" />
+        </div>
         <div className="grid-adopcion">
           {animales.map((animal) => (
             <AnimalCard
@@ -379,20 +308,12 @@ const Adopcion = () => {
           ))}
         </div>
       </section>
-
-      {/* ── MODAL ── */}
+ 
       {animalSeleccionado && (
         <div className="modal-overlay" onClick={cerrarModal}>
-          <div
-            className="modal-adopcion"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <button className="modal-close" onClick={cerrarModal}>
-              ✕
-            </button>
-
+          <div className="modal-adopcion" onClick={(e) => e.stopPropagation()}>
+            <button className="modal-close" onClick={cerrarModal}>✕</button>
             <AnimalInfo animal={animalSeleccionado} />
-
             {!enviado ? (
               <FormularioAdopcion
                 animal={animalSeleccionado}
@@ -409,5 +330,5 @@ const Adopcion = () => {
     </>
   );
 };
-
+ 
 export default Adopcion;
