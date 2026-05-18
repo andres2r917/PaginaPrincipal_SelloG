@@ -107,7 +107,7 @@
 .dn-label {
   font-size: 0.78rem;
   font-weight: 700;
-  color: #ffffffe0;
+  color: #ffffffd0;
   text-transform: uppercase;
   letter-spacing: 0.4px;
 }
@@ -120,7 +120,7 @@
   font-size: 0.875rem;
   font-family: 'Nunito', sans-serif;
   color: #374151;
-  background: #ffffff;
+  background: #ffffffc0;
   outline: none;
   transition: border-color 0.2s, box-shadow 0.2s;
   width: 100%;
@@ -147,7 +147,7 @@
   text-align: center;
   cursor: pointer;
   transition: border-color 0.2s, background 0.2s;
-  background: #f9fafb;
+  background: #ffffffb7;
 }
 
 .dn-dropzone:hover,
