@@ -39,28 +39,19 @@ const Perfil = () => {
   return (
     <div className="perfil-page">
 
-      {/* FONDO */}
       <div className="port">
         <img className="portada" src={portada} alt="portada" />
       </div>
-
-      {/* OVERLAY */}
+      
       <div className="perfil-overlay" />
-
-      {/* CONTENIDO */}
       <div className="perfil-wrapper">
-
-        {/* ── CARD ── */}
         <div className="perfil-card">
           <h1 className="perfil-titulo">Completa tu perfil</h1>
           <p className="perfil-subtitulo">
             Cuéntanos un poco más sobre ti para garantizar
             un proceso de adopción seguro y responsable.
           </p>
-
           <form className="perfil-form" onSubmit={handleSubmit}>
-
-            {/* ── FOTO ── */}
             <div className="foto-wrap">
               <div className="foto-circulo">
                 <div className="foto-preview">
@@ -75,14 +66,11 @@ const Perfil = () => {
                     type="file"
                     accept="image/*"
                     onChange={handleFoto}
-                    style={{ display: 'none' }}
-                  />
+                    style={{ display: 'none' }}/>
                 </label>
               </div>
               <span className="foto-texto">Subir foto de perfil</span>
             </div>
-
-            {/* ── DOCUMENTO + FECHA ── */}
             <div className="perfil-fila">
               <div className="perfil-grupo">
                 <label className="perfil-label">Documento de identidad</label>
@@ -93,8 +81,7 @@ const Perfil = () => {
                   value={formData.documento}
                   onChange={handleChange}
                   className="perfil-input"
-                  required
-                />
+                  required/>
               </div>
               <div className="perfil-grupo">
                 <label className="perfil-label">Fecha de nacimiento</label>
@@ -104,12 +91,9 @@ const Perfil = () => {
                   value={formData.fechaNacimiento}
                   onChange={handleChange}
                   className="perfil-input"
-                  required
-                />
+                  required/>
               </div>
             </div>
-
-            {/* ── TIPO VIVIENDA + OCUPACIÓN ── */}
             <div className="perfil-fila">
               <div className="perfil-grupo">
                 <label className="perfil-label">Tipo de vivienda</label>
@@ -118,8 +102,7 @@ const Perfil = () => {
                   value={formData.tipoVivienda}
                   onChange={handleChange}
                   className="perfil-input perfil-select"
-                  required
-                >
+                  required>
                   <option value="">Selecciona...</option>
                   <option value="apartamento">Apartamento</option>
                   <option value="casa">Casa</option>
@@ -134,12 +117,9 @@ const Perfil = () => {
                   placeholder="Ej. Ingeniero, Docente..."
                   value={formData.ocupacion}
                   onChange={handleChange}
-                  className="perfil-input"
-                />
+                  className="perfil-input"/>
               </div>
             </div>
-
-            {/* ── SALARIO + TELÉFONO ── */}
             <div className="perfil-fila">
               <div className="perfil-grupo">
                 <label className="perfil-label">Salario aproximado</label>
@@ -151,8 +131,7 @@ const Perfil = () => {
                     placeholder="$ 0 COP"
                     value={formData.salario}
                     onChange={handleChange}
-                    className="perfil-input"
-                  />
+                    className="perfil-input"/>
                 </div>
               </div>
               <div className="perfil-grupo">
@@ -165,13 +144,10 @@ const Perfil = () => {
                     placeholder="+57 300 000 0000"
                     value={formData.telefono}
                     onChange={handleChange}
-                    className="perfil-input"
-                  />
+                    className="perfil-input"/>
                 </div>
               </div>
             </div>
-
-            {/* ── ¿TIENE HIJOS? ── */}
             <div className="perfil-grupo">
               <label className="perfil-label">¿Tienes hijos?</label>
               <div className="hijos-opciones">
@@ -181,8 +157,7 @@ const Perfil = () => {
                     name="hijos"
                     value="si"
                     checked={formData.hijos === 'si'}
-                    onChange={handleChange}
-                  />
+                    onChange={handleChange}/>
                   <div className="hijos-card">
                     <span className="material-symbols-outlined"></span>
                     <span>Sí</span>
@@ -194,8 +169,7 @@ const Perfil = () => {
                     name="hijos"
                     value="no"
                     checked={formData.hijos === 'no'}
-                    onChange={handleChange}
-                  />
+                    onChange={handleChange}/>
                   <div className="hijos-card">
                     <span className="material-symbols-outlined"></span>
                     <span>No</span>
@@ -203,8 +177,6 @@ const Perfil = () => {
                 </label>
               </div>
             </div>
-
-            {/* ── BOTONES ── */}
             <div className="perfil-botones">
               <button type="submit" className="btn-completar">
                 Completar Perfil

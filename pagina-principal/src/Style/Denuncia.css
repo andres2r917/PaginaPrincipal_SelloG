@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;900&display=swap');
 
-/* ─── Página ─────────────────────────────────────────────────────────────────── */
+
 .denuncias-page {
   min-height: calc(100vh - 70px);
   display: flex;
@@ -11,7 +11,7 @@
   font-family: 'Nunito', sans-serif;
 }
 
-/* ─── Contenedor dos columnas ────────────────────────────────────────────────── */
+
 .denuncias-container {
   display: flex;
   width: 100%;
@@ -23,7 +23,7 @@
   background: #000000bd;
 }
 
-/* ─── Lado izquierdo: imagen ─────────────────────────────────────────────────── */
+
 .denuncias-visual {
   position: relative;
   width: 40%;
@@ -64,7 +64,6 @@
   margin: 0;
 }
 
-/* ─── Lado derecho: formulario ───────────────────────────────────────────────── */
 .denuncias-form-side {
   flex: 1;
   padding: 36px 36px;
@@ -90,7 +89,7 @@
   margin: 0;
 }
 
-/* ─── Formulario ─────────────────────────────────────────────────────────────── */
+
 .denuncias-form {
   display: flex;
   flex-direction: column;
@@ -139,7 +138,7 @@
   resize: vertical;
 }
 
-/* ─── Dropzone ───────────────────────────────────────────────────────────────── */
+
 .dn-dropzone {
   border: 2px dashed #bccbba;
   border-radius: 10px;
@@ -174,7 +173,6 @@
   cursor: pointer;
 }
 
-/* ─── Preview archivos ───────────────────────────────────────────────────────── */
 .dn-preview {
   display: flex;
   flex-wrap: wrap;
@@ -227,7 +225,7 @@
   justify-content: center;
 }
 
-/* ─── Anónimo ────────────────────────────────────────────────────────────────── */
+
 .dn-anonimo {
   display: flex;
   align-items: center;
@@ -243,7 +241,7 @@
   cursor: pointer;
 }
 
-/* ─── Botón ──────────────────────────────────────────────────────────────────── */
+
 .dn-btn {
   width: 100%;
   height: 48px;
@@ -268,7 +266,6 @@
   transform: scale(0.98);
 }
 
-/* ─── Toast ──────────────────────────────────────────────────────────────────── */
 .dn-toast {
   position: fixed;
   bottom: 30px;
@@ -291,7 +288,7 @@
   to   { opacity: 1; transform: translateX(-50%) translateY(0); }
 }
 
-/* ─── Responsive ─────────────────────────────────────────────────────────────── */
+
 @media (max-width: 680px) {
   .denuncias-container {
     flex-direction: column;

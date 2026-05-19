@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;900&display=swap');
 
-/* ─── Página ─────────────────────────────────────────────────────────────────── */
+
 .login-page {
   min-height: calc(100vh - 70px);
   display: flex;
@@ -11,7 +11,6 @@
   font-family: 'Nunito', sans-serif;
 }
 
-/* ─── Contenedor principal (dos columnas) ────────────────────────────────────── */
 .login-container {
   display: flex;
   width: 100%;
@@ -25,7 +24,7 @@
   -webkit-backdrop-filter: blur(12px);
 }
 
-/* ─── Lado izquierdo: imagen ─────────────────────────────────────────────────── */
+
 .login-visual {
   position: relative;
   width: 48%;
@@ -66,7 +65,7 @@
   margin: 0;
 }
 
-/* ─── Lado derecho: formulario ───────────────────────────────────────────────── */
+
 .login-form-side {
   flex: 1;
   padding: 48px 40px;
@@ -75,7 +74,6 @@
   justify-content: center;
 }
 
-/* ─── Marca ──────────────────────────────────────────────────────────────────── */
 .login-brand {
   display: flex;
   align-items: center;
@@ -93,7 +91,7 @@
   color: #14be64;
 }
 
-/* ─── Header del formulario ──────────────────────────────────────────────────── */
+
 .login-form-header {
   margin-bottom: 28px;
 }
@@ -111,7 +109,7 @@
   margin: 0;
 }
 
-/* ─── Formulario ─────────────────────────────────────────────────────────────── */
+
 .login-form {
   display: flex;
   flex-direction: column;
@@ -169,7 +167,7 @@
   box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.15);
 }
 
-/* ─── Recordarme ─────────────────────────────────────────────────────────────── */
+
 .lg-remember {
   display: flex;
   align-items: center;
@@ -185,7 +183,7 @@
   cursor: pointer;
 }
 
-/* ─── Botón ──────────────────────────────────────────────────────────────────── */
+
 .lg-btn {
   width: 100%;
   height: 48px;
@@ -213,7 +211,7 @@
   transform: scale(0.98);
 }
 
-/* ─── Footer ─────────────────────────────────────────────────────────────────── */
+
 .login-footer {
   margin-top: 24px;
   padding-top: 20px;
@@ -234,7 +232,7 @@
   text-decoration: underline;
 }
 
-/* ─── Responsive ─────────────────────────────────────────────────────────────── */
+
 @media (max-width: 680px) {
   .login-container {
     flex-direction: column;

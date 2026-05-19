@@ -8,7 +8,7 @@
   font-family: 'Inter', sans-serif;
 }
 
-/* ===== IMAGEN DE FONDO ===== */
+
 .perfil-fondo {
   position: fixed;
   top: 0;
@@ -19,7 +19,7 @@
   z-index: 0;
 }
 
-/* ===== OVERLAY oscuro ===== */
+
 .perfil-overlay {
   position: fixed;
   top: 0;
@@ -30,7 +30,7 @@
   z-index: 1;
 }
 
-/* ===== WRAPPER — encima de fondo y overlay ===== */
+
 .perfil-wrapper {
   position: relative;
   z-index: 2;
@@ -40,7 +40,7 @@
   box-sizing: border-box;
 }
 
-/* ===== STEPPER ===== */
+
 .stepper {
   margin-bottom: 32px;
 }
@@ -81,7 +81,7 @@
   transition: width 0.4s ease;
 }
 
-/* ===== CARD ===== */
+
 .perfil-card {
   background-color: rgba(0, 0, 0, 0.336);
   border-radius: 12px;
@@ -108,14 +108,14 @@
   margin: 0 0 28px 0;
 }
 
-/* ===== FORMULARIO ===== */
+
 .perfil-form {
   display: flex;
   flex-direction: column;
   gap: 18px;
 }
 
-/* ===== FOTO ===== */
+
 .foto-wrap {
   display: flex;
   flex-direction: column;
@@ -184,14 +184,14 @@
   color: #20B355;
 }
 
-/* ===== FILA 2 COLUMNAS ===== */
+
 .perfil-fila {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 14px;
 }
 
-/* ===== GRUPO ===== */
+
 .perfil-grupo {
   display: flex;
   flex-direction: column;
@@ -205,7 +205,7 @@
   margin-left: 4px;
 }
 
-/* ===== INPUT ===== */
+
 .perfil-input {
   width: 100%;
   padding: 11px 14px;
@@ -230,7 +230,7 @@
   color: #0303037e;
 }
 
-/* ===== INPUT CON ICONO ===== */
+
 .perfil-input-icono {
   position: relative;
 }
@@ -249,7 +249,7 @@
   padding-left: 42px;
 }
 
-/* ===== TEXTAREA ===== */
+
 .perfil-textarea {
   width: 100%;
   padding: 11px 14px;
@@ -276,7 +276,7 @@
   color: #bbbbbb;
 }
 
-/* ===== ROL ===== */
+
 .rol-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -339,7 +339,7 @@
   color: #20B355;
 }
 
-/* ===== BOTONES ===== */
+
 .perfil-botones {
   display: flex;
   flex-direction: column;
@@ -424,7 +424,7 @@
   position: relative;
 
 }
-/* ===== SELECT ===== */
+
 .perfil-select {
   appearance: none;
   -webkit-appearance: none;
@@ -435,7 +435,7 @@
   padding-right: 36px;
 }
 
-/* ===== HIJOS ===== */
+
 .hijos-opciones {
   display: grid;
   grid-template-columns: 1fr 1fr;
