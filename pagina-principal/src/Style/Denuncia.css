@@ -7,6 +7,9 @@
   align-items: center;
   justify-content: center;
   background: #f4fafd;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   padding: 40px 20px;
   font-family: 'Nunito', sans-serif;
 }
@@ -173,6 +176,10 @@
   cursor: pointer;
 }
 
+.dn-file-input-hidden {
+  display: none;
+}
+
 .dn-preview {
   display: flex;
   flex-wrap: wrap;
@@ -315,10 +322,6 @@
   z-index: 0;
 }
 
-
-/* ─── MAPA Y UBICACIÓN ─────────────────────────────────────── */
-
-/* Barra de búsqueda de dirección */
 .dn-ubicacion-search {
   display: flex;
   align-items: center;
@@ -381,7 +384,6 @@
   cursor: not-allowed;
 }
 
-/* Botón usar ubicación actual */
 .dn-btn-ubicacion-actual {
   display: inline-flex;
   align-items: center;
@@ -409,7 +411,6 @@
   cursor: not-allowed;
 }
 
-/* Error de ubicación */
 .dn-ubicacion-error {
   color: #f87171;
   font-size: 0.8rem;
@@ -418,7 +419,6 @@
   font-weight: 600;
 }
 
-/* Contenedor del mapa */
 .dn-mapa {
   border: 1.5px solid rgba(255, 255, 255, 0.18);
   border-radius: 10px;
@@ -429,7 +429,6 @@
   z-index: 0;
 }
 
-/* Hint debajo del mapa */
 .dn-mapa-hint {
   font-size: 0.75rem;
   color: rgba(255, 255, 255, 0.4);

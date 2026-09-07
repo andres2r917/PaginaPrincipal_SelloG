@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom'; // ✅ Quitar Outlet, no se necesita aquí
+import { Link } from 'react-router-dom'; 
 
 const RegistroFundacion = () => {
 

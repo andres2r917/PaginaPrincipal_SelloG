@@ -5,6 +5,7 @@ import portada from '../assets/portada.jpeg';
 
 const Login = () => {
   const location = useLocation();
+  
   // Inicializamos el hook de navegación
   const navigate = useNavigate(); 
   

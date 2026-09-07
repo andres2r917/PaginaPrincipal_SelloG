@@ -2,13 +2,13 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '../Style/Denuncia.css';
 import portada from '../assets/portada.jpeg';
-
-// ─── Leaflet (instalarlo con: npm install leaflet) ───────────────────────────
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
-// Ícono verde personalizado (igual al HTML/CSS)
-const iconoVerde = L.divIcon({
+const DEFAULT_LAT = 2.4419;
+const DEFAULT_LNG = -76.6069;
+
+const ICONO_VERDE = L.divIcon({
   className: '',
   html: `
     <svg xmlns="http://www.w3.org/2000/svg" width="36" height="48" viewBox="0 0 36 48">
@@ -17,198 +17,122 @@ const iconoVerde = L.divIcon({
       <circle cx="18" cy="18" r="7" fill="#ffffff" opacity="0.95"/>
     </svg>
   `,
-  iconSize:   [36, 48],
-  iconAnchor: [18, 48],
-  popupAnchor:[0, -48],
+  iconSize:    [36, 48],
+  iconAnchor:  [18, 48],
+  popupAnchor: [0, -48],
 });
 
-// Coordenadas por defecto: Popayán, Colombia
-const DEFAULT_LAT = 2.4419;
-const DEFAULT_LNG = -76.6069;
+const FORM_INITIAL_STATE = {
+  tipo:        '',
+  descripcion: '',
+  ubicacion:   '',
+  anonimo:     false,
+};
 
-const Denuncia = () => {
-  const [formData, setFormData] = useState({
-    tipo: '',
-    descripcion: '',
-    ubicacion: '',
-    anonimo: false,
-  });
-  const [archivos, setArchivos] = useState([]);
-  const [dragOver, setDragOver] = useState(false);
-  const [enviado, setEnviado] = useState(false);
 
-  // ── Estado del mapa ──
-  const [busqueda, setBusqueda] = useState('');
-  const [coordenadas, setCoordenadas] = useState({ lat: DEFAULT_LAT, lng: DEFAULT_LNG });
-  const [ubicacionError, setUbicacionError] = useState('');
-  const [buscando, setBuscando] = useState(false);
-  const [usandoUbicacion, setUsandoUbicacion] = useState(false);
+const fetchDireccionDesdeCoords = async (lat, lng) => {
+  try {
+    const res  = await fetch(
+      `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&accept-language=es`
+    );
+    const data = await res.json();
+    return data.display_name || `${lat.toFixed(5)}, ${lng.toFixed(5)}`;
+  } catch {
+    return `${lat.toFixed(5)}, ${lng.toFixed(5)}`;
+  }
+};
 
-  const mapRef = useRef(null);       // referencia al div del mapa
-  const mapInstanceRef = useRef(null); // instancia de L.map
-  const markerRef = useRef(null);    // marcador actual
-  const fileInputRef = useRef(null);
+//Hook: mapa Leaflet 
 
-  // ── Inicializar mapa ──────────────────────────────────────────────────────
+const useLeafletMap = (coordenadas, setCoordenadas, onDireccionChange) => {
+  const mapRef      = useRef(null);
+  const mapInstance = useRef(null);
+  const markerRef   = useRef(null);
+
   useEffect(() => {
-    if (mapInstanceRef.current) return; // ya inicializado
+    if (mapInstance.current) return;
 
     const map = L.map(mapRef.current, {
       center: [DEFAULT_LAT, DEFAULT_LNG],
-      zoom: 14,
+      zoom:   14,
     });
 
-    // Tile oscuro estilo CartoDB Dark Matter (igual al HTML)
     L.tileLayer(
       'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
       {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>',
+        attribution: '&copy; OpenStreetMap &copy; CARTO',
         maxZoom: 19,
       }
     ).addTo(map);
 
-    // Marcador inicial con ícono verde
-    const marker = L.marker([DEFAULT_LAT, DEFAULT_LNG], { draggable: true, icon: iconoVerde }).addTo(map);
+    const marker = L.marker([DEFAULT_LAT, DEFAULT_LNG], {
+      draggable: true,
+      icon:      ICONO_VERDE,
+    }).addTo(map);
+
     markerRef.current = marker;
 
-    // Al arrastrar el marcador → actualizar dirección
-    marker.on('dragend', async () => {
-      const { lat, lng } = marker.getLatLng();
+    const handlePosChange = async (lat, lng) => {
       setCoordenadas({ lat, lng });
-      await actualizarDireccionDesdeCoords(lat, lng);
+      const dir = await fetchDireccionDesdeCoords(lat, lng);
+      onDireccionChange(dir);
+    };
+
+    marker.on('dragend', () => {
+      const { lat, lng } = marker.getLatLng();
+      handlePosChange(lat, lng);
     });
 
-    // Al hacer clic en el mapa → mover marcador
-    map.on('click', async (e) => {
+    map.on('click', (e) => {
       const { lat, lng } = e.latlng;
       marker.setLatLng([lat, lng]);
-      setCoordenadas({ lat, lng });
-      await actualizarDireccionDesdeCoords(lat, lng);
+      handlePosChange(lat, lng);
     });
 
-    mapInstanceRef.current = map;
+    mapInstance.current = map;
 
     return () => {
       map.remove();
-      mapInstanceRef.current = null;
+      mapInstance.current = null;
     };
   }, []);
 
-  // ── Mover marcador cuando cambien las coordenadas ─────────────────────────
   useEffect(() => {
-    if (!mapInstanceRef.current || !markerRef.current) return;
+    if (!mapInstance.current || !markerRef.current) return;
     markerRef.current.setLatLng([coordenadas.lat, coordenadas.lng]);
-    mapInstanceRef.current.flyTo([coordenadas.lat, coordenadas.lng], 16, { duration: 1.2 });
+    mapInstance.current.flyTo([coordenadas.lat, coordenadas.lng], 16, { duration: 1.2 });
   }, [coordenadas]);
 
-  // ── Geocodificación inversa (coords → dirección) ──────────────────────────
-  const actualizarDireccionDesdeCoords = async (lat, lng) => {
-    try {
-      const res = await fetch(
-        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&accept-language=es`
-      );
-      const data = await res.json();
-      const dir = data.display_name || `${lat.toFixed(5)}, ${lng.toFixed(5)}`;
-      setBusqueda(dir);
-      setFormData((prev) => ({ ...prev, ubicacion: dir }));
-    } catch {
-      setBusqueda(`${lat.toFixed(5)}, ${lng.toFixed(5)}`);
-      setFormData((prev) => ({ ...prev, ubicacion: `${lat.toFixed(5)}, ${lng.toFixed(5)}` }));
-    }
+  return mapRef;
+};
+
+const Denuncia = () => {
+  const [formData,        setFormData]        = useState(FORM_INITIAL_STATE);
+  const [archivos,        setArchivos]        = useState([]);
+  const [dragOver,        setDragOver]        = useState(false);
+  const [enviado,         setEnviado]         = useState(false);
+  const [busqueda,        setBusqueda]        = useState('');
+  const [coordenadas,     setCoordenadas]     = useState({ lat: DEFAULT_LAT, lng: DEFAULT_LNG });
+  const [ubicacionError,  setUbicacionError]  = useState('');
+  const [buscando,        setBuscando]        = useState(false);
+  const [usandoUbicacion, setUsandoUbicacion] = useState(false);
+
+  const fileInputRef = useRef(null);
+
+  // ── Callback para actualizar búsqueda y formData al mismo tiempo ──
+  const handleDireccionChange = (dir) => {
+    setBusqueda(dir);
+    setFormData((prev) => ({ ...prev, ubicacion: dir }));
   };
 
-  // ── Buscar dirección (texto → coords) ─────────────────────────────────────
-  const handleBuscar = async () => {
-    if (!busqueda.trim()) return;
-    setBuscando(true);
-    setUbicacionError('');
-    try {
-      const res = await fetch(
-        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(busqueda)}&limit=1&accept-language=es`
-      );
-      const data = await res.json();
-      if (data.length === 0) {
-        setUbicacionError('No se encontró la dirección. Intenta con otra búsqueda.');
-        return;
-      }
-      const { lat, lon, display_name } = data[0];
-      setCoordenadas({ lat: parseFloat(lat), lng: parseFloat(lon) });
-      setBusqueda(display_name);
-      setFormData((prev) => ({ ...prev, ubicacion: display_name }));
-    } catch {
-      setUbicacionError('Error al buscar la dirección. Verifica tu conexión.');
-    } finally {
-      setBuscando(false);
-    }
-  };
+  const mapRef = useLeafletMap(coordenadas, setCoordenadas, handleDireccionChange);
 
-  // Enter para buscar
-  const handleBuscarKeyDown = (e) => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      handleBuscar();
-    }
-  };
-
-  // ── Usar ubicación actual del dispositivo ─────────────────────────────────
-  const handleUbicacionActual = () => {
-    if (!navigator.geolocation) {
-      setUbicacionError('Tu navegador no soporta geolocalización.');
-      return;
-    }
-    setUsandoUbicacion(true);
-    setUbicacionError('');
-
-    navigator.geolocation.getCurrentPosition(
-      async (position) => {
-        const { latitude, longitude } = position.coords;
-        setCoordenadas({ lat: latitude, lng: longitude });
-        await actualizarDireccionDesdeCoords(latitude, longitude);
-        setUsandoUbicacion(false);
-      },
-      (error) => {
-        setUsandoUbicacion(false);
-        switch (error.code) {
-          case error.PERMISSION_DENIED:
-            setUbicacionError('Permiso denegado. Activa la ubicación en tu navegador.');
-            break;
-          case error.POSITION_UNAVAILABLE:
-            setUbicacionError('Ubicación no disponible en este momento.');
-            break;
-          case error.TIMEOUT:
-            setUbicacionError('Tiempo de espera agotado. Intenta de nuevo.');
-            break;
-          default:
-            setUbicacionError('Error al obtener la ubicación.');
-        }
-      },
-      { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
-    );
-  };
-
-  // ── Handlers del formulario ───────────────────────────────────────────────
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setFormData({ ...formData, [name]: type === 'checkbox' ? checked : value });
-  };
-
-  const handleFiles = (files) => {
-    const nuevos = Array.from(files).map((file) => ({
-      name: file.name,
-      url: URL.createObjectURL(file),
-      type: file.type,
+    setFormData((prev) => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value,
     }));
-    setArchivos((prev) => [...prev, ...nuevos]);
-  };
-
-  const handleDrop = (e) => {
-    e.preventDefault();
-    setDragOver(false);
-    handleFiles(e.dataTransfer.files);
-  };
-
-  const eliminarArchivo = (index) => {
-    setArchivos((prev) => prev.filter((_, i) => i !== index));
   };
 
   const handleSubmit = (e) => {
@@ -218,26 +142,97 @@ const Denuncia = () => {
     setTimeout(() => setEnviado(false), 3000);
   };
 
-  // ─────────────────────────────────────────────────────────────────────────
+  const agregarArchivos = (files) => {
+    const nuevos = Array.from(files).map((file) => ({
+      name: file.name,
+      url:  URL.createObjectURL(file),
+      type: file.type,
+    }));
+    setArchivos((prev) => [...prev, ...nuevos]);
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    setDragOver(false);
+    agregarArchivos(e.dataTransfer.files);
+  };
+
+  const eliminarArchivo = (index) => {
+    setArchivos((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const handleBuscar = async () => {
+    if (!busqueda.trim()) return;
+    setBuscando(true);
+    setUbicacionError('');
+
+    try {
+      const res  = await fetch(
+        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(busqueda)}&limit=1&accept-language=es`
+      );
+      const data = await res.json();
+
+      if (data.length === 0) {
+        setUbicacionError('No se encontró la dirección. Intenta con otra búsqueda.');
+        return;
+      }
+
+      const { lat, lon, display_name } = data[0];
+      setCoordenadas({ lat: parseFloat(lat), lng: parseFloat(lon) });
+      handleDireccionChange(display_name);
+    } catch {
+      setUbicacionError('Error al buscar la dirección. Verifica tu conexión.');
+    } finally {
+      setBuscando(false);
+    }
+  };
+
+  const handleBuscarKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleBuscar();
+    }
+  };
+
+  const handleUbicacionActual = () => {
+    if (!navigator.geolocation) {
+      setUbicacionError('Tu navegador no soporta geolocalización.');
+      return;
+    }
+
+    setUsandoUbicacion(true);
+    setUbicacionError('');
+
+    navigator.geolocation.getCurrentPosition(
+      async ({ coords: { latitude, longitude } }) => {
+        setCoordenadas({ lat: latitude, lng: longitude });
+        const dir = await fetchDireccionDesdeCoords(latitude, longitude);
+        handleDireccionChange(dir);
+        setUsandoUbicacion(false);
+      },
+      (error) => {
+        setUsandoUbicacion(false);
+        const mensajes = {
+          [error.PERMISSION_DENIED]:    'Permiso denegado. Activa la ubicación en tu navegador.',
+          [error.POSITION_UNAVAILABLE]: 'Ubicación no disponible en este momento.',
+          [error.TIMEOUT]:              'Tiempo de espera agotado. Intenta de nuevo.',
+        };
+        setUbicacionError(mensajes[error.code] ?? 'Error al obtener la ubicación.');
+      },
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+    );
+  };
+
   return (
     <div
       className="denuncias-page"
-      style={{
-        backgroundImage: `url(${portada})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-      }}
-    >
+      style={{ backgroundImage: `url(${portada})` }}>
       <div className="denuncias-container">
-
-        {/* ── Lado izquierdo ── */}
         <div className="denuncias-visual">
           <img
             src="https://images.unsplash.com/photo-1450778869180-41d0601e046e?w=800&h=1000&fit=crop"
             alt="Animal rescatado"
-            className="denuncias-visual__img"
-          />
+            className="denuncias-visual__img"/>
           <div className="denuncias-visual__overlay">
             <h2 className="denuncias-visual__title">
               Ayúdanos a proteger a los que no tienen voz.
@@ -247,8 +242,6 @@ const Denuncia = () => {
             </p>
           </div>
         </div>
-
-        {/* ── Lado derecho: formulario ── */}
         <div className="denuncias-form-side">
           <div className="denuncias-form-header">
             <h1 className="denuncias-form-header__title">Realiza tu Denuncia</h1>
@@ -259,10 +252,15 @@ const Denuncia = () => {
 
           <form className="denuncias-form" onSubmit={handleSubmit}>
 
-            {/* Tipo */}
+            {/* Tipo de denuncia */}
             <div className="dn-group">
               <label className="dn-label">Tipo de denuncia</label>
-              <select name="tipo" className="dn-input" value={formData.tipo} onChange={handleChange} required>
+              <select
+                name="tipo"
+                className="dn-input"
+                value={formData.tipo}
+                onChange={handleChange}
+                required>
                 <option value="">Selecciona un tipo</option>
                 <option value="maltrato">Maltrato físico</option>
                 <option value="abandono">Abandono</option>
@@ -272,7 +270,6 @@ const Denuncia = () => {
               </select>
             </div>
 
-            {/* Descripción */}
             <div className="dn-group">
               <label className="dn-label">Descripción de los hechos</label>
               <textarea
@@ -285,12 +282,9 @@ const Denuncia = () => {
                 required
               />
             </div>
-
-            {/* ── UBICACIÓN CON MAPA ── */}
             <div className="dn-group">
               <label className="dn-label">Ubicación</label>
 
-              {/* Barra de búsqueda */}
               <div className="dn-ubicacion-search">
                 <span className="dn-ubicacion-search__icon">🔍</span>
                 <input
@@ -311,31 +305,20 @@ const Denuncia = () => {
                 </button>
               </div>
 
-              {/* Botón ubicación actual */}
               <button
                 type="button"
                 className="dn-btn-ubicacion-actual"
                 onClick={handleUbicacionActual}
                 disabled={usandoUbicacion}
               >
-                {usandoUbicacion ? (
-                  <>⏳ Obteniendo ubicación...</>
-                ) : (
-                  <>📍 Usar mi ubicación actual</>
-                )}
+                {usandoUbicacion ? '⏳ Obteniendo ubicación...' : '📍 Usar mi ubicación actual'}
               </button>
 
-              {/* Error de ubicación */}
               {ubicacionError && (
                 <p className="dn-ubicacion-error">{ubicacionError}</p>
               )}
 
-              {/* Mapa */}
-              <div
-                ref={mapRef}
-                className="dn-mapa"
-                style={{ height: '260px', width: '100%', borderRadius: '10px', marginTop: '10px', zIndex: 0 }}
-              />
+              <div ref={mapRef} className="dn-mapa" />
               <p className="dn-mapa-hint">
                 Haz clic en el mapa o arrastra el marcador para ajustar la ubicación.
               </p>
@@ -360,8 +343,8 @@ const Denuncia = () => {
                   ref={fileInputRef}
                   multiple
                   accept="image/*,video/*"
-                  style={{ display: 'none' }}
-                  onChange={(e) => handleFiles(e.target.files)}
+                  className="dn-file-input-hidden"
+                  onChange={(e) => agregarArchivos(e.target.files)}
                 />
               </div>
 
@@ -379,7 +362,9 @@ const Denuncia = () => {
                         type="button"
                         className="dn-preview__remove"
                         onClick={() => eliminarArchivo(i)}
-                      >✕</button>
+                      >
+                        ✕
+                      </button>
                     </div>
                   ))}
                 </div>
@@ -406,9 +391,7 @@ const Denuncia = () => {
       </div>
 
       {enviado && (
-        <div className="dn-toast">
-          ✅ Denuncia enviada correctamente
-        </div>
+        <div className="dn-toast">✅ Denuncia enviada correctamente</div>
       )}
     </div>
   );
