@@ -1,11 +1,11 @@
 :root {
-  --verde-principal: #2cac61;
-  --verde-hover:     #22924f;
-  --fondo-modal:     #16161d;
-  --fondo-izq:       #0f0f13;
-  --fondo-input:     #1e1e28;
+  --verde-principal: var(--color-primario);
+  --verde-hover:     var(--color-primario-hover);
+  --fondo-modal:     var(--color-fondo);
+  --fondo-izq:       var(--color-fondo);
+  --fondo-input:     var(--color-superficie);
   --texto-principal: #f0f0f5;
-  --texto-muted:     #8888aa;
+  --texto-muted:     var(--color-acento-suave);
   --borde-sutil:     rgba(255, 255, 255, 0.08);
   --radio:           16px;
   --radio-sm:        8px;
@@ -51,7 +51,7 @@
 
 .glass-effect.animal-card:hover {
   transform: translateY(-4px);
-  border-color: rgba(44, 172, 97, 0.4);
+  border-color: rgba(124, 58, 237, 0.3);
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
 }
 
@@ -207,9 +207,9 @@
 }
 
 .badge-green {
-  background: rgba(44, 172, 97, 0.15);
-  color: #2cac61;
-  border: 1px solid rgba(44, 172, 97, 0.35);
+  background: rgba(16, 185, 129, 0.15);
+  color: var(--color-exito);
+  border: 1px solid rgba(124, 58, 237, 0.3);
 }
 
 .badge-cyan {
@@ -385,7 +385,7 @@
 
 .checkbox-label input[type="checkbox"]:focus {
   outline: none;
-  box-shadow: 0 0 0 2px rgba(44, 172, 97, 0.3);
+  box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.3);
 }
 
 .checkbox-label span {
@@ -409,14 +409,14 @@
 .exito-icono {
   width: 60px;
   height: 60px;
-  background: rgba(44, 172, 97, 0.15);
+  background: rgba(16, 185, 129, 0.15);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1.8rem;
   color: var(--verde-principal);
-  border: 2px solid rgba(44, 172, 97, 0.4);
+  border: 2px solid rgba(124, 58, 237, 0.3);
 }
 
 .modal-exito h3 {

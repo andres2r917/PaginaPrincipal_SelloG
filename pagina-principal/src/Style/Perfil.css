@@ -55,7 +55,7 @@
 .stepper-paso {
   font-size: 12px;
   font-weight: 500;
-  color: #20B355;
+  color: var(--color-primario);
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
@@ -76,7 +76,7 @@
 
 .stepper-progreso {
   height: 100%;
-  background-color: #20B355;
+  background-color: var(--color-primario);
   border-radius: 9999px;
   transition: width 0.4s ease;
 }
@@ -97,7 +97,7 @@
 .perfil-titulo {
   font-size: 26px;
   font-weight: 700;
-  color: #20B355;
+  color: var(--color-primario);
   margin: 0 0 10px 0;
 }
 
@@ -149,14 +149,14 @@
 
 .foto-icono {
   font-size: 44px !important;
-  color: #bbbbbb;
+  color: var(--color-acento-suave);
 }
 
 .foto-btn {
   position: absolute;
   bottom: 0;
   right: 0;
-  background-color: #20B355;
+  background-color: var(--color-primario);
   color: #ffffff;
   border: 2px solid #ffffff;
   border-radius: 50%;
@@ -166,7 +166,7 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  box-shadow: 0 2px 8px rgba(35, 229, 51, 0.4);
+  box-shadow: 0 2px 8px rgba(124, 58, 237, 0.4);
   transition: transform 0.2s;
 }
 

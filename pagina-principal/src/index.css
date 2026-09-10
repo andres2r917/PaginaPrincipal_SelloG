@@ -1,0 +1,9 @@
+:root {
+  --color-primario: #7C3AED;         /* Púrpura Principal */
+  --color-primario-hover: #6D28D9;   /* Variante oscura para :hover/:active */
+  --color-fondo: #0F172A;            /* Azul Medianoche */
+  --color-superficie: rgba(15, 23, 42, 0.75); /* Cristal/Superficies flotantes */
+  --color-acento-suave: #C4B5FD;     /* Lavanda Suave */
+  --color-exito: #10B981;            /* Verde Esmeralda */
+  --color-error: #E11D48;            /* Rojo Carmesí */
+}

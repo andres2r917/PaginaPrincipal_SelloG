@@ -57,7 +57,7 @@
 }
 
 .registro-visual__title {
-  color: #20B355;
+  color: var(--color-primario);
 
   font-size: 1.2rem;
   font-weight: 800;
@@ -87,7 +87,7 @@
 .registro-form-header__title {
   font-size: 2rem;
   font-weight: 900;
-  color: #20B355;
+  color: var(--color-primario);
   margin-bottom: 4px;
 }
 
@@ -145,12 +145,12 @@
 }
 
 .rg-input:focus {
-  border-color: #20B355;
-  box-shadow: 0 0 0 3px rgba(32, 179, 85, 0.2);
+  border-color: var(--color-primario);
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.2);
 }
 
 .rg-error {
-  color: #ff6b6b;
+  color: var(--color-error);
   font-size: 0.85rem;
   text-align: center;
 }
@@ -162,20 +162,19 @@
   margin-top: 10px;
   border: none;
   border-radius: 12px;
-  background: #20B355;
+  background: var(--color-primario);
   color: #fff;
   font-size: 1rem;
   font-weight: 800;
   font-family: 'Nunito', sans-serif;
   cursor: pointer;
-
   transition: 0.25s ease;
 }
 
 .rg-btn:hover {
-  background: #1bc15b;
+  background: var(--color-primario-hover);
   transform: translateY(-2px);
-  box-shadow: 0 10px 24px rgba(32, 179, 85, 0.3);
+  box-shadow: 0 10px 24px rgba(124, 58, 237, 0.3);
 }
 
 .rg-btn:active {
@@ -190,7 +189,7 @@
 }
 
 .registro-footer__link {
-  color: #20B355;
+  color: var(--color-primario);
   font-weight: 700;
   text-decoration: none;
 }
@@ -248,8 +247,8 @@
 }
 
 .rg-dropdown__menu li:hover {
-  background: rgba(32, 179, 85, 0.1);
-  color: #20B355;
+  background: rgba(124, 58, 237, 0.1);
+  color: var(--color-primario);
 }
 
 .rg-dropdown__menu li a {

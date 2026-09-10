@@ -51,7 +51,7 @@
 }
 
 .login-visual__title {
-  color: #20B355;
+  color: var(--color-primario);
   font-size: 1.3rem;
   font-weight: 700;
   line-height: 1.4;
@@ -88,7 +88,7 @@
 .login-brand__name {
   font-size: 1.2rem;
   font-weight: 900;
-  color: #14be64;
+  color: var(--color-primario);
 }
 
 
@@ -99,7 +99,7 @@
 .login-form-header__title {
   font-size: 1.75rem;
   font-weight: 900;
-  color: #20B355;
+  color: var(--color-primario);
   margin: 0 0 6px;
 }
 
@@ -163,8 +163,8 @@
 }
 
 .lg-input:focus {
-  border-color: #20B355;
-  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.15);
+  border-color: var(--color-primario);
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
 }
 
 
@@ -177,7 +177,7 @@
 }
 
 .lg-remember input[type="checkbox"] {
-  accent-color: #006d32;
+  accent-color: var(--color-primario);
   width: 16px;
   height: 16px;
   cursor: pointer;
@@ -187,7 +187,7 @@
 .lg-btn {
   width: 100%;
   height: 48px;
-  background: #20B355;
+  background: var(--color-primario);
   color: #ffffff;
   border: none;
   text-decoration: none;
@@ -202,7 +202,7 @@
 }
 
 .lg-btn:hover {
-  background: #15803d;
+  background: var(--color-primario-hover);
   transform: translateY(-2px);
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
 }
