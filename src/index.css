@@ -7,3 +7,14 @@
   --color-exito: #10B981;            /* Verde Esmeralda */
   --color-error: #E11D48;            /* Rojo Carmesí */
 }
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body,
+#root {
+  background-color: #0F172A;
+  min-height: 100vh;
+}

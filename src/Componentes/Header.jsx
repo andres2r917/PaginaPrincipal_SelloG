@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import '../Style/Header.css'
 import Group from '../assets/Group.svg'
 
@@ -10,9 +10,9 @@ const Header = () => {
             <div className="nav-links">
                <img className='group' src={Group} alt="group" />
               <div className="items">
-                <Link to="/home" className="nav-item">Inicio</Link>
-                <Link to="/adopcion" className="nav-item">Adopcion</Link>
-                <Link to="/denuncia" className="nav-item">Denuncia</Link>
+                <NavLink to="/home" className={({ isActive }) => isActive ? 'nav-item active' : 'nav-item'}>Inicio</NavLink>
+                <NavLink to="/adopcion" className={({ isActive }) => isActive ? 'nav-item active' : 'nav-item'}>Adopcion</NavLink>
+                <NavLink to="/denuncia" className={({ isActive }) => isActive ? 'nav-item active' : 'nav-item'}>Denuncia</NavLink>
               </div>
             </div>
             <div className="search-container">
