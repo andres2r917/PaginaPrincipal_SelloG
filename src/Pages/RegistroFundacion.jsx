@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom'; 
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { registrarUsuario } from '../Services/authService.js';
 
 const RegistroFundacion = () => {
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     nombre: '',
@@ -21,14 +23,31 @@ const RegistroFundacion = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (formData.password !== formData.confirmPassword) {
       setError('Las contraseñas no coinciden.');
       return;
     }
     setError('');
-    console.log('Fundación registrada:', formData);
+    try {
+      // La fundación queda pendiente hasta que el administrador la verifique
+      await registrarUsuario({
+        nombre: formData.nombre,
+        email: formData.email,
+        password: formData.password,
+        rol: 'fundacion',
+        estadoVerificacion: 'pendiente',
+        fundacionId: Date.now(),
+        nit: formData.cc,
+        representante: formData.representante,
+        telefono: formData.telefono,
+        ciudad: formData.ciudad,
+      });
+      navigate('/login', { state: { mensajeExito: 'Solicitud enviada. Un administrador verificará tu fundación.' } });
+    } catch (err) {
+      setError(err.message);
+    }
   };
 
   return (

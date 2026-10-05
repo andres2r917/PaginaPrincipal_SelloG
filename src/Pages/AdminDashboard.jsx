@@ -1,8 +1,9 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useAuth } from '../Context/AuthContext.jsx'
 import {FiGrid, FiClipboard, FiDatabase, FiAlertTriangle,
-  FiUsers, FiSettings, FiLogOut, FiBell, FiSearch, FiMoreHorizontal} from 'react-icons/fi'
+  FiUsers, FiSettings, FiLogOut, FiMoreHorizontal} from 'react-icons/fi'
 import { FaPaw } from 'react-icons/fa'
+import AdminTopbar from '../Componentes/AdminTopbar.jsx'
 import '../Style/AdminDashboard.css'
 
 // TODO: reemplazar por fetch a GET /api/admin/dashboard cuando exista el endpoint en Laravel
@@ -17,8 +18,6 @@ const monthlyData = [
   { mes: 'Ago', adopciones: 22, denuncias: 11 },
 ]
 
-const usuariosTrend = [12, 18, 15, 24, 20, 28, 26, 32]
-
 const actividadReciente = [
   { id: 1, texto: 'Solicitud de adopción #2458', estado: 'Aprobada', tipo: 'exito', tiempo: 'Hace 26 min' },
   { id: 2, texto: 'Nueva denuncia registrada — Zona Norte', estado: null, tipo: 'info', tiempo: 'Hace 40 min' },
@@ -27,8 +26,11 @@ const actividadReciente = [
 ]
 
 const AdminDashboard = () => {
+  const { usuario, logout } = useAuth()
+  const navigate = useNavigate()
+  // Cierra la sesión y vuelve al login
+  const cerrarSesion = () => { logout(); navigate('/login') }
   const maxBar = 25
-  const maxTrend = Math.max(...usuariosTrend)
 
   return (
     <div className="admin-layout">
@@ -61,7 +63,7 @@ const AdminDashboard = () => {
           </Link>
         </nav>
 
-        <button className="admin-nav__item admin-nav__logout">
+        <button className="admin-nav__item admin-nav__logout" onClick={cerrarSesion}>
           <FiLogOut /> <span>Cerrar sesión</span>
         </button>
       </aside>
@@ -70,19 +72,7 @@ const AdminDashboard = () => {
       <div className="admin-content">
 
         {/* Topbar */}
-        <header className="admin-topbar">
-          <div className="admin-topbar__search">
-            <FiSearch />
-            <input type="text" placeholder="Buscar denuncias, mascotas, usuarios..." />
-          </div>
-          <div className="admin-topbar__actions">
-            <button className="admin-icon-btn">
-              <FiBell />
-              <span className="admin-icon-btn__dot" />
-            </button>
-            <div className="admin-avatar">A</div>
-          </div>
-        </header>
+        <AdminTopbar placeholder="Buscar denuncias, mascotas, usuarios..." />
 
         <main className="admin-main">
           <h1 className="admin-title">Dashboard</h1>

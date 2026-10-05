@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom'; 
 import '../Style/Registro.css';
 import portada from '../assets/portada.jpeg';
+import { registrarUsuario } from '../Services/authService.js';
 
 const Registro = () => {
   const location = useLocation();
@@ -25,7 +26,7 @@ const Registro = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (formData.password !== formData.confirmPassword) {
       setError('Las contraseñas no coinciden.');
@@ -36,8 +37,19 @@ const Registro = () => {
       return;
     }
     setError('');
-    console.log('Datos registrados con éxito:', formData);
-    navigate('/login'); 
+    try {
+      // Cuenta de usuario civil: el perfil se completa en el primer ingreso
+      await registrarUsuario({
+        nombre: formData.username,
+        email: formData.email,
+        password: formData.password,
+        rol: 'civil',
+        perfilCompleto: false,
+      });
+      navigate('/login', { state: { mensajeExito: 'Cuenta creada. Ya puedes iniciar sesión.' } });
+    } catch (err) {
+      setError(err.message);
+    }
   };
 
   return (

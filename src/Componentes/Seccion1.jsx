@@ -1,4 +1,3 @@
-import React from 'react'
 import '../Style/Seccion1.css'
 const pets = [
   {

@@ -1,10 +1,11 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useAuth } from '../Context/AuthContext.jsx'
 import {
   FiGrid, FiClipboard, FiDatabase, FiAlertTriangle,
-  FiUsers, FiSettings, FiLogOut, FiBell, FiSearch, FiCheck, FiX
+  FiUsers, FiSettings, FiLogOut, FiCheck, FiX
 } from 'react-icons/fi'
 import { FaPaw } from 'react-icons/fa'
+import AdminTopbar from '../Componentes/AdminTopbar.jsx'
 import '../Style/AdminDashboard.css'
 import '../Style/AdminTablas.css'
 
@@ -23,6 +24,10 @@ const badgePorEstado = {
 }
 
 const AdminAdopciones = () => {
+  const { usuario, logout } = useAuth()
+  const navigate = useNavigate()
+  // Cierra la sesión y vuelve al login
+  const cerrarSesion = () => { logout(); navigate('/login') }
   return (
     <div className="admin-layout">
 
@@ -53,25 +58,13 @@ const AdminAdopciones = () => {
           </Link>
         </nav>
 
-        <button className="admin-nav__item admin-nav__logout">
+        <button className="admin-nav__item admin-nav__logout" onClick={cerrarSesion}>
           <FiLogOut /> <span>Cerrar sesión</span>
         </button>
       </aside>
 
       <div className="admin-content">
-        <header className="admin-topbar">
-          <div className="admin-topbar__search">
-            <FiSearch />
-            <input type="text" placeholder="Buscar denuncias, mascotas, usuarios..." />
-          </div>
-          <div className="admin-topbar__actions">
-            <button className="admin-icon-btn">
-              <FiBell />
-              <span className="admin-icon-btn__dot" />
-            </button>
-            <div className="admin-avatar">A</div>
-          </div>
-        </header>
+        <AdminTopbar placeholder="Buscar adopciones, mascotas, usuarios..." />
 
         <main className="admin-main">
           <div className="admin-page-header">

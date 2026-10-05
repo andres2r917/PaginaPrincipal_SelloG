@@ -1,5 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useState, useRef, useEffect } from 'react';
 import '../Style/Denuncia.css';
 import portada from '../assets/portada.jpeg';
 import L from 'leaflet';
@@ -48,6 +47,13 @@ const useLeafletMap = (coordenadas, setCoordenadas, onDireccionChange) => {
   const mapRef      = useRef(null);
   const mapInstance = useRef(null);
   const markerRef   = useRef(null);
+  const setCoordenadasRef = useRef(setCoordenadas);
+  const onDireccionChangeRef = useRef(onDireccionChange);
+
+  useEffect(() => {
+    setCoordenadasRef.current = setCoordenadas;
+    onDireccionChangeRef.current = onDireccionChange;
+  }, [setCoordenadas, onDireccionChange]);
 
   useEffect(() => {
     if (mapInstance.current) return;
@@ -73,9 +79,9 @@ const useLeafletMap = (coordenadas, setCoordenadas, onDireccionChange) => {
     markerRef.current = marker;
 
     const handlePosChange = async (lat, lng) => {
-      setCoordenadas({ lat, lng });
+      setCoordenadasRef.current({ lat, lng });
       const dir = await fetchDireccionDesdeCoords(lat, lng);
-      onDireccionChange(dir);
+      onDireccionChangeRef.current(dir);
     };
 
     marker.on('dragend', () => {

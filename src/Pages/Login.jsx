@@ -1,13 +1,17 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom'; 
 import '../Style/Login.css';
 import portada from '../assets/portada.jpeg';
+import { useAuth } from '../Context/AuthContext';
 
 const Login = () => {
   const location = useLocation();
   
   // Inicializamos el hook de navegación
   const navigate = useNavigate(); 
+  const { login } = useAuth();
+  const [error, setError] = useState('');
+  const [cargando, setCargando] = useState(false);
   
   const mensajeExito = location.state?.mensajeExito;
 
@@ -22,10 +26,21 @@ const Login = () => {
     setCredentials({ ...credentials, [name]: type === 'checkbox' ? checked : value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Iniciando sesión con:', credentials);navigate('/perfil'); 
+    setError('');
+    setCargando(true);
+    try {
+      // El rol lo determina la credencial: login devuelve la ruta de inicio
+      const ruta = await login(credentials.email, credentials.password);
+      navigate(ruta, { replace: true });
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setCargando(false);
+    }
   };
+
   return (
     <div className="login-page"
       style={{
@@ -58,6 +73,7 @@ const Login = () => {
                 {mensajeExito}
               </div>
             )}
+            {error && <div className="lg-error">{error}</div>}
             <div className="lg-group">
               <label className="lg-label">Correo electrónico</label>
               <input
@@ -94,9 +110,21 @@ const Login = () => {
               <label htmlFor="remember">Recordarme en este dispositivo</label>
             </div>
 
-            <button type="submit" className="lg-btn">
-              Ingresar
+            <button type="submit" className="lg-btn" disabled={cargando}>
+              {cargando ? 'Ingresando...' : 'Ingresar'}
             </button>
+
+            {/* Acceso rápido: solo aparece con npm run dev */}
+            {import.meta.env.DEV && (
+              <div className="lg-demo">
+                <p className="lg-demo__titulo">Acceso rápido (solo desarrollo)</p>
+                <div className="lg-demo__botones">
+                  <button type="button" onClick={() => setCredentials({ ...credentials, email: 'admin@selloguardian.com', password: 'Admin123*' })}>Admin</button>
+                  <button type="button" onClick={() => setCredentials({ ...credentials, email: 'civil@selloguardian.com', password: 'Civil123*' })}>Usuario civil</button>
+                  <button type="button" onClick={() => setCredentials({ ...credentials, email: 'fundacion@selloguardian.com', password: 'Fundacion123*' })}>Fundación</button>
+                </div>
+              </div>
+            )}
           </form>
           <div className="login-footer">
             <p>

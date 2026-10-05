@@ -477,3 +477,136 @@
 @media (max-width: 768px) {
   .admin-sidebar { display: none; }
 }
+
+/* ── AdminTopbar: notificaciones y perfil ── */
+
+/* Contenedor relativo para el dropdown de notificaciones */
+.adm-notif-wrap {
+  position: relative;
+}
+
+/* Panel de notificaciones */
+.adm-notif-panel {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  width: 300px;
+  background: rgba(15, 23, 42, 0.98);
+  border: 1px solid rgba(196, 181, 253, 0.22);
+  border-radius: 16px;
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.55);
+  z-index: 60;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  overflow: hidden;
+}
+
+.adm-notif-panel__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.adm-notif-panel__head strong {
+  font-size: 14px;
+  color: #f8fafc;
+}
+
+.adm-notif-badge {
+  background: #7C3AED;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  min-width: 20px;
+  height: 20px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 5px;
+}
+
+.adm-notif-list {
+  list-style: none;
+  margin: 0;
+  padding: 8px 0;
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.adm-notif-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 16px;
+  transition: background 0.15s ease;
+  cursor: default;
+}
+
+.adm-notif-item:hover {
+  background: rgba(124, 58, 237, 0.1);
+}
+
+.adm-notif-item__body p {
+  font-size: 13px;
+  color: #e2e8f0;
+  margin: 0 0 3px;
+  line-height: 1.4;
+}
+
+/* Avatar clickable para abrir el modal de perfil */
+.adm-avatar-btn {
+  cursor: pointer;
+  border: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.adm-avatar-btn:hover {
+  transform: scale(1.06);
+  box-shadow: 0 0 0 3px rgba(196, 181, 253, 0.4);
+}
+
+/* Modal de perfil */
+.adm-perfil-modal {
+  max-width: 420px;
+}
+
+.adm-perfil-modal__cabecera {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.adm-perfil-modal__avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.4), rgba(168, 85, 247, 0.25));
+  border: 2px solid rgba(196, 181, 253, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #C4B5FD;
+  font-weight: 700;
+  font-size: 20px;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.adm-perfil-modal__avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.adm-perfil-modal__ok {
+  font-size: 13px;
+  font-weight: 600;
+  color: #10B981;
+  margin-right: auto;
+}

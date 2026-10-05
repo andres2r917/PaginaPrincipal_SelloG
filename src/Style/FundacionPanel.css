@@ -1,0 +1,721 @@
+/* Estilos exclusivos del panel de fundación — prefijo fnd- */
+
+/* Badge del contador en el menú lateral */
+.fnd-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #7C3AED;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  min-width: 20px;
+  height: 20px;
+  border-radius: 999px;
+  padding: 0 5px;
+  margin-left: auto;
+}
+
+/* Bloque de usuario al pie del menú */
+.fnd-usuario {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  margin-top: auto;
+}
+
+.fnd-usuario__meta {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.fnd-usuario__meta strong {
+  color: #f8fafc;
+  font-size: 13px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fnd-usuario__meta small {
+  color: rgba(241, 245, 249, 0.55);
+  font-size: 11px;
+}
+
+/* Breadcrumb en la topbar */
+.fnd-breadcrumb {
+  font-size: 14px;
+  color: rgba(241, 245, 249, 0.65);
+  white-space: nowrap;
+}
+
+.fnd-breadcrumb span {
+  margin: 0 4px;
+  opacity: 0.5;
+}
+
+.fnd-breadcrumb strong {
+  color: #C4B5FD;
+}
+
+/* Atajo de teclado */
+.fnd-kbd {
+  font-size: 11px;
+  color: rgba(241, 245, 249, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 5px;
+  padding: 2px 6px;
+  background: rgba(255, 255, 255, 0.04);
+  font-family: monospace;
+  white-space: nowrap;
+}
+
+/* Botón primario del panel */
+.fnd-btn-primario {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #7C3AED;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 9px 16px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.15s ease;
+  white-space: nowrap;
+}
+
+.fnd-btn-primario:hover {
+  background: #6d28d9;
+  transform: translateY(-1px);
+}
+
+/* Grilla de KPIs */
+.fnd-kpis {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+@media (max-width: 1100px) {
+  .fnd-kpis { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 600px) {
+  .fnd-kpis { grid-template-columns: 1fr; }
+}
+
+/* Barra de progreso de capacidad */
+.fnd-kpi__barra {
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-top: 8px;
+}
+
+.fnd-kpi__relleno {
+  height: 100%;
+  border-radius: 999px;
+  background: #7C3AED;
+  transition: width 0.4s ease;
+}
+
+.fnd-kpi__relleno--critico {
+  background: #E11D48;
+}
+
+/* Layout de dos columnas del dashboard */
+.fnd-dos-cols {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+@media (max-width: 900px) {
+  .fnd-dos-cols { grid-template-columns: 1fr; }
+}
+
+/* Filtros de especie/estado */
+.fnd-filtros {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.fnd-chip {
+  background: transparent;
+  border: 1px solid rgba(196, 181, 253, 0.3);
+  color: rgba(241, 245, 249, 0.7);
+  border-radius: 999px;
+  padding: 5px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.fnd-chip:hover,
+.fnd-chip--activo {
+  background: rgba(124, 58, 237, 0.22);
+  border-color: #7C3AED;
+  color: #C4B5FD;
+}
+
+/* Grilla de tarjetas de mascotas */
+.fnd-grid-mascotas {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 14px;
+}
+
+/* Tarjeta individual de mascota */
+.fnd-mascota {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(124, 58, 237, 0.18);
+  border-radius: 14px;
+  overflow: hidden;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.fnd-mascota:hover {
+  border-color: rgba(124, 58, 237, 0.45);
+  transform: translateY(-2px);
+}
+
+.fnd-mascota__foto {
+  width: 100%;
+  height: 130px;
+  object-fit: cover;
+  background: rgba(124, 58, 237, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(196, 181, 253, 0.4);
+  font-size: 40px;
+}
+
+.fnd-mascota__foto img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.fnd-mascota__body {
+  padding: 12px;
+}
+
+.fnd-mascota__nombre {
+  font-size: 15px;
+  font-weight: 700;
+  color: #f8fafc;
+  margin-bottom: 4px;
+}
+
+.fnd-mascota__sub {
+  font-size: 12px;
+  color: rgba(241, 245, 249, 0.55);
+  margin-bottom: 8px;
+}
+
+.fnd-mascota__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 10px;
+}
+
+.fnd-mascota__chip {
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-weight: 600;
+  background: rgba(16, 185, 129, 0.15);
+  color: #10B981;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.fnd-mascota__chip--tratamiento {
+  background: rgba(225, 29, 72, 0.12);
+  color: #E11D48;
+  border-color: rgba(225, 29, 72, 0.3);
+}
+
+.fnd-mascota__chip--cuarentena {
+  background: rgba(245, 158, 11, 0.12);
+  color: #f59e0b;
+  border-color: rgba(245, 158, 11, 0.3);
+}
+
+.fnd-mascota__acciones {
+  display: flex;
+  gap: 6px;
+}
+
+.fnd-mascota__acciones button {
+  flex: 1;
+  padding: 6px 0;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 7px;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.fnd-mascota__acciones button:hover { opacity: 0.85; }
+
+.fnd-btn-gestionar {
+  background: rgba(124, 58, 237, 0.22);
+  color: #C4B5FD;
+}
+
+.fnd-btn-ficha {
+  background: rgba(255, 255, 255, 0.07);
+  color: rgba(241, 245, 249, 0.7);
+}
+
+/* Línea de tiempo de solicitudes */
+.fnd-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.fnd-timeline__item {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.fnd-timeline__avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(124, 58, 237, 0.22);
+  color: #C4B5FD;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.fnd-timeline__body {
+  flex: 1;
+  min-width: 0;
+}
+
+.fnd-timeline__nombre {
+  font-size: 13px;
+  font-weight: 700;
+  color: #f8fafc;
+  margin-bottom: 2px;
+}
+
+.fnd-timeline__mascota {
+  font-size: 12px;
+  color: rgba(241, 245, 249, 0.55);
+  margin-bottom: 6px;
+}
+
+.fnd-timeline__acciones {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.fnd-timeline__tiempo {
+  font-size: 11px;
+  color: rgba(241, 245, 249, 0.4);
+  margin-left: auto;
+  white-space: nowrap;
+}
+
+/* Puntuación de adoptante */
+.fnd-score {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 999px;
+}
+
+.fnd-score--alta {
+  background: rgba(16, 185, 129, 0.15);
+  color: #10B981;
+}
+
+.fnd-score--media {
+  background: rgba(196, 181, 253, 0.12);
+  color: #C4B5FD;
+}
+
+.fnd-score--baja {
+  background: rgba(225, 29, 72, 0.12);
+  color: #E11D48;
+}
+
+/* Botones de acción en solicitudes */
+.fnd-btn-aprobar {
+  background: rgba(16, 185, 129, 0.18);
+  color: #10B981;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  border-radius: 7px;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.fnd-btn-aprobar:hover {
+  background: rgba(16, 185, 129, 0.3);
+}
+
+.fnd-btn-revisar {
+  background: rgba(124, 58, 237, 0.18);
+  color: #C4B5FD;
+  border: 1px solid rgba(124, 58, 237, 0.3);
+  border-radius: 7px;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.fnd-btn-revisar:hover {
+  background: rgba(124, 58, 237, 0.3);
+}
+
+/* Kanban */
+.fnd-kanban {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+@media (max-width: 800px) {
+  .fnd-kanban { grid-template-columns: 1fr; }
+}
+
+.fnd-kanban__col {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(124, 58, 237, 0.14);
+  border-radius: 14px;
+  padding: 14px;
+  min-height: 200px;
+}
+
+.fnd-kanban__col-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.fnd-kanban__col-titulo {
+  font-size: 13px;
+  font-weight: 700;
+  color: #C4B5FD;
+}
+
+.fnd-kanban__tarjeta {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(124, 58, 237, 0.2);
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 8px;
+  cursor: grab;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.fnd-kanban__tarjeta:hover {
+  border-color: rgba(124, 58, 237, 0.5);
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.15);
+}
+
+.fnd-kanban__tarjeta--drag {
+  opacity: 0.5;
+}
+
+.fnd-kanban__col--drop {
+  border-color: rgba(124, 58, 237, 0.55);
+  background: rgba(124, 58, 237, 0.06);
+}
+
+.fnd-kanban__tarjeta-nombre {
+  font-size: 14px;
+  font-weight: 700;
+  color: #f8fafc;
+  margin-bottom: 4px;
+}
+
+.fnd-kanban__tarjeta-sub {
+  font-size: 11px;
+  color: rgba(241, 245, 249, 0.5);
+  margin-bottom: 6px;
+}
+
+.fnd-kanban__tarjeta-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.fnd-kanban__select {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #C4B5FD;
+  border-radius: 6px;
+  padding: 4px 6px;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+/* Modal genérico */
+.fnd-modal__fondo {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  backdrop-filter: blur(4px);
+}
+
+.fnd-modal {
+  background: #0F172A;
+  border: 1px solid rgba(124, 58, 237, 0.3);
+  border-radius: 18px;
+  padding: 28px;
+  width: 100%;
+  max-width: 520px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+}
+
+.fnd-modal__titulo {
+  font-size: 18px;
+  font-weight: 800;
+  color: #f8fafc;
+  margin-bottom: 20px;
+}
+
+.fnd-modal__cerrar {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: transparent;
+  border: none;
+  color: rgba(241, 245, 249, 0.55);
+  cursor: pointer;
+  font-size: 20px;
+  line-height: 1;
+  transition: color 0.2s ease;
+}
+
+.fnd-modal__cerrar:hover { color: #f8fafc; }
+
+.fnd-modal__campo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.fnd-modal__label {
+  font-size: 12px;
+  font-weight: 700;
+  color: rgba(241, 245, 249, 0.65);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.fnd-modal__input {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #f8fafc;
+  border-radius: 9px;
+  padding: 10px 12px;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.fnd-modal__input:focus {
+  border-color: rgba(124, 58, 237, 0.55);
+}
+
+.fnd-modal__acciones {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.fnd-modal__btn {
+  padding: 9px 18px;
+  border-radius: 9px;
+  font-size: 14px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.fnd-modal__btn:hover { opacity: 0.85; }
+
+.fnd-modal__btn--primario {
+  background: #7C3AED;
+  color: #fff;
+}
+
+.fnd-modal__btn--secundario {
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(241, 245, 249, 0.75);
+}
+
+/* Tabla de solicitudes de adopción */
+.fnd-tabla-wrap {
+  overflow-x: auto;
+  border-radius: 12px;
+  border: 1px solid rgba(124, 58, 237, 0.14);
+}
+
+/* Área de sparkline */
+.fnd-sparkline {
+  width: 60px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+/* Menú lateral colapsable en pantallas pequeñas */
+@media (max-width: 900px) {
+  .admin-sidebar {
+    width: 0;
+    overflow: hidden;
+    padding: 0;
+  }
+
+  .admin-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Ajustes de Sede ── */
+.fnd-form-card {
+  max-width: 760px;
+}
+
+/* Cabecera con badge de verificación */
+.fnd-ajustes-cabecera {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.fnd-ajustes-cabecera h2 {
+  font-size: 16px;
+  font-weight: 700;
+  color: #f8fafc;
+  margin-bottom: 4px;
+}
+
+/* Grid de 2 columnas para los campos */
+.fnd-ajustes-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 600px) {
+  .fnd-ajustes-form { grid-template-columns: 1fr; }
+}
+
+/* Cada label ocupa su celda */
+.fnd-ajustes-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* El campo de descripción y las acciones ocupan toda la fila */
+.fnd-ajustes-form__ancho,
+.fnd-ajustes-form__acciones {
+  grid-column: 1 / -1;
+}
+
+/* Etiqueta de campo */
+.fnd-ajustes-form label > span {
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(241, 245, 249, 0.6);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+/* Inputs y textarea */
+.fnd-ajustes-form input,
+.fnd-ajustes-form textarea {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #f8fafc;
+  border-radius: 9px;
+  padding: 10px 12px;
+  font-size: 14px;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.2s ease;
+  resize: vertical;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.fnd-ajustes-form input:focus,
+.fnd-ajustes-form textarea:focus {
+  border-color: rgba(124, 58, 237, 0.55);
+}
+
+/* Fila de acciones: confirmación + botón */
+.fnd-ajustes-form__acciones {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+/* Mensaje "Cambios guardados" */
+.fnd-guardado {
+  font-size: 13px;
+  font-weight: 600;
+  color: #10B981;
+}

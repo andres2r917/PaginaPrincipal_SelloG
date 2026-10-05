@@ -1,9 +1,40 @@
-import React from 'react'
-import { NavLink, Link } from 'react-router-dom';
+import { useState, useEffect, useRef } from 'react'
+import { NavLink, Link, useNavigate } from 'react-router-dom';
 import '../Style/Header.css'
 import Group from '../assets/Group.svg'
+import { useAuth } from '../Context/AuthContext'
 
 const Header = () => {
+  const { usuario, logout } = useAuth()
+  const navigate = useNavigate()
+  const [menuAbierto, setMenuAbierto] = useState(false)
+  const menuRef = useRef(null)
+
+  // Cierra el menú al hacer clic fuera de él
+  useEffect(() => {
+    const cerrarAlClickAfuera = (e) => {
+      if (menuRef.current && !menuRef.current.contains(e.target)) setMenuAbierto(false)
+    }
+    document.addEventListener('click', cerrarAlClickAfuera)
+    return () => document.removeEventListener('click', cerrarAlClickAfuera)
+  }, [])
+
+  const handleLogout = () => {
+    logout()
+    setMenuAbierto(false)
+    navigate('/home')
+  }
+
+  const inicial =
+    usuario?.nombre?.trim()?.charAt(0)?.toUpperCase() ||
+    usuario?.email?.charAt(0)?.toUpperCase() || 'U'
+
+  // Enlace principal del menú según el rol
+  const enlacePanel =
+    usuario?.rol === 'admin' ? { to: '/admin', texto: 'Panel de administración' }
+    : usuario?.rol === 'fundacion' ? { to: '/fundacion', texto: 'Panel de fundación' }
+    : { to: '/perfil', texto: 'Mi perfil' }
+
   return (
      <header> 
           <nav className="nav-bar">
@@ -32,7 +63,41 @@ const Header = () => {
               </div>
             </div>
             <div className="auth-buttons">
-              <Link to="/login" className="auth-btn login-btn">Iniciar sesión</Link>
+              {usuario ? (
+                <div className="perfil-menu" ref={menuRef}>
+                  <button
+                    type="button"
+                    className="perfil-avatar"
+                    onClick={(e) => { e.stopPropagation(); setMenuAbierto((p) => !p) }}
+                    aria-label="Menú de perfil"
+                    aria-expanded={menuAbierto}
+                  >
+                    {usuario.foto ? <img src={usuario.foto} alt="Perfil" /> : <span>{inicial}</span>}
+                  </button>
+
+                  {menuAbierto && (
+                    <div className="perfil-dropdown" onClick={(e) => e.stopPropagation()}>
+                      <div className="perfil-dropdown__user">
+                        <div className="perfil-dropdown__avatar">
+                          {usuario.foto ? <img src={usuario.foto} alt={usuario.nombre} /> : <span>{inicial}</span>}
+                        </div>
+                        <div className="perfil-dropdown__meta">
+                          <strong>{usuario.nombre || 'Usuario'}</strong>
+                          <small>{usuario.email}</small>
+                        </div>
+                      </div>
+                      <Link to={enlacePanel.to} className="perfil-dropdown__item" onClick={() => setMenuAbierto(false)}>
+                        {enlacePanel.texto}
+                      </Link>
+                      <button type="button" className="perfil-dropdown__item perfil-dropdown__logout" onClick={handleLogout}>
+                        Cerrar sesión
+                      </button>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <Link to="/login" className="auth-btn login-btn">Iniciar sesión</Link>
+              )}
             </div>
           </nav>
       </header>

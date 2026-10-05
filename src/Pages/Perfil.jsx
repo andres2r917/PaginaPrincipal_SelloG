@@ -1,39 +1,49 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import '../Style/Perfil.css';
 import portada from '../assets/portada.jpeg';
+import { useAuth } from '../Context/AuthContext';
 
 const Perfil = () => {
+  const navigate = useNavigate();
+  const { usuario, actualizarUsuario } = useAuth();
 
+  // Se precargan los datos que ya tenga la sesión
   const [formData, setFormData] = useState({
-    documento: '',
-    fechaNacimiento: '',
-    tipoVivienda: '',
-    ocupacion: '',
-    salario: '',
-    telefono: '',
-    hijos: '',
-    foto: null,
+    documento: usuario?.documento || '',
+    fechaNacimiento: usuario?.fechaNacimiento || '',
+    tipoVivienda: usuario?.tipoVivienda || '',
+    ocupacion: usuario?.ocupacion || '',
+    salario: usuario?.salario || '',
+    telefono: usuario?.telefono || '',
+    hijos: usuario?.hijos || '',
+    foto: usuario?.foto || null,
   });
 
-  const [preview, setPreview] = useState(null);
+  const [preview, setPreview] = useState(usuario?.foto || null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
+  // La foto se guarda en base64 para que sobreviva a recargar la página
   const handleFoto = (e) => {
     const file = e.target.files[0];
-    if (file) {
-      setFormData({ ...formData, foto: file });
-      setPreview(URL.createObjectURL(file));
-    }
+    if (!file) return;
+    const lector = new FileReader();
+    lector.onload = () => {
+      setFormData((prev) => ({ ...prev, foto: lector.result }));
+      setPreview(lector.result);
+    };
+    lector.readAsDataURL(file);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Perfil actualizado:', formData);
+    // Se guarda en la sesión y se marca el perfil como completo
+    actualizarUsuario({ ...formData, foto: preview, perfilCompleto: true });
+    navigate('/home');
   };
 
   return (

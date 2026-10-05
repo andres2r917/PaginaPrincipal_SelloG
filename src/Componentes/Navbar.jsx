@@ -1,4 +1,3 @@
-import React from 'react'
 import '../Style/Navbar.css'
 import portada from '../assets/portada.jpeg'
 const Navbar = () => {
