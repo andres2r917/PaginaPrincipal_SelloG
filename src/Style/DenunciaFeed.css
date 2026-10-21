@@ -1,0 +1,288 @@
+/* Feed de denuncias (vista pública y panel de fundación). Todas las clases usan el prefijo dnfeed- */
+
+/* La página pasa de centrar un solo formulario a apilar acordeón + feed */
+.denuncias-page.dnfeed-page {
+  align-items: flex-start;
+  background-attachment: fixed;
+}
+
+.dnfeed-wrap {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 2rem 1.5rem;
+}
+
+/* Acordeón del formulario */
+.dnfeed-acordeon {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 16px 22px;
+  background: rgba(15, 23, 42, 0.88);
+  border: 1px solid rgba(196, 181, 253, 0.35);
+  border-radius: 14px;
+  color: #C4B5FD;
+  font-size: 1rem;
+  font-weight: 800;
+  font-family: 'Nunito', sans-serif;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.dnfeed-acordeon:hover {
+  background: rgba(124, 58, 237, 0.22);
+  border-color: #7C3AED;
+}
+
+.dnfeed-acordeon__flecha {
+  font-size: 0.8rem;
+  transition: transform 0.25s ease;
+}
+
+.dnfeed-acordeon__flecha--abierta {
+  transform: rotate(180deg);
+}
+
+/* Pestañas */
+.dnfeed-feed {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.dnfeed-tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.dnfeed-tab {
+  background: rgba(15, 23, 42, 0.75);
+  border: 1px solid rgba(196, 181, 253, 0.3);
+  color: rgba(241, 245, 249, 0.75);
+  border-radius: 999px;
+  padding: 8px 18px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  font-family: 'Nunito', sans-serif;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.dnfeed-tab:hover,
+.dnfeed-tab--activa {
+  background: #7C3AED;
+  border-color: #7C3AED;
+  color: #FFFFFF;
+}
+
+/* Lista de tarjetas */
+.dnfeed-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.dnfeed-lista--grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+}
+
+.dnfeed-vacio {
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px dashed rgba(196, 181, 253, 0.3);
+  border-radius: 14px;
+  padding: 24px;
+  text-align: center;
+  color: rgba(241, 245, 249, 0.75);
+  font-family: 'Nunito', sans-serif;
+}
+
+.dnfeed-vacio a {
+  color: #C4B5FD;
+  font-weight: 700;
+}
+
+/* Tarjeta */
+.dnfeed-card {
+  background: rgba(15, 23, 42, 0.88);
+  border: 1px solid rgba(196, 181, 253, 0.18);
+  border-radius: 14px;
+  padding: 18px;
+  color: #F1F5F9;
+  font-family: 'Nunito', sans-serif;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.dnfeed-card__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.dnfeed-card__titulo {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #C4B5FD;
+}
+
+.dnfeed-card__badges {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.dnfeed-card__meta {
+  font-size: 0.85rem;
+  color: rgba(241, 245, 249, 0.65);
+}
+
+.dnfeed-reportero--fundacion {
+  color: #C4B5FD;
+  font-weight: 700;
+}
+
+.dnfeed-card__desc {
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.dnfeed-card__ubicacion {
+  font-size: 0.9rem;
+  color: rgba(241, 245, 249, 0.85);
+}
+
+.dnfeed-card__asignada {
+  font-size: 0.85rem;
+  color: rgba(241, 245, 249, 0.75);
+}
+
+.dnfeed-card__acciones {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* Insignias de estado y urgencia */
+.dnfeed-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.dnfeed-badge--pendiente { background: rgba(245, 158, 11, 0.15); color: #F59E0B; }
+.dnfeed-badge--verificada { background: rgba(16, 185, 129, 0.15); color: #10B981; }
+.dnfeed-badge--en_rescate { background: rgba(124, 58, 237, 0.22); color: #C4B5FD; }
+.dnfeed-badge--resuelta { background: rgba(248, 250, 252, 0.1); color: rgba(248, 250, 252, 0.7); }
+.dnfeed-badge--descartada { background: rgba(225, 29, 72, 0.15); color: #E11D48; }
+.dnfeed-badge--urgencia-alta { background: rgba(225, 29, 72, 0.15); color: #E11D48; }
+.dnfeed-badge--urgencia-media { background: rgba(245, 158, 11, 0.15); color: #F59E0B; }
+.dnfeed-badge--urgencia-baja { background: rgba(16, 185, 129, 0.15); color: #10B981; }
+
+/* Evidencia */
+.dnfeed-evidencias {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.dnfeed-evidencia {
+  width: 140px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid rgba(196, 181, 253, 0.2);
+  background: #0F172A;
+}
+
+/* Mini mapa */
+.dnfeed-minimapa {
+  height: 220px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(196, 181, 253, 0.2);
+}
+
+/* Botones */
+.dnfeed-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 10px;
+  padding: 8px 14px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  font-family: 'Nunito', sans-serif;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.dnfeed-btn:hover {
+  transform: translateY(-1px);
+}
+
+.dnfeed-btn--primario {
+  background: #7C3AED;
+  color: #ffffff;
+}
+
+.dnfeed-btn--primario:hover {
+  background: #6D28D9;
+}
+
+.dnfeed-btn--contacto {
+  background: #10B981;
+  color: #ffffff;
+}
+
+.dnfeed-btn--secundario {
+  background: transparent;
+  border-color: rgba(196, 181, 253, 0.35);
+  color: #C4B5FD;
+}
+
+.dnfeed-btn--secundario:hover {
+  background: rgba(124, 58, 237, 0.22);
+}
+
+.dnfeed-mas {
+  align-self: center;
+}
+
+/* Avisos del panel de fundación (éxito / error de asignación) */
+.dnfeed-aviso {
+  border-radius: 10px;
+  padding: 10px 14px;
+  margin-bottom: 14px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.dnfeed-aviso--exito { background: rgba(16, 185, 129, 0.15); color: #10B981; }
+.dnfeed-aviso--error { background: rgba(225, 29, 72, 0.15); color: #E11D48; }
+
+@media (max-width: 680px) {
+  .dnfeed-lista--grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dnfeed-evidencia {
+    width: 100%;
+    height: 160px;
+  }
+}

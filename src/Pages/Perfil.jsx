@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { FiUser, FiCamera } from 'react-icons/fi';
 import '../Style/Perfil.css';
 import portada from '../assets/portada.jpeg';
 import { useAuth } from '../Context/AuthContext';
@@ -56,10 +57,9 @@ const Perfil = () => {
       <div className="perfil-overlay" />
       <div className="perfil-wrapper">
         <div className="perfil-card">
-          <h1 className="perfil-titulo">Completa tu perfil</h1>
+          <h1 className="perfil-titulo">Mi Perfil</h1>
           <p className="perfil-subtitulo">
-            Cuéntanos un poco más sobre ti para garantizar
-            un proceso de adopción seguro y responsable.
+            Gestiona y actualiza tus datos personales para tus solicitudes de adopción y contacto.
           </p>
           <form className="perfil-form" onSubmit={handleSubmit}>
             <div className="foto-wrap">
@@ -67,11 +67,11 @@ const Perfil = () => {
                 <div className="foto-preview">
                   {preview
                     ? <img src={preview} alt="Vista previa" />
-                    : <span className="material-symbols-outlined foto-icono">foto</span>
+                    : <FiUser style={{ fontSize: 44, color: '#C4B5FD' }} />
                   }
                 </div>
-                <label className="foto-btn">
-                  <span className="material-symbols-outlined">+</span>
+                <label className="foto-btn" title="Subir foto de perfil">
+                  <FiCamera style={{ fontSize: 16 }} />
                   <input
                     type="file"
                     accept="image/*"
@@ -133,29 +133,23 @@ const Perfil = () => {
             <div className="perfil-fila">
               <div className="perfil-grupo">
                 <label className="perfil-label">Salario aproximado</label>
-                <div className="perfil-input-icono">
-                  <span className="material-symbols-outlined"></span>
-                  <input
-                    name="salario"
-                    type="text"
-                    placeholder="$ 0 COP"
-                    value={formData.salario}
-                    onChange={handleChange}
-                    className="perfil-input"/>
-                </div>
+                <input
+                  name="salario"
+                  type="text"
+                  placeholder="$ 0 COP"
+                  value={formData.salario}
+                  onChange={handleChange}
+                  className="perfil-input"/>
               </div>
               <div className="perfil-grupo">
                 <label className="perfil-label">Teléfono</label>
-                <div className="perfil-input-icono">
-                  <span className="material-symbols-outlined"></span>
-                  <input
-                    name="telefono"
-                    type="tel"
-                    placeholder="+57 300 000 0000"
-                    value={formData.telefono}
-                    onChange={handleChange}
-                    className="perfil-input"/>
-                </div>
+                <input
+                  name="telefono"
+                  type="tel"
+                  placeholder="+57 300 000 0000"
+                  value={formData.telefono}
+                  onChange={handleChange}
+                  className="perfil-input"/>
               </div>
             </div>
             <div className="perfil-grupo">
@@ -169,7 +163,6 @@ const Perfil = () => {
                     checked={formData.hijos === 'si'}
                     onChange={handleChange}/>
                   <div className="hijos-card">
-                    <span className="material-symbols-outlined"></span>
                     <span>Sí</span>
                   </div>
                 </label>
@@ -181,7 +174,6 @@ const Perfil = () => {
                     checked={formData.hijos === 'no'}
                     onChange={handleChange}/>
                   <div className="hijos-card">
-                    <span className="material-symbols-outlined"></span>
                     <span>No</span>
                   </div>
                 </label>
@@ -189,10 +181,10 @@ const Perfil = () => {
             </div>
             <div className="perfil-botones">
               <button type="submit" className="btn-completar">
-                Completar Perfil
+                Guardar Cambios
               </button>
               <Link to="/home" className="btn-omitir">
-                Omitir por ahora
+                Volver al inicio
               </Link>
             </div>
 

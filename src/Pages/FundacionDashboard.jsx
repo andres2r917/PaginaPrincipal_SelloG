@@ -139,8 +139,12 @@ const FundacionDashboard = () => {
                   <p className="fnd-mascota__nombre">{m.nombre}</p>
                   <p className="fnd-mascota__sub">{m.edadEstimada} · {m.raza}</p>
                   <div className="fnd-mascota__chips">
-                    {m.vacunado && <span className="fnd-mascota__chip">Vacunado</span>}
-                    {m.esterilizado && <span className="fnd-mascota__chip">Esterilizado</span>}
+                    <span className={`fnd-mascota__chip ${m.vacunado ? 'fnd-chip--vacunado' : 'fnd-chip--sin-vacunas'}`}>
+                      {m.vacunado ? '✓ Vacunado' : '⚠ Sin vacunas'}
+                    </span>
+                    <span className={`fnd-mascota__chip ${m.esterilizado ? 'fnd-chip--esterilizado' : 'fnd-chip--sin-esterilizar'}`}>
+                      {m.esterilizado ? '✓ Esterilizado' : 'Sin esterilizar'}
+                    </span>
                     {(m.estadoSalud || '').toLowerCase().includes('tratamiento') && (
                       <span className="fnd-mascota__chip fnd-mascota__chip--tratamiento">Tratamiento</span>
                     )}

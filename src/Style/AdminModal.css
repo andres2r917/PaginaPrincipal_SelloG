@@ -1,0 +1,313 @@
+/* Estilos para ventanas modales de detalle en el Panel Administrativo */
+
+.admin-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(11, 18, 36, 0.78);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1.5rem;
+  animation: adminModalFadeIn 0.2s ease-out;
+}
+
+.admin-modal {
+  background: #111827;
+  border: 1px solid rgba(124, 58, 237, 0.35);
+  border-radius: 20px;
+  width: 100%;
+  max-width: 760px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(196, 181, 253, 0.1);
+  color: #F8FAFC;
+  font-family: 'Nunito', 'Segoe UI', sans-serif;
+  animation: adminModalScaleUp 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.admin-modal--lg {
+  max-width: 860px;
+}
+
+@keyframes adminModalFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes adminModalScaleUp {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* Encabezado */
+.admin-modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 1.75rem;
+  background: rgba(15, 23, 42, 0.9);
+  border-bottom: 1px solid rgba(124, 58, 237, 0.2);
+}
+
+.admin-modal__header-left {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  flex-wrap: wrap;
+}
+
+.admin-modal__title {
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #FFFFFF;
+}
+
+.admin-modal__close-btn {
+  background: rgba(124, 58, 237, 0.12);
+  border: 1px solid rgba(124, 58, 237, 0.25);
+  color: #C4B5FD;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.1rem;
+  transition: all 0.18s ease;
+}
+
+.admin-modal__close-btn:hover {
+  background: rgba(225, 29, 72, 0.2);
+  border-color: rgba(225, 29, 72, 0.4);
+  color: #FDA4AF;
+  transform: rotate(90deg);
+}
+
+/* Cuerpo */
+.admin-modal__body {
+  padding: 1.5rem 1.75rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Grid de datos */
+.admin-modal__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.1rem;
+}
+
+.admin-detail-item {
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(124, 58, 237, 0.18);
+  border-radius: 12px;
+  padding: 0.85rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.admin-detail-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: rgba(196, 181, 253, 0.7);
+}
+
+.admin-detail-value {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #F8FAFC;
+  word-break: break-word;
+}
+
+/* Sección de descripción */
+.admin-modal__section {
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(124, 58, 237, 0.18);
+  border-radius: 14px;
+  padding: 1.1rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.admin-modal__section-title {
+  margin: 0;
+  font-size: 0.85rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #C4B5FD;
+}
+
+.admin-modal__text {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #CBD5E1;
+}
+
+/* Evidencias / Galería */
+.admin-modal__gallery {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+}
+
+.admin-modal__gallery-img {
+  width: 220px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 1px solid rgba(124, 58, 237, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s ease;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.admin-modal__gallery-img:hover {
+  transform: scale(1.03);
+  border-color: #C4B5FD;
+}
+
+/* Pie / Acciones */
+.admin-modal__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.2rem 1.75rem;
+  background: rgba(15, 23, 42, 0.9);
+  border-top: 1px solid rgba(124, 58, 237, 0.2);
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.admin-modal__actions-left {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.admin-modal__btn,
+.admin-btn-primary,
+.admin-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.65rem 1.25rem;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 0.88rem;
+  cursor: pointer;
+  border: none;
+  transition: all 0.18s ease;
+  text-decoration: none;
+}
+
+.admin-modal__btn--primary,
+.admin-btn-primary {
+  background: #7C3AED;
+  color: #FFFFFF;
+}
+
+.admin-modal__btn--primary:hover,
+.admin-btn-primary:hover {
+  background: #6D28D9;
+  color: #FFFFFF;
+  transform: translateY(-1px);
+}
+
+.admin-modal__btn--success {
+  background: rgba(16, 185, 129, 0.18);
+  color: #6EE7B7;
+  border: 1px solid rgba(16, 185, 129, 0.4);
+}
+
+.admin-modal__btn--success:hover {
+  background: #10B981;
+  color: #0F172A;
+}
+
+.admin-modal__btn--danger {
+  background: rgba(225, 29, 72, 0.18);
+  color: #FDA4AF;
+  border: 1px solid rgba(225, 29, 72, 0.4);
+}
+
+.admin-modal__btn--danger:hover {
+  background: #E11D48;
+  color: #FFFFFF;
+}
+
+.admin-modal__btn--secondary,
+.admin-btn-secondary {
+  background: rgba(124, 58, 237, 0.14);
+  color: #C4B5FD;
+  border: 1px solid rgba(124, 58, 237, 0.3);
+}
+
+.admin-modal__btn--secondary:hover,
+.admin-btn-secondary:hover {
+  background: rgba(124, 58, 237, 0.25);
+  color: #FFFFFF;
+}
+
+/* Selector de etiquetas en modales */
+.admin-tags-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.admin-tag-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.18s ease;
+  user-select: none;
+}
+
+.admin-tag-toggle--vacunado {
+  background: rgba(16, 185, 129, 0.2);
+  color: #10B981;
+  border-color: rgba(16, 185, 129, 0.45);
+}
+
+.admin-tag-toggle--sin-vacunas {
+  background: rgba(225, 29, 72, 0.2);
+  color: #FDA4AF;
+  border-color: rgba(225, 29, 72, 0.45);
+}
+
+.admin-tag-toggle--esterilizado {
+  background: rgba(124, 58, 237, 0.2);
+  color: #C4B5FD;
+  border-color: rgba(124, 58, 237, 0.45);
+}
+
+.admin-tag-toggle--sin-esterilizar {
+  background: rgba(148, 163, 184, 0.2);
+  color: #CBD5E1;
+  border-color: rgba(148, 163, 184, 0.35);
+}

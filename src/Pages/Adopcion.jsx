@@ -9,8 +9,13 @@ const animales = [
     raza: "Mestizo",
     edad: "2 años",
     tamano: "Mediano",
+    sexo: "Macho",
     temperamento: "Juguetón",
     salud: "Vacunado",
+    vacunado: true,
+    esterilizado: false,
+    desparasitado: true,
+    convivencia: "Apto con niños y otros perros",
     historia:
       "Toby llegó al refugio hace 6 meses. Es muy activo y le encanta jugar con pelotas. Se lleva bien con niños y otros perros.",
     img: "https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=400&h=300&fit=crop",
@@ -21,8 +26,13 @@ const animales = [
     raza: "Criolla",
     edad: "1 año",
     tamano: "Pequeño",
+    sexo: "Hembra",
     temperamento: "Cariñosa",
     salud: "Sin Vacunas",
+    vacunado: false,
+    esterilizado: false,
+    desparasitado: false,
+    convivencia: "Ideal para departamento y familias",
     historia:
       "Luna es una perrita muy dulce que fue rescatada de la calle. Es cariñosa con todos y le encanta dormir en lugares cómodos.",
     img: "https://images.unsplash.com/photo-1537151625747-768eb6cf92b2?w=400&h=300&fit=crop",
@@ -33,8 +43,13 @@ const animales = [
     raza: "Labrador",
     edad: "3 años",
     tamano: "Grande",
+    sexo: "Macho",
     temperamento: "Tranquilo",
     salud: "Vacunado",
+    vacunado: true,
+    esterilizado: true,
+    desparasitado: true,
+    convivencia: "Excelente con familias y gatos",
     historia:
       "Max es un perro muy tranquilo y obediente. Ya tiene entrenamiento básico y se adapta bien a apartamentos o casas con patio.",
     img: "https://img.freepik.com/foto-gratis/retrato-lindo-labrador-sentado-cesped_23-2148345981.jpg",
@@ -45,8 +60,13 @@ const animales = [
     raza: "Criolla",
     edad: "4 años",
     tamano: "Mediano",
+    sexo: "Hembra",
     temperamento: "Tímida",
     salud: "Vacunada",
+    vacunado: true,
+    esterilizado: true,
+    desparasitado: true,
+    convivencia: "Prefiere ambiente tranquilo y adultos",
     historia:
       "Nala tardó un poco en abrirse, pero una vez que confía en ti es la compañera más leal. Prefiere hogares tranquilos sin muchos niños pequeños.",
     img: "https://images.unsplash.com/photo-1558788353-f76d92427f16?w=400&h=300&fit=crop",
@@ -57,8 +77,13 @@ const animales = [
     raza: "Mestizo",
     edad: "5 años",
     tamano: "Grande",
+    sexo: "Macho",
     temperamento: "Protector",
     salud: "Vacunado",
+    vacunado: true,
+    esterilizado: true,
+    desparasitado: true,
+    convivencia: "Muy leal, ideal con casa o patio",
     historia:
       "Rocky es un perro maduro, leal y muy protector. Ideal para familias que buscan un compañero confiable y tranquilo.",
     img: "https://images.unsplash.com/photo-1561037404-61cd46aa615b?w=400&h=300&fit=crop",
@@ -69,8 +94,13 @@ const animales = [
     raza: "Criolla",
     edad: "6 meses",
     tamano: "Pequeño",
+    sexo: "Hembra",
     temperamento: "Inquieta",
     salud: "Sin Vacunas",
+    vacunado: false,
+    esterilizado: false,
+    desparasitado: true,
+    convivencia: "Activa, ideal para familias jóvenes",
     historia:
       "Mia es una cachorra llena de energía. Necesita mucho ejercicio y estimulación. Perfecta para familias jóvenes con espacio.",
     img: "https://d21tucfpen3j82.cloudfront.net/wp-content/uploads/2024/03/27133737/Conozca-que-es-un-perro-criollo-y-sus-caracteristicas.jpg",
@@ -81,8 +111,13 @@ const animales = [
     raza: "Doberman",
     edad: "8 meses",
     tamano: "Grande",
+    sexo: "Macho",
     temperamento: "Obediente",
     salud: "Vacunado",
+    vacunado: true,
+    esterilizado: false,
+    desparasitado: true,
+    convivencia: "Sociable y con energía para entrenar",
     historia:
       "Milan es un cachorro lleno de energía. Necesita mucho ejercicio y estimulación. Perfecta para familias jóvenes con espacio.",
     img: "https://cdn.pixabay.com/photo/2019/10/08/11/10/doberman-pinscher-4534710_1280.jpg",
@@ -93,14 +128,19 @@ const animales = [
     raza: "Husky",
     edad: "1 año",
     tamano: "Grande",
+    sexo: "Macho",
     temperamento: "Inquieto",
     salud: "Vacunado",
+    vacunado: true,
+    esterilizado: true,
+    desparasitado: true,
+    convivencia: "Apto con personas activas y senderismo",
     historia:
       "Balto es un cachorro lleno de energía. Necesita mucho ejercicio y estimulación. Perfecta para familias jóvenes con espacio.",
     img: "https://tse1.mm.bing.net/th/id/OIP.iu_Z6fcSBMddwDiuhtXnqwHaE7?rs=1&pid=ImgDetMain&o=7&rm=3",
   },
 ];
- 
+
 const FORM_INICIAL = {
   mensaje_presentacion: "",
   experiencia_mascotas: "",
@@ -108,7 +148,7 @@ const FORM_INICIAL = {
   compromiso_veterinario: false,
   acepta_terminos: false,
 };
- 
+
 /* ── Tarjeta de animal ── */
 const AnimalCard = ({ animal, onVerDetalles }) => (
   <div className="glass-effect animal-card">
@@ -120,25 +160,48 @@ const AnimalCard = ({ animal, onVerDetalles }) => (
     </button>
   </div>
 );
- 
+
 /* ── Info del animal (columna izquierda) ── */
 const AnimalInfo = ({ animal }) => (
   <div className="modal-izquierda">
     <img src={animal.img} alt={animal.nombre} />
     <h2>{animal.nombre}</h2>
-    <div className="modal-badges">
-      <span className="badge badge-green">{animal.raza}</span>
-      <span className="badge badge-cyan">{animal.edad}</span>
-      <span className="badge badge-violet">{animal.tamano}</span>
+
+    <div className="modal-badges-section">
+      <div className="modal-badges-block">
+        <span className="modal-badges-label">Ficha Básica</span>
+        <div className="modal-badges-group">
+          <span className="badge badge-green">{animal.raza}</span>
+          <span className="badge badge-cyan">{animal.edad}</span>
+          <span className="badge badge-violet">{animal.sexo || 'Macho'}</span>
+          <span className="badge badge-violet">{animal.tamano}</span>
+        </div>
+      </div>
+
+      <div className="modal-badges-block">
+        <span className="modal-badges-label">Salud & Cuidados</span>
+        <div className="modal-badges-group">
+          <span className={`badge ${animal.vacunado ? 'badge-vacunado' : 'badge-sin-vacunas'}`}>
+            {animal.vacunado ? '✓ Vacunado' : '⚠ Sin Vacunas'}
+          </span>
+          <span className={`badge ${animal.esterilizado ? 'badge-esterilizado' : 'badge-sin-esterilizar'}`}>
+            {animal.esterilizado ? '✓ Esterilizado' : 'Sin Esterilizar'}
+          </span>
+          <span className={`badge ${animal.desparasitado ? 'badge-desparasitado' : 'badge-sin-desparasitar'}`}>
+            {animal.desparasitado ? '🛡️ Desparasitado' : '⚠ Sin desparasitar'}
+          </span>
+        </div>
+      </div>
     </div>
+
     <div className="modal-info-row">
       <div className="modal-info-item">
         <label>Temperamento</label>
         <span>{animal.temperamento}</span>
       </div>
       <div className="modal-info-item">
-        <label>Salud</label>
-        <span>{animal.salud}</span>
+        <label>Convivencia</label>
+        <span>{animal.convivencia || 'Apto para todo hogar'}</span>
       </div>
     </div>
     <div className="modal-historia">

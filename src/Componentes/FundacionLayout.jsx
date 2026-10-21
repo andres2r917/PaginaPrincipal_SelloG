@@ -1,10 +1,10 @@
 import { useState, useEffect, useRef } from 'react'
-import { NavLink, Outlet, useNavigate } from 'react-router-dom'
+import { NavLink, Link, Outlet, useNavigate } from 'react-router-dom'
 import {
   FiGrid, FiFileText, FiColumns, FiUsers, FiActivity, FiHeart,
   FiAlertTriangle, FiBarChart2, FiSettings, FiLogOut, FiBell, FiSearch, FiPlus, FiX, FiUser,
 } from 'react-icons/fi'
-import { FaPaw } from 'react-icons/fa'
+import Group from '../assets/Group.svg'
 import { useAuth } from '../Context/AuthContext.jsx'
 import { useFundacion } from '../Context/FundacionContext.jsx'
 import '../Style/AdminDashboard.css'
@@ -80,7 +80,7 @@ const FundacionLayout = () => {
     { to: '/fundacion/donaciones', texto: 'Donaciones & Recursos', icono: <FiHeart /> },
     { to: '/fundacion/denuncias', texto: 'Casos de Denuncia', icono: <FiAlertTriangle /> },
     { to: '/fundacion/metricas', texto: 'Métricas & Auditoría', icono: <FiBarChart2 /> },
-    { to: '/fundacion/ajustes', texto: 'Ajustes de Sede', icono: <FiSettings /> },
+    { to: '/fundacion/ajustes', texto: 'Ajustes de Refugio', icono: <FiSettings /> },
   ]
 
   const inicial = usuario?.nombre?.trim()?.charAt(0)?.toUpperCase() || 'F'
@@ -89,10 +89,9 @@ const FundacionLayout = () => {
     <>
       <div className="admin-layout">
         <aside className="admin-sidebar">
-          <div className="admin-brand">
-            <span className="admin-brand__badge"><FaPaw /></span>
-            <span className="admin-brand__name">Sello <span>Guardián</span></span>
-          </div>
+          <Link to="/home" className="admin-brand" title="Ir al Inicio">
+            <img className="admin-brand__logo" src={Group} alt="Sello Guardián" />
+          </Link>
 
           <nav className="admin-nav">
             {items.map((it) => (

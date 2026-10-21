@@ -1,5 +1,24 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;900&display=swap');
 
+/* Capa oscura sobre la foto de fondo (misma técnica que la sección .hero de Adopción) */
+.denuncia-fondo {
+  position: relative;
+}
+
+.denuncia-fondo::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(11, 18, 36, 0.72);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.denuncia-fondo > * {
+  position: relative;
+  z-index: 1;
+}
+
 
 .denuncias-page {
   min-height: calc(100vh - 70px);

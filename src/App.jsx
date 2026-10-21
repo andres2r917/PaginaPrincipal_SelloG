@@ -24,6 +24,8 @@ import FundacionPipeline from './Pages/FundacionPipeline.jsx'
 import FundacionAdopciones from './Pages/FundacionAdopciones.jsx'
 import FundacionAjustes from './Pages/FundacionAjustes.jsx'
 import FundacionProximamente from './Pages/FundacionProximamente.jsx'
+import FundacionDenuncias from './Pages/FundacionDenuncias.jsx'
+import { DenunciasProvider } from './Context/DenunciasContext.jsx'
 
 const AppContenido = () => {
   const location = useLocation()
@@ -71,7 +73,7 @@ const AppContenido = () => {
             <Route path="/fundacion/adopciones" element={<FundacionAdopciones />} />
             <Route path="/fundacion/historial-medico" element={<FundacionProximamente titulo="Historial Médico" />} />
             <Route path="/fundacion/donaciones" element={<FundacionProximamente titulo="Donaciones & Recursos" />} />
-            <Route path="/fundacion/denuncias" element={<FundacionProximamente titulo="Casos de Denuncia" />} />
+            <Route path="/fundacion/denuncias" element={<FundacionDenuncias />} />
             <Route path="/fundacion/metricas" element={<FundacionProximamente titulo="Métricas & Auditoría" />} />
             <Route path="/fundacion/ajustes" element={<FundacionAjustes />} />
           </Route>
@@ -85,7 +87,10 @@ const AppContenido = () => {
 // El AuthProvider envuelve todo para que Header, Login y los paneles lean la sesión
 const App = () => (
   <AuthProvider>
-    <AppContenido />
+    {/* Las denuncias se comparten entre la vista pública, el panel de fundación y el panel admin */}
+    <DenunciasProvider>
+      <AppContenido />
+    </DenunciasProvider>
   </AuthProvider>
 )
 

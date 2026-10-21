@@ -51,11 +51,24 @@ export const FundacionProvider = ({ children }) => {
     if (estado === 'aprobada' && solicitud) moverMascota(solicitud.mascotaId, 'en_proceso')
   }
 
+  const [capacidad, setCapacidad] = useState(CAPACIDAD_REFUGIO)
+
+  const actualizarCapacidad = (nuevaCapacidad) => {
+    const num = parseInt(nuevaCapacidad, 10)
+    if (!isNaN(num) && num > 0) {
+      setCapacidad(num)
+      return true
+    }
+    return false
+  }
+
   const value = {
     fundacionId,
     mascotas,
     solicitudes,
-    capacidad: CAPACIDAD_REFUGIO,
+    capacidad,
+    setCapacidad,
+    actualizarCapacidad,
     agregarMascota,
     actualizarMascota,
     moverMascota,

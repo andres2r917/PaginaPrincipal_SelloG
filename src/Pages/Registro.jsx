@@ -110,7 +110,7 @@ const Registro = () => {
                 </div>
               </div>
               <div className="rg-group">
-                <label className="rg-label">Nombre de usuario</label>
+                <label className="rg-label">Nombre completo</label>
                 <input name="username" type="text" className="rg-input"
                   placeholder="Nombre y apellidos"
                   value={formData.username} onChange={handleChange} required />

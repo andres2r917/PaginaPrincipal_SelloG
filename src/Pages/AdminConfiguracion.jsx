@@ -1,11 +1,12 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../Context/AuthContext.jsx'
+import { useDenuncias } from '../Context/DenunciasContext.jsx'
 import {
   FiGrid, FiClipboard, FiDatabase, FiAlertTriangle,
   FiUsers, FiSettings, FiLogOut, FiSave
 } from 'react-icons/fi'
-import { FaPaw } from 'react-icons/fa'
+import Group from '../assets/Group.svg'
 import AdminTopbar from '../Componentes/AdminTopbar.jsx'
 import '../Style/AdminDashboard.css'
 import '../Style/AdminTablas.css'
@@ -16,12 +17,16 @@ const AdminConfiguracion = () => {
   // Cierra la sesión y vuelve al login
   const cerrarSesion = () => { logout(); navigate('/login') }
   // Estados locales del formulario, aún no conectados al backend
+  const { telefonoEmergencia, actualizarTelefonoEmergencia } = useDenuncias()
   const [notificaciones, setNotificaciones] = useState(true)
   const [mantenimiento, setMantenimiento] = useState(false)
+  // Teléfono de emergencia (platform_settings.Telefono_emergencia): contacto de respaldo del feed de denuncias
+  const [telefono, setTelefono] = useState(telefonoEmergencia)
 
   // TODO: al enviar, hacer PUT/PATCH a /api/admin/settings cuando exista el endpoint en Laravel
   const guardarCambios = (e) => {
     e.preventDefault()
+    actualizarTelefonoEmergencia(telefono.trim())
     console.log('Configuración guardada (pendiente de conectar al backend)')
   }
 
@@ -29,17 +34,16 @@ const AdminConfiguracion = () => {
     <div className="admin-layout">
 
       <aside className="admin-sidebar">
-        <div className="admin-brand">
-          <span className="admin-brand__badge"><FaPaw /></span>
-          <span className="admin-brand__name">Sello <span>Guardián</span></span>
-        </div>
+        <Link to="/home" className="admin-brand" title="Ir al Inicio">
+          <img className="admin-brand__logo" src={Group} alt="Sello Guardián" />
+        </Link>
 
         <nav className="admin-nav">
           <Link to="/admin" className="admin-nav__item">
             <FiGrid /> <span>Dashboard</span>
           </Link>
           <Link to="/admin/adopciones" className="admin-nav__item">
-            <FiClipboard /> <span>Solicitudes de Adopción</span>
+            <FiClipboard /> <span>Registro de Fundaciones</span>
           </Link>
           <Link to="/admin/mascotas" className="admin-nav__item">
             <FiDatabase /> <span>Mascotas</span>
@@ -77,6 +81,17 @@ const AdminConfiguracion = () => {
             <div className="admin-form-group">
               <label>Correo de soporte</label>
               <input className="admin-input" type="email" defaultValue="soporte@selloguardian.com" />
+            </div>
+
+            <div className="admin-form-group">
+              <label>Teléfono de emergencia (contacto de rescate)</label>
+              <input
+                className="admin-input"
+                type="tel"
+                placeholder="+57 300 000 0000"
+                value={telefono}
+                onChange={(e) => setTelefono(e.target.value)}
+              />
             </div>
 
             <div className="admin-toggle-row">

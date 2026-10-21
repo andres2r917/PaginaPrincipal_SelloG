@@ -10,7 +10,7 @@ const NOTIF_DEFAULT = [
   { id: 4, texto: 'Fundación "Huellitas Felices" pendiente de verificación', tipo: 'pendiente', tiempo: 'Hace 3 h' },
 ]
 
-const AdminTopbar = ({ placeholder = 'Buscar...', notificaciones = NOTIF_DEFAULT }) => {
+const AdminTopbar = ({ placeholder = 'Buscar...', notificaciones = NOTIF_DEFAULT, valor, onChange, value }) => {
   const { usuario, actualizarUsuario } = useAuth()
 
   const [notifAbierta, setNotifAbierta] = useState(false)
@@ -50,12 +50,19 @@ const AdminTopbar = ({ placeholder = 'Buscar...', notificaciones = NOTIF_DEFAULT
     setGuardado(true)
   }
 
+  const valInput = valor !== undefined ? valor : value
+
   return (
     <>
       <header className="admin-topbar">
         <div className="admin-topbar__search">
           <FiSearch />
-          <input type="text" placeholder={placeholder} />
+          <input
+            type="text"
+            placeholder={placeholder}
+            value={valInput !== undefined ? valInput : undefined}
+            onChange={onChange}
+          />
         </div>
 
         <div className="admin-topbar__actions">

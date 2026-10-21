@@ -7,7 +7,7 @@ const RegistroFundacion = () => {
 
   const [formData, setFormData] = useState({
     nombre: '',
-    cc: '',
+    cedulaRepresentante: '',
     representante: '',
     telefono: '',
     ciudad: '',
@@ -39,7 +39,7 @@ const RegistroFundacion = () => {
         rol: 'fundacion',
         estadoVerificacion: 'pendiente',
         fundacionId: Date.now(),
-        nit: formData.cc,
+        cedulaRepresentante: formData.cedulaRepresentante,
         representante: formData.representante,
         telefono: formData.telefono,
         ciudad: formData.ciudad,
@@ -65,18 +65,19 @@ const RegistroFundacion = () => {
             value={formData.nombre} onChange={handleChange} required />
         </div>
 
-        <div className="rg-group">
-          <label className="rg-label">Número de CC</label>
-          <input name="cc" type="text" className="rg-input"
-            placeholder="CC"
-            value={formData.cc} onChange={handleChange} required />
-        </div>
-
-        <div className="rg-group">
-          <label className="rg-label">Representante legal</label>
-          <input name="representante" type="text" className="rg-input"
-            placeholder="Representante legal"
-            value={formData.representante} onChange={handleChange} required />
+        <div className="rg-row">
+          <div className="rg-group">
+            <label className="rg-label">Representante legal</label>
+            <input name="representante" type="text" className="rg-input"
+              placeholder="Representante legal"
+              value={formData.representante} onChange={handleChange} required />
+          </div>
+          <div className="rg-group">
+            <label className="rg-label">Cédula del representante</label>
+            <input name="cedulaRepresentante" type="text" className="rg-input"
+              placeholder="Número de cédula"
+              value={formData.cedulaRepresentante} onChange={handleChange} required />
+          </div>
         </div>
 
         <div className="rg-row">

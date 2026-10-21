@@ -18,3 +18,14 @@ body,
   background-color: #0F172A;
   min-height: 100vh;
 }
+
+/* Opciones de select con alto contraste en tema oscuro para navegadores */
+select {
+  color-scheme: dark;
+}
+
+select option {
+  background-color: #0F172A !important;
+  color: #F8FAFC !important;
+  padding: 8px 12px;
+}

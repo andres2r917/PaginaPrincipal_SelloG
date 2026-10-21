@@ -33,6 +33,7 @@ export const usuariosDemo = [
     rol: 'fundacion',
     foto: null,
     fundacionId: 1,
+    telefono: '+57 310 000 0001',
     // pendiente | verificada | rechazada
     estadoVerificacion: 'verificada',
   },

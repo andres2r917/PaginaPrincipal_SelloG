@@ -55,9 +55,9 @@ export const registrarUsuario = async (datos) => {
   return sinPassword(nuevo)
 }
 
-// Ruta de inicio según el rol (el civil va a /perfil hasta completarlo)
+// Ruta de inicio según el rol (el civil entra directamente a /home)
 export const rutaInicioPorRol = (usuario) => {
   if (usuario.rol === 'admin') return '/admin'
   if (usuario.rol === 'fundacion') return '/fundacion'
-  return usuario.perfilCompleto ? '/home' : '/perfil'
+  return '/home'
 }

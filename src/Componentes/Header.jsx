@@ -96,7 +96,10 @@ const Header = () => {
                   )}
                 </div>
               ) : (
-                <Link to="/login" className="auth-btn login-btn">Iniciar sesión</Link>
+                <>
+                  <Link to="/login" className="auth-btn login-btn">Iniciar sesión</Link>
+                  <Link to="/registro" className="auth-btn register-btn">Registrarme</Link>
+                </>
               )}
             </div>
           </nav>

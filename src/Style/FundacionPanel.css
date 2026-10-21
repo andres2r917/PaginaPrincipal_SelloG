@@ -258,6 +258,30 @@
   border-color: rgba(245, 158, 11, 0.3);
 }
 
+.fnd-chip--vacunado {
+  background: rgba(16, 185, 129, 0.18) !important;
+  color: #10B981 !important;
+  border: 1px solid rgba(16, 185, 129, 0.35) !important;
+}
+
+.fnd-chip--sin-vacunas {
+  background: rgba(225, 29, 72, 0.16) !important;
+  color: #FDA4AF !important;
+  border: 1px solid rgba(225, 29, 72, 0.35) !important;
+}
+
+.fnd-chip--esterilizado {
+  background: rgba(124, 58, 237, 0.18) !important;
+  color: #C4B5FD !important;
+  border: 1px solid rgba(124, 58, 237, 0.35) !important;
+}
+
+.fnd-chip--sin-esterilizar {
+  background: rgba(148, 163, 184, 0.16) !important;
+  color: #CBD5E1 !important;
+  border: 1px solid rgba(148, 163, 184, 0.3) !important;
+}
+
 .fnd-mascota__acciones {
   display: flex;
   gap: 6px;
@@ -564,10 +588,153 @@
   font-size: 14px;
   outline: none;
   transition: border-color 0.2s ease;
+  color-scheme: dark;
+}
+
+select.fnd-modal__input {
+  cursor: pointer;
+}
+
+select.fnd-modal__input option {
+  background-color: #0F172A !important;
+  color: #F8FAFC !important;
+  padding: 10px;
 }
 
 .fnd-modal__input:focus {
   border-color: rgba(124, 58, 237, 0.55);
+}
+
+/* Dropzone de carga de fotos desde el PC */
+.fnd-dropzone {
+  border: 2px dashed rgba(124, 58, 237, 0.35);
+  background: rgba(124, 58, 237, 0.04);
+  border-radius: 12px;
+  padding: 20px 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.fnd-dropzone:hover,
+.fnd-dropzone--drag {
+  border-color: #7C3AED;
+  background: rgba(124, 58, 237, 0.1);
+}
+
+.fnd-dropzone__icon {
+  font-size: 28px;
+  color: #C4B5FD;
+}
+
+.fnd-dropzone__texto {
+  font-size: 13px;
+  color: rgba(241, 245, 249, 0.8);
+  margin: 0;
+}
+
+.fnd-dropzone__link {
+  color: #C4B5FD;
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+.fnd-dropzone__hint {
+  font-size: 11px;
+  color: rgba(241, 245, 249, 0.45);
+  margin: 0;
+}
+
+.fnd-preview-foto {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(124, 58, 237, 0.3);
+  margin-top: 8px;
+  max-height: 180px;
+  background: #000;
+}
+
+.fnd-preview-foto img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  display: block;
+}
+
+.fnd-preview-foto__remover {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(225, 29, 72, 0.9);
+  color: #fff;
+  border: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 14px;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.fnd-preview-foto__remover:hover {
+  background: #E11D48;
+  transform: scale(1.1);
+}
+
+.fnd-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(95px, 1fr));
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.fnd-preview-thumb {
+  position: relative;
+  height: 80px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid rgba(124, 58, 237, 0.3);
+  background: #000;
+}
+
+.fnd-preview-thumb img,
+.fnd-preview-thumb video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.fnd-preview-thumb__remover {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background: rgba(225, 29, 72, 0.9);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.fnd-preview-thumb__remover:hover {
+  transform: scale(1.15);
+  background: #E11D48;
 }
 
 .fnd-modal__acciones {
