@@ -3,6 +3,7 @@ import {
   FaRoute, FaMapMarkedAlt, FaCheckCircle, FaRegClock, FaImages
 } from 'react-icons/fa';
 import { tiempoRelativo } from '../../Utils/tiempoRelativo';
+import { crearUrlRuta } from '../../Utils/urlRuta';
 import './DenunciaCard.css';
 
 const ETIQUETAS_URGENCIA = {
@@ -56,9 +57,7 @@ export default function DenunciaCard({
   const estaVerificada = Boolean(verificada || estado === 'verificada');
 
   // Enlace a indicaciones: usa coordenadas si existen, si no la dirección escrita
-  const urlComoLlegar = latFinal != null && lngFinal != null
-    ? `https://www.google.com/maps/dir/?api=1&destination=${latFinal},${lngFinal}`
-    : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(direccionFinal)}`;
+  const urlComoLlegar = crearUrlRuta(latFinal, lngFinal, direccionFinal);
 
   const telefonoLimpio = telefonoEmergencia ? telefonoEmergencia.replace(/[^\d+]/g, '') : null;
 

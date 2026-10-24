@@ -4,6 +4,7 @@ import { useDenuncias } from '../Context/DenunciasContext.jsx'
 import { ETIQUETA_TIPO, ESTADOS_ACTIVOS } from '../Data/seedDenuncias.js'
 import { tiempoRelativo } from '../Utils/tiempoRelativo.js'
 import MiniMapaDenuncia from './MiniMapaDenuncia.jsx'
+import { crearUrlRuta } from '../Utils/urlRuta.js'
 
 // Etiqueta de verificación visible en cada tarjeta
 const ETIQUETA_ESTADO = {
@@ -24,7 +25,7 @@ const TarjetaDenuncia = ({ denuncia, children }) => {
   const telefono = fundacionAsignada?.telefono || telefonoEmergencia
   const puedeContactar = ESTADOS_ACTIVOS.includes(denuncia.estado) && Boolean(telefono)
   const textoContacto = fundacionAsignada ? `Llamar a ${fundacionAsignada.nombre}` : 'Línea de emergencia'
-  const urlComoLlegar = `https://www.google.com/maps/search/?api=1&query=${denuncia.latitud},${denuncia.longitud}`
+  const urlComoLlegar = crearUrlRuta(denuncia.latitud, denuncia.longitud, denuncia.ubicacion)
 
   return (
     <article className="dnfeed-card">

@@ -2,23 +2,16 @@ import { useState, useRef, useEffect } from 'react';
 import '../Style/Denuncia.css';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import { crearCapaBase } from '../Utils/mapaBase.js';
+import { crearIconoPatica } from '../Utils/iconoPatica.js';
 
 const DEFAULT_LAT = 2.4419;
 const DEFAULT_LNG = -76.6069;
 
-const ICONO_VERDE = L.divIcon({
-  className: '',
-  html: `
-    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="48" viewBox="0 0 36 48">
-      <path d="M18 0C8.06 0 0 8.06 0 18c0 12.44 18 30 18 30S36 30.44 36 18C36 8.06 27.94 0 18 0z"
-        fill="#25f070"/>
-      <circle cx="18" cy="18" r="7" fill="#ffffff" opacity="0.95"/>
-    </svg>
-  `,
-  iconSize:    [36, 48],
-  iconAnchor:  [18, 48],
-  popupAnchor: [0, -48],
-});
+// Zona de Popayán (izquierda, arriba, derecha, abajo). Se usa como preferencia en la búsqueda.
+const POPAYAN_VIEWBOX = '-76.70,2.52,-76.52,2.38';
+
+const ICONO_PATICA = crearIconoPatica('#7C3AED');
 
 const FORM_INITIAL_STATE = {
   tipo:        '',
@@ -29,13 +22,30 @@ const FORM_INITIAL_STATE = {
 };
 
 
+// Arma una dirección corta (calle, número, barrio, ciudad) en vez del texto largo de Nominatim.
+// Si no hay suficientes datos, usa el texto completo.
+const formatearDireccion = (direccion, textoCompleto) => {
+  if (!direccion) return textoCompleto;
+
+  const calle = [direccion.road, direccion.house_number].filter(Boolean).join(' ');
+  const partes = [
+    calle,
+    direccion.neighbourhood || direccion.suburb,
+    direccion.city || direccion.town || direccion.village,
+    direccion.state,
+  ].filter(Boolean);
+
+  return partes.length >= 2 ? partes.join(', ') : textoCompleto;
+};
+
 const fetchDireccionDesdeCoords = async (lat, lng) => {
   try {
+    // zoom=18 pide el detalle a nivel de calle y número
     const res  = await fetch(
-      `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&accept-language=es`
+      `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1&accept-language=es`
     );
     const data = await res.json();
-    return data.display_name || `${lat.toFixed(5)}, ${lng.toFixed(5)}`;
+    return formatearDireccion(data.address, data.display_name) || `${lat.toFixed(5)}, ${lng.toFixed(5)}`;
   } catch {
     return `${lat.toFixed(5)}, ${lng.toFixed(5)}`;
   }
@@ -63,17 +73,11 @@ const useLeafletMap = (coordenadas, setCoordenadas, onDireccionChange) => {
       zoom:   14,
     });
 
-    L.tileLayer(
-      'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
-      {
-        attribution: '&copy; OpenStreetMap &copy; CARTO',
-        maxZoom: 19,
-      }
-    ).addTo(map);
+    crearCapaBase().addTo(map);
 
     const marker = L.marker([DEFAULT_LAT, DEFAULT_LNG], {
       draggable: true,
-      icon:      ICONO_VERDE,
+      icon:      ICONO_PATICA,
     }).addTo(map);
 
     markerRef.current = marker;
@@ -106,7 +110,7 @@ const useLeafletMap = (coordenadas, setCoordenadas, onDireccionChange) => {
   useEffect(() => {
     if (!mapInstance.current || !markerRef.current) return;
     markerRef.current.setLatLng([coordenadas.lat, coordenadas.lng]);
-    mapInstance.current.flyTo([coordenadas.lat, coordenadas.lng], 16, { duration: 1.2 });
+    mapInstance.current.flyTo([coordenadas.lat, coordenadas.lng], 18, { duration: 1.2 });
   }, [coordenadas]);
 
   return mapRef;
@@ -188,19 +192,22 @@ const DenunciaFormulario = ({ onEnviar }) => {
     setUbicacionError('');
 
     try {
+      // Si no escribió la ciudad, se agrega: la plataforma opera en Popayán
+      const consulta = /popay[aá]n/i.test(busqueda) ? busqueda : `${busqueda}, Popayán, Cauca`;
+
       const res  = await fetch(
-        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(busqueda)}&limit=1&accept-language=es`
+        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(consulta)}&limit=1&addressdetails=1&countrycodes=co&viewbox=${POPAYAN_VIEWBOX}&accept-language=es`
       );
       const data = await res.json();
 
       if (data.length === 0) {
-        setUbicacionError('No se encontró la dirección. Intenta con otra búsqueda.');
+        setUbicacionError('No se encontró la dirección. Intenta con otra búsqueda o haz clic en el mapa.');
         return;
       }
 
-      const { lat, lon, display_name } = data[0];
+      const { lat, lon, display_name, address } = data[0];
       setCoordenadas({ lat: parseFloat(lat), lng: parseFloat(lon) });
-      handleDireccionChange(display_name);
+      handleDireccionChange(formatearDireccion(address, display_name));
     } catch {
       setUbicacionError('Error al buscar la dirección. Verifica tu conexión.');
     } finally {
@@ -224,14 +231,50 @@ const DenunciaFormulario = ({ onEnviar }) => {
     setUsandoUbicacion(true);
     setUbicacionError('');
 
-    navigator.geolocation.getCurrentPosition(
-      async ({ coords: { latitude, longitude } }) => {
-        setCoordenadas({ lat: latitude, lng: longitude });
-        const dir = await fetchDireccionDesdeCoords(latitude, longitude);
-        handleDireccionChange(dir);
+    // Se escucha la posición unos segundos y se conserva la lectura más precisa
+    let mejor = null;
+    let idVigilancia = null;
+    let temporizador = null;
+
+    const terminar = async () => {
+      navigator.geolocation.clearWatch(idVigilancia);
+      clearTimeout(temporizador);
+
+      if (!mejor) {
         setUsandoUbicacion(false);
+        return;
+      }
+
+      const { latitude, longitude, accuracy } = mejor;
+      setCoordenadas({ lat: latitude, lng: longitude });
+      const dir = await fetchDireccionDesdeCoords(latitude, longitude);
+      handleDireccionChange(dir);
+
+      // Un computador sin GPS suele dar solo una ubicación aproximada (por Wi-Fi o IP)
+      if (accuracy > 100) {
+        setUbicacionError(`Ubicación aproximada (±${Math.round(accuracy)} m). Arrastra el pin para ajustarla.`);
+      }
+      setUsandoUbicacion(false);
+    };
+
+    idVigilancia = navigator.geolocation.watchPosition(
+      ({ coords }) => {
+        if (!mejor || coords.accuracy < mejor.accuracy) {
+          mejor = coords;
+        }
+        // Con 25 m o menos ya es suficiente: no hace falta esperar más
+        if (coords.accuracy <= 25) {
+          terminar();
+        }
       },
       (error) => {
+        // Si ya hubo alguna lectura, se usa; si no, se muestra el error
+        if (mejor) {
+          terminar();
+          return;
+        }
+        navigator.geolocation.clearWatch(idVigilancia);
+        clearTimeout(temporizador);
         setUsandoUbicacion(false);
         const mensajes = {
           [error.PERMISSION_DENIED]:    'Permiso denegado. Activa la ubicación en tu navegador.',
@@ -242,6 +285,9 @@ const DenunciaFormulario = ({ onEnviar }) => {
       },
       { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
     );
+
+    // Máximo 8 segundos escuchando
+    temporizador = setTimeout(terminar, 8000);
   };
 
   return (
