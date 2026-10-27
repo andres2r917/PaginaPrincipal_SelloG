@@ -1,10 +1,55 @@
+import { useEffect, useRef, useState } from 'react'
 import '../Style/Navbar.css'
 import portada from '../assets/portada.jpeg'
+
+// Estadísticas del hero (cuando exista la API se reemplazan por los datos reales)
+const ESTADISTICAS = [
+  { valor: 1240, sufijo: '+', texto: 'Adoptados' },
+  { valor: 380, sufijo: '+', texto: 'Denuncias atendidas' },
+  { valor: 95, sufijo: '', texto: 'Voluntarios activos' },
+]
+
+// Número que sube desde 0 hasta su valor cuando aparece en pantalla
+const Contador = ({ valor, sufijo }) => {
+  // Quien prefiere menos movimiento ve el número final directamente
+  const sinMovimiento = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  const [actual, setActual] = useState(sinMovimiento ? valor : 0)
+  const ref = useRef(null)
+
+  useEffect(() => {
+    if (sinMovimiento) return
+
+    let frame
+    const observador = new IntersectionObserver(([entrada]) => {
+      if (!entrada.isIntersecting) return
+      observador.disconnect()
+
+      const duracion = 1800
+      const inicio = performance.now()
+      const animar = (ahora) => {
+        const progreso = Math.min((ahora - inicio) / duracion, 1)
+        const suave = 1 - Math.pow(1 - progreso, 3) // empieza rápido y frena al final
+        setActual(Math.round(valor * suave))
+        if (progreso < 1) frame = requestAnimationFrame(animar)
+      }
+      frame = requestAnimationFrame(animar)
+    })
+
+    observador.observe(ref.current)
+    return () => {
+      observador.disconnect()
+      cancelAnimationFrame(frame)
+    }
+  }, [valor, sinMovimiento])
+
+  return <span className="stat-num" ref={ref}>{actual.toLocaleString('es-CO')}{sufijo}</span>
+}
+
 const Navbar = () => {
   return (
-   <nav className="hero">
+   <section className="hero">
     <div className='portada-container'>
-    <img className='portada' src={portada} alt="portada"/>
+    <img className='portada' src={portada} alt=""/>
     </div>
   <div className="hero-container">
     <h1 className="hero-title">
@@ -23,23 +68,18 @@ const Navbar = () => {
     </div>
 
     <div className="hero-stats">
-      <div className="stat-item">
-        <span className="stat-num">1.240+</span>
-        <span className="stat-label">Adoptados</span>
-      </div>
-      <div className="stat-divider" />
-      <div className="stat-item">
-        <span className="stat-num">380+</span>
-        <span className="stat-label">Denuncias atendidas</span>
-      </div>
-      <div className="stat-divider" />
-      <div className="stat-item">
-        <span className="stat-num">95</span>
-        <span className="stat-label">Voluntarios activos</span>
-      </div>
+      {ESTADISTICAS.map((e, i) => (
+        <div className="stat-item-wrap" key={e.texto}>
+          {i > 0 && <div className="stat-divider" />}
+          <div className="stat-item">
+            <Contador valor={e.valor} sufijo={e.sufijo} />
+            <span className="stat-label">{e.texto}</span>
+          </div>
+        </div>
+      ))}
     </div>
   </div>
-</nav>
+</section>
   )
 }
 

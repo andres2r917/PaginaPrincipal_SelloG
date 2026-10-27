@@ -1,13 +1,15 @@
+import { FiCheckCircle, FiX } from 'react-icons/fi'
 import { useState, useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import '../Style/Denuncia.css'
 import '../Style/DenunciaFeed.css'
-import portada from '../assets/portada.jpeg'
-import DenunciaFormulario from '../Componentes/DenunciaFormulario.jsx'
-import DenunciaCard from '../Componentes/DenunciaCard/DenunciaCard.jsx'
-import { useAuth } from '../Context/AuthContext.jsx'
+// Fondo propio de esta página
+const FONDO = 'https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=1920&q=70'
+import DenunciaFormulario from '../Componentes/Denuncias/DenunciaFormulario.jsx'
+import DenunciaCard from '../Componentes/Denuncias/DenunciaCard/DenunciaCard.jsx'
 import { useDenuncias } from '../Context/DenunciasContext.jsx'
-import { TELEFONO_EMERGENCIA } from '../Services/denunciasService.js'
+import { ETIQUETA_TIPO } from '../Utils/estados.js'
+import { limpiarTexto } from '../Utils/limpiarTexto.js'
 
 const PESTANAS = [
   { id: 'activas', texto: 'Activas' },
@@ -16,12 +18,15 @@ const PESTANAS = [
 ]
 
 const Denuncia = () => {
-  const { usuario } = useAuth()
-  const { denuncias, agregarDenuncia } = useDenuncias()
+  const { denuncias, misDenuncias, telefonoEmergencia, agregarDenuncia } = useDenuncias()
   const [formAbierto, setFormAbierto] = useState(false)
   const [enviado, setEnviado] = useState(false)
-  const [searchParams] = useSearchParams()
+  const [errorEnvio, setErrorEnvio] = useState('')
+  const [searchParams, setSearchParams] = useSearchParams()
   const casoResaltado = searchParams.get('caso')
+  // Texto que llega desde la barra de búsqueda del encabezado (?buscar=...)
+  const buscar = searchParams.get('buscar') || ''
+  const palabras = limpiarTexto(buscar).split(/\s+/).filter(Boolean)
 
   // Si se llega con ?caso= se muestra en la pestaña "Todas" para que aparezca aunque esté resuelto
   const [pestana, setPestana] = useState(casoResaltado ? 'todas' : 'activas')
@@ -34,8 +39,15 @@ const Denuncia = () => {
   }, [casoResaltado, denuncias])
 
   // Guarda la denuncia, cierra el acordeón y avisa; la nueva queda arriba del feed
-  const manejarEnvio = (datos) => {
-    agregarDenuncia(datos, usuario)
+  const manejarEnvio = async (datos) => {
+    try {
+      await agregarDenuncia(datos)
+    } catch (error) {
+      // El formulario sigue abierto con lo escrito para poder reintentar
+      setErrorEnvio(error.message)
+      setTimeout(() => setErrorEnvio(''), 5000)
+      return
+    }
     setFormAbierto(false)
     setEnviado(true)
     setTimeout(() => setEnviado(false), 3000)
@@ -44,15 +56,20 @@ const Denuncia = () => {
   // Descartar denuncias según la pestaña activa
   const publicas = denuncias.filter((d) => d.estado !== 'descartada')
   const denunciasFiltradas = (() => {
+    // Al buscar se revisan todas las públicas, no solo las activas
+    if (palabras.length > 0 && pestana !== 'mias') {
+      return publicas.filter((d) => palabras.every((p) =>
+        limpiarTexto(`${ETIQUETA_TIPO[d.tipo] || d.tipo} ${d.descripcion} ${d.ubicacion} ${d.reportadoPor?.nombre || ''}`).includes(p)))
+    }
     if (pestana === 'activas') return publicas.filter((d) => ['pendiente', 'verificada', 'en_rescate', 'abierta', 'en_proceso'].includes(d.estado))
-    if (pestana === 'mias') return usuario ? denuncias.filter((d) => d.usuarioId === usuario.id) : []
+    if (pestana === 'mias') return misDenuncias
     return publicas
   })().slice().sort((a, b) => new Date(b.fecha) - new Date(a.fecha))
 
   const cambiarPestana = (id) => setPestana(id)
 
   return (
-    <div className="denuncias-page dnfeed-page denuncia-fondo" style={{ backgroundImage: `url(${portada})` }}>
+    <div className="denuncias-page dnfeed-page denuncia-fondo" style={{ backgroundImage: `url(${FONDO})` }}>
       <div className="dnfeed-wrap">
         {/* Acordeón: el formulario solo se monta al abrirlo para que el mapa de Leaflet cargue bien */}
         <button
@@ -81,6 +98,12 @@ const Denuncia = () => {
           ))}
         </div>
 
+        {buscar && (
+          <button type="button" className="dnfeed-tab dnfeed-tab--activa" onClick={() => setSearchParams({})}>
+            Búsqueda: «{buscar}» <FiX />
+          </button>
+        )}
+
         {/* Lista de tarjetas usando el componente compartido */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
           {denunciasFiltradas.length === 0 ? (
@@ -91,7 +114,7 @@ const Denuncia = () => {
                 key={d.id}
                 denuncia={d}
                 variante="completa"
-                telefonoEmergencia={TELEFONO_EMERGENCIA}
+                telefonoEmergencia={telefonoEmergencia}
                 resaltada={String(d.id) === casoResaltado}
               />
             ))
@@ -99,7 +122,8 @@ const Denuncia = () => {
         </div>
       </div>
 
-      {enviado && <div className="dn-toast">✅ Denuncia enviada correctamente</div>}
+      {errorEnvio && <div className="dn-toast" style={{ background: 'var(--color-error)' }}><FiX /> {errorEnvio}</div>}
+      {enviado && <div className="dn-toast"><FiCheckCircle /> Denuncia enviada correctamente</div>}
     </div>
   )
 }

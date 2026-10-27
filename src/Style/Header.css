@@ -14,7 +14,6 @@
   padding: 10px 48px;
   border-bottom: 1px solid rgba(124, 58, 237, 0.2);
   color: white;
-  font-family: 'Segoe UI', Roboto, sans-serif;
   width: 100%;
   max-width: none;
   margin: 0;
@@ -55,7 +54,7 @@
 .nav-item.active,
 .nav-item[aria-current="page"] {
   color: #fff;
-  background: #7C3AED;
+  background: var(--color-primario);
   font-weight: 600;
 }
 
@@ -64,6 +63,10 @@
   flex: 1;
   display: flex;
   justify-content: center;
+}
+
+.search-box {
+  position: relative;
 }
 
 .search-input-wrapper {
@@ -94,7 +97,7 @@
 }
 
 .search-input-wrapper input::placeholder {
-  color: rgba(241, 245, 249, 0.4);
+  color: rgba(241, 245, 249, 0.62);
 }
 
 .search-button {
@@ -111,13 +114,62 @@
 .search-icon {
   width: 16px;
   height: 16px;
-  color: rgba(241, 245, 249, 0.45);
+  color: rgba(241, 245, 249, 0.62);
   transition: color 0.2s ease;
 }
 
 .search-button:hover .search-icon {
-  color: #C4B5FD;
+  color: var(--color-acento);
 }
+
+/* Sugerencias del buscador */
+.search-dropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 340px;
+  max-width: 90vw;
+  list-style: none;
+  background: var(--color-fondo);
+  border: 1px solid rgba(124, 58, 237, 0.35);
+  border-radius: 14px;
+  padding: 8px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+  z-index: 60;
+}
+
+.search-dropdown__grupo {
+  display: block;
+  padding: 8px 10px 4px;
+  color: var(--color-acento);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.search-dropdown__item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 10px;
+  color: var(--color-texto);
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.search-dropdown__item small {
+  color: rgba(241, 245, 249, 0.62);
+  font-size: 0.75rem;
+}
+
+.search-dropdown__item--activo { background: rgba(124, 58, 237, 0.25); }
 
 /* --- Botones auth --- */
 .auth-buttons {
@@ -143,7 +195,7 @@
 
 /* "Iniciar sesión" — botón secundario estilizado glass */
 .login-btn {
-  color: #F1F5F9;
+  color: var(--color-texto-claro);
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.18);
   backdrop-filter: blur(8px);
@@ -163,13 +215,13 @@
 /* "Registrarme" — botón primario púrpura sólido */
 .register-btn {
   color: #fff;
-  background: #7C3AED;
+  background: var(--color-primario);
   border: 1px solid rgba(124, 58, 237, 0.6);
   box-shadow: 0 0 16px rgba(124, 58, 237, 0.35);
 }
 
 .register-btn:hover {
-  background: #6d28d9;
+  background: var(--color-primario-oscuro);
   box-shadow: 0 0 24px rgba(124, 58, 237, 0.55);
   transform: translateY(-1px);
 }
@@ -194,14 +246,14 @@
 /* --- Clase active para react-router NavLink --- */
 .nav-item.active {
   color: #fff;
-  background: #7C3AED;
+  background: var(--color-primario);
   font-weight: 600;
 }
 
 .login-btn.active,
 .register-btn.active {
   opacity: 0.9;
-  outline: 2px solid #7C3AED;
+  outline: 2px solid var(--color-primario);
 }
 
 /* Avatar y menú de sesión */
@@ -269,7 +321,7 @@
 }
 .perfil-dropdown__avatar img { width: 100%; height: 100%; object-fit: cover; }
 .perfil-dropdown__meta { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-.perfil-dropdown__meta strong { color: #f8fafc; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.perfil-dropdown__meta strong { color: var(--color-texto); font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .perfil-dropdown__meta small { color: rgba(241, 245, 249, 0.72); font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .perfil-dropdown__item {
   display: block;

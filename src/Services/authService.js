@@ -1,58 +1,154 @@
-import { usuariosDemo } from '../Data/usuariosDemo.js'
+import api, { mensajeError } from './api.js'
 
-const CLAVE_REGISTRADOS = 'usuariosRegistrados'
+// Convierte el usuario de la API (nombres de columna) a la forma que usan los componentes
+export const mapUsuario = (u) => {
+  const rol = u.role.Nombre_rol
+  const civil = u.user_civil
+  const fundacion = u.foundation
 
-// Lee los usuarios creados desde los formularios de registro
-const leerRegistrados = () => {
-  try {
-    return JSON.parse(localStorage.getItem(CLAVE_REGISTRADOS)) || []
-  } catch {
-    return []
+  const base = {
+    id: u.id,
+    // Una fundación se muestra con el nombre de su organización
+    nombre: fundacion?.Nombre_organizacion ?? u.Nombre_completo,
+    email: u.email,
+    rol,
+    foto: u.Foto_url ?? null,
+    // El civil guarda su teléfono en el perfil (usercivils); la fundación en su organización
+    telefono: fundacion?.Telefono ?? civil?.Telefono ?? u.Telefono ?? '',
   }
+
+  if (rol === 'civil') {
+    return {
+      ...base,
+      // El perfil está completo cuando ya existe su fila en usercivils
+      perfilCompleto: civil !== null,
+      documento: civil?.Documento_identidad ?? '',
+      fechaNacimiento: civil?.Fecha_nacimiento ?? '',
+      direccion: civil?.Direccion ?? '',
+      tipoVivienda: civil?.Tipo_vivienda ?? '',
+      ocupacion: civil?.Ocupacion ?? '',
+      // La API devuelve el decimal como texto ("3000000.00"); se muestra como número
+      salario: civil?.Salario != null ? String(Number(civil.Salario)) : '',
+      hijos: civil ? (civil.Tiene_hijos ? 'si' : 'no') : '',
+    }
+  }
+
+  if (rol === 'fundacion') {
+    return {
+      ...base,
+      fundacionId: fundacion.id,
+      estadoVerificacion: fundacion.Estado_verificacion,
+      representante: fundacion.Nombre_representante,
+      cedulaRepresentante: fundacion.Cedula_representante,
+      direccion: fundacion.Direccion,
+      redes: fundacion.Redes ?? '',
+      descripcion: fundacion.Descripcion ?? '',
+      capacidad: fundacion.Capacidad,
+    }
+  }
+
+  return base
 }
 
-// Quita la contraseña antes de guardar la sesión
-const sinPassword = (usuario) => {
-  const copia = { ...usuario }
-  delete copia.password
-  return copia
-}
-
-// Valida credenciales: devuelve { usuario } o lanza Error con el mensaje a mostrar
+// Inicia sesión: guarda el token y devuelve { usuario }. Lanza Error con el mensaje a mostrar.
 export const iniciarSesion = async (email, password) => {
-  const correo = email.trim().toLowerCase()
-  const todos = [...usuariosDemo, ...leerRegistrados()]
-  const encontrado = todos.find(
-    (u) => u.email.toLowerCase() === correo && u.password === password
-  )
-
-  if (!encontrado) {
-    throw new Error('Correo o contraseña incorrectos.')
+  try {
+    const { data } = await api.post('/login', { email: email.trim().toLowerCase(), password })
+    localStorage.setItem('token', data.token)
+    return { usuario: mapUsuario(data.usuario) }
+  } catch (error) {
+    throw new Error(mensajeError(error), { cause: error })
   }
-
-  // Una fundación nueva no entra al panel hasta que sea verificada
-  if (encontrado.rol === 'fundacion' && encontrado.estadoVerificacion !== 'verificada') {
-    throw new Error('Tu fundación aún está pendiente de verificación por el administrador.')
-  }
-
-  return { usuario: sinPassword(encontrado) }
 }
 
-// Crea un usuario desde Registro / RegistroFundacion
-export const registrarUsuario = async (datos) => {
-  const registrados = leerRegistrados()
-  const correo = datos.email.trim().toLowerCase()
-  const yaExiste = [...usuariosDemo, ...registrados].some(
-    (u) => u.email.toLowerCase() === correo
-  )
-
-  if (yaExiste) {
-    throw new Error('Ya existe una cuenta con ese correo.')
+// Registro.jsx (usuario civil). No guarda el token: después del registro se va al login.
+export const registrarCivil = async ({ nombre, email, password }) => {
+  try {
+    await api.post('/register', {
+      Nombre_completo: nombre,
+      email: email.trim().toLowerCase(),
+      password,
+    })
+  } catch (error) {
+    // El mensaje por defecto de Laravel viene en inglés
+    if (error.response?.data?.errors?.email) {
+      throw new Error('Ya existe una cuenta con ese correo.', { cause: error })
+    }
+    throw new Error(mensajeError(error), { cause: error })
   }
+}
 
-  const nuevo = { id: Date.now(), foto: null, ...datos, email: correo }
-  localStorage.setItem(CLAVE_REGISTRADOS, JSON.stringify([...registrados, nuevo]))
-  return sinPassword(nuevo)
+// RegistroFundacion.jsx. Queda pendiente de verificación y no recibe token.
+export const registrarFundacion = async (datos) => {
+  try {
+    // FormData porque pueden ir fotos o videos (opcionales)
+    const formulario = new FormData()
+    formulario.append('Nombre_organizacion', datos.nombre)
+    formulario.append('Nombre_representante', datos.representante)
+    formulario.append('Cedula_representante', datos.cedulaRepresentante)
+    formulario.append('Telefono', datos.telefono)
+    // El formulario pide la ciudad; se guarda en Direccion
+    formulario.append('Direccion', datos.ciudad)
+    formulario.append('email', datos.email.trim().toLowerCase())
+    formulario.append('password', datos.password)
+    ;(datos.archivos ?? []).forEach((archivo) => formulario.append('evidencias[]', archivo))
+
+    await api.post('/register/foundation', formulario)
+  } catch (error) {
+    if (error.response?.data?.errors?.email) {
+      throw new Error('Ya existe una cuenta con ese correo.', { cause: error })
+    }
+    throw new Error(mensajeError(error), { cause: error })
+  }
+}
+
+// Perfil.jsx: crea o actualiza los datos del usuario civil. Devuelve el usuario ya actualizado.
+export const guardarPerfilCivil = async (datos) => {
+  try {
+    const { data } = await api.put('/perfil', {
+      Documento_identidad: datos.documento,
+      Fecha_nacimiento: datos.fechaNacimiento,
+      Tipo_vivienda: datos.tipoVivienda,
+      Direccion: datos.direccion || null,
+      Ocupacion: datos.ocupacion || null,
+      Salario: datos.salario === '' ? null : Number(datos.salario),
+      Telefono: datos.telefono || null,
+      Tiene_hijos: datos.hijos === 'si' ? 1 : 0,
+    })
+    return mapUsuario(data)
+  } catch (error) {
+    if (error.response?.data?.errors?.Documento_identidad) {
+      throw new Error('Ya existe una cuenta con ese documento de identidad.', { cause: error })
+    }
+    throw new Error(mensajeError(error), { cause: error })
+  }
+}
+
+// Sube la foto de perfil (archivo de imagen, máximo 2 MB). Devuelve el usuario actualizado.
+export const subirFotoPerfil = async (archivo) => {
+  try {
+    const formulario = new FormData()
+    formulario.append('Foto', archivo)
+    const { data } = await api.post('/perfil/foto', formulario)
+    return mapUsuario(data)
+  } catch (error) {
+    throw new Error(mensajeError(error), { cause: error })
+  }
+}
+
+// Recupera la sesión al recargar la página (usa el token guardado)
+export const obtenerSesion = async () => {
+  const { data } = await api.get('/me')
+  return mapUsuario(data)
+}
+
+// Cierra la sesión: el token se borra de inmediato y se avisa al servidor para que lo invalide
+export const cerrarSesion = () => {
+  const token = localStorage.getItem('token')
+  localStorage.removeItem('token')
+  if (token) {
+    api.post('/logout', null, { headers: { Authorization: `Bearer ${token}` } }).catch(() => {})
+  }
 }
 
 // Ruta de inicio según el rol (el civil entra directamente a /home)

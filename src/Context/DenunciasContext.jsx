@@ -1,77 +1,100 @@
-import { createContext, useContext, useState } from 'react'
-import { seedDenuncias, TELEFONO_EMERGENCIA_INICIAL } from '../Data/seedDenuncias.js'
+import { createContext, useContext, useEffect, useState } from 'react'
+import { useAuth } from './AuthContext.jsx'
+import { mensajeError } from '../Services/api.js'
+import {
+  getDenuncias, getMisDenuncias, getTelefonoEmergencia, crearDenuncia,
+  reclamarDenuncia, asignarDenuncia, actualizarEstado,
+} from '../Services/denunciasService.js'
 
 const DenunciasContext = createContext(null)
 
-// Siguiente id disponible dentro de un arreglo [{ id }]
-const siguienteId = (lista) => (lista.length ? Math.max(...lista.map((d) => d.id)) + 1 : 1)
+// Pide las listas a la API: el feed (todas para el admin) y, con sesión, las propias
+const cargarListas = async (esAdmin, haySesion) => ({
+  lista: await getDenuncias(esAdmin),
+  propias: haySesion ? await getMisDenuncias() : null,
+})
 
 export const DenunciasProvider = ({ children }) => {
-  const [denuncias, setDenuncias] = useState(seedDenuncias)
-  // Reemplaza a platform_settings.Telefono_emergencia mientras no exista la API
-  const [telefonoEmergencia, setTelefonoEmergencia] = useState(TELEFONO_EMERGENCIA_INICIAL)
+  const { usuario } = useAuth()
+  const [denuncias, setDenuncias] = useState([])
+  const [mias, setMias] = useState([])
+  const [telefonoEmergencia, setTelefonoEmergencia] = useState('')
 
-  // Crea una denuncia nueva. Quién reporta se infiere del usuario con sesión:
-  // anónima → "Denuncia anónima", fundación → su nombre, civil → "Usuario registrado".
-  // usuarioId se guarda aunque sea anónima (para "Mis denuncias") pero nunca se muestra en público.
-  const agregarDenuncia = (datos, usuario) => {
-    let reportadoPor = { tipo: 'civil', nombre: 'Usuario registrado' }
-    if (datos.anonima || !usuario) {
-      reportadoPor = { tipo: 'anonimo', nombre: 'Denuncia anónima' }
-    } else if (usuario.rol === 'fundacion') {
-      reportadoPor = { tipo: 'fundacion', nombre: usuario.nombre }
-    }
+  const esAdmin = usuario?.rol === 'admin'
+  const idUsuario = usuario?.id ?? null
+  const haySesion = idUsuario !== null
 
-    const nueva = {
-      id: siguienteId(denuncias),
-      tipo: datos.tipo,
-      descripcion: datos.descripcion,
-      ubicacion: datos.ubicacion,
-      latitud: datos.latitud,
-      longitud: datos.longitud,
-      anonima: Boolean(datos.anonima),
-      estado: 'pendiente',
-      urgencia: datos.urgencia || 'Media',
-      fecha: new Date().toISOString(),
-      usuarioId: usuario?.id ?? null,
-      reportadoPor,
-      fundacionAsignada: null,
-      fechaAsignacion: null,
-      evidencias: datos.evidencias || [],
+  // Carga inicial y cada vez que cambia la sesión
+  // y cada minuto, para que las denuncias nuevas y los cambios de estado lleguen sin recargar la página
+  useEffect(() => {
+    let activo = true
+    const cargar = () => {
+      if (document.hidden) return
+      cargarListas(esAdmin, haySesion)
+        .then(({ lista, propias }) => {
+          if (!activo) return
+          setDenuncias(lista)
+          if (propias) setMias(propias)
+        })
+        .catch(() => {
+          // Sin conexión se conservan las listas que ya estaban en pantalla
+        })
     }
-    setDenuncias((lista) => [nueva, ...lista])
+    cargar()
+    const temporizador = setInterval(cargar, 60000)
+    return () => {
+      activo = false
+      clearInterval(temporizador)
+    }
+  }, [esAdmin, haySesion, idUsuario])
+
+  // Refresca las listas después de crear o cambiar una denuncia
+  const recargar = async () => {
+    try {
+      const { lista, propias } = await cargarListas(esAdmin, haySesion)
+      setDenuncias(lista)
+      if (propias) setMias(propias)
+    } catch {
+      // Se mantiene lo que ya estaba
+    }
+  }
+
+  useEffect(() => {
+    getTelefonoEmergencia().then(setTelefonoEmergencia).catch(() => {})
+  }, [])
+
+  // Crea la denuncia en la API y refresca las listas. Lanza Error con el mensaje a mostrar.
+  const agregarDenuncia = async (datos) => {
+    const nueva = await crearDenuncia(datos)
+    await recargar()
     return nueva
   }
 
-  // Simula el UPDATE condicional de Laravel (whereNull Id_fundacion_asignada):
-  // solo asigna si el caso sigue libre; si no, devuelve el equivalente al error 409.
-  const asignarFundacion = (id, fundacion) => {
-    const denuncia = denuncias.find((d) => d.id === id)
-    if (!denuncia) return { ok: false, status: 404, mensaje: 'La denuncia no existe.' }
-    if (denuncia.fundacionAsignada) {
-      return { ok: false, status: 409, mensaje: 'Este caso ya fue asignado a otra fundación.' }
+  // Las acciones devuelven { ok, status, mensaje } para que la pantalla muestre el aviso (por ejemplo el 409)
+  const ejecutar = async (peticion) => {
+    try {
+      await peticion()
+      await recargar()
+      return { ok: true }
+    } catch (error) {
+      return { ok: false, status: error.response?.status, mensaje: mensajeError(error) }
     }
-    if (!['pendiente', 'verificada'].includes(denuncia.estado)) {
-      return { ok: false, status: 409, mensaje: 'Este caso ya no está disponible.' }
-    }
-    setDenuncias((lista) =>
-      lista.map((d) =>
-        d.id === id && !d.fundacionAsignada
-          ? { ...d, fundacionAsignada: fundacion, fechaAsignacion: new Date().toISOString(), estado: 'en_rescate' }
-          : d
-      )
-    )
-    return { ok: true }
   }
 
-  // Cambio de estado: lo usa el admin (verificar/descartar) y la fundación asignada (resolver)
-  const cambiarEstado = (id, estado) =>
-    setDenuncias((lista) => lista.map((d) => (d.id === id ? { ...d, estado } : d)))
+  // Fundación: "Hacerme cargo". Admin: asignar el caso a la fundación elegida.
+  const asignarFundacion = (id, fundacion) =>
+    ejecutar(() => (esAdmin ? asignarDenuncia(id, fundacion.id) : reclamarDenuncia(id)))
 
+  // Cambio de estado: lo usa el admin (verificar/descartar) y la fundación asignada (resolver)
+  const cambiarEstado = (id, estado) => ejecutar(() => actualizarEstado(id, estado))
+
+  // Se conecta a la API en la tanda del panel de administración
   const actualizarTelefonoEmergencia = (telefono) => setTelefonoEmergencia(telefono)
 
   const value = {
     denuncias,
+    // Sin sesión no hay "Mías", aunque la lista guardada todavía tenga datos de antes
+    misDenuncias: haySesion ? mias : [],
     telefonoEmergencia,
     agregarDenuncia,
     asignarFundacion,

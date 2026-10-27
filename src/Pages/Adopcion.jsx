@@ -1,144 +1,28 @@
+import { FiAlertTriangle, FiCheck, FiCheckCircle, FiHeart, FiHome, FiShield, FiX } from 'react-icons/fi';
+import { FaPaw } from 'react-icons/fa';
 // Página de adopción — muestra los animales disponibles para adoptar
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Link, useSearchParams } from "react-router-dom";
 import '../Style/Adopcion.css';
-import portada from '../assets/portada.jpeg'
-const animales = [
-  {
-    id: 1,
-    nombre: "Toby",
-    raza: "Mestizo",
-    edad: "2 años",
-    tamano: "Mediano",
-    sexo: "Macho",
-    temperamento: "Juguetón",
-    salud: "Vacunado",
-    vacunado: true,
-    esterilizado: false,
-    desparasitado: true,
-    convivencia: "Apto con niños y otros perros",
-    historia:
-      "Toby llegó al refugio hace 6 meses. Es muy activo y le encanta jugar con pelotas. Se lleva bien con niños y otros perros.",
-    img: "https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=400&h=300&fit=crop",
-  },
-  {
-    id: 2,
-    nombre: "Luna",
-    raza: "Criolla",
-    edad: "1 año",
-    tamano: "Pequeño",
-    sexo: "Hembra",
-    temperamento: "Cariñosa",
-    salud: "Sin Vacunas",
-    vacunado: false,
-    esterilizado: false,
-    desparasitado: false,
-    convivencia: "Ideal para departamento y familias",
-    historia:
-      "Luna es una perrita muy dulce que fue rescatada de la calle. Es cariñosa con todos y le encanta dormir en lugares cómodos.",
-    img: "https://images.unsplash.com/photo-1537151625747-768eb6cf92b2?w=400&h=300&fit=crop",
-  },
-  {
-    id: 3,
-    nombre: "Max",
-    raza: "Labrador",
-    edad: "3 años",
-    tamano: "Grande",
-    sexo: "Macho",
-    temperamento: "Tranquilo",
-    salud: "Vacunado",
-    vacunado: true,
-    esterilizado: true,
-    desparasitado: true,
-    convivencia: "Excelente con familias y gatos",
-    historia:
-      "Max es un perro muy tranquilo y obediente. Ya tiene entrenamiento básico y se adapta bien a apartamentos o casas con patio.",
-    img: "https://img.freepik.com/foto-gratis/retrato-lindo-labrador-sentado-cesped_23-2148345981.jpg",
-  },
-  {
-    id: 4,
-    nombre: "Nala",
-    raza: "Criolla",
-    edad: "4 años",
-    tamano: "Mediano",
-    sexo: "Hembra",
-    temperamento: "Tímida",
-    salud: "Vacunada",
-    vacunado: true,
-    esterilizado: true,
-    desparasitado: true,
-    convivencia: "Prefiere ambiente tranquilo y adultos",
-    historia:
-      "Nala tardó un poco en abrirse, pero una vez que confía en ti es la compañera más leal. Prefiere hogares tranquilos sin muchos niños pequeños.",
-    img: "https://images.unsplash.com/photo-1558788353-f76d92427f16?w=400&h=300&fit=crop",
-  },
-  {
-    id: 5,
-    nombre: "Rocky",
-    raza: "Mestizo",
-    edad: "5 años",
-    tamano: "Grande",
-    sexo: "Macho",
-    temperamento: "Protector",
-    salud: "Vacunado",
-    vacunado: true,
-    esterilizado: true,
-    desparasitado: true,
-    convivencia: "Muy leal, ideal con casa o patio",
-    historia:
-      "Rocky es un perro maduro, leal y muy protector. Ideal para familias que buscan un compañero confiable y tranquilo.",
-    img: "https://images.unsplash.com/photo-1561037404-61cd46aa615b?w=400&h=300&fit=crop",
-  },
-  {
-    id: 6,
-    nombre: "Sacha",
-    raza: "Criolla",
-    edad: "6 meses",
-    tamano: "Pequeño",
-    sexo: "Hembra",
-    temperamento: "Inquieta",
-    salud: "Sin Vacunas",
-    vacunado: false,
-    esterilizado: false,
-    desparasitado: true,
-    convivencia: "Activa, ideal para familias jóvenes",
-    historia:
-      "Mia es una cachorra llena de energía. Necesita mucho ejercicio y estimulación. Perfecta para familias jóvenes con espacio.",
-    img: "https://d21tucfpen3j82.cloudfront.net/wp-content/uploads/2024/03/27133737/Conozca-que-es-un-perro-criollo-y-sus-caracteristicas.jpg",
-  },
-  {
-    id: 7,
-    nombre: "Milan",
-    raza: "Doberman",
-    edad: "8 meses",
-    tamano: "Grande",
-    sexo: "Macho",
-    temperamento: "Obediente",
-    salud: "Vacunado",
-    vacunado: true,
-    esterilizado: false,
-    desparasitado: true,
-    convivencia: "Sociable y con energía para entrenar",
-    historia:
-      "Milan es un cachorro lleno de energía. Necesita mucho ejercicio y estimulación. Perfecta para familias jóvenes con espacio.",
-    img: "https://cdn.pixabay.com/photo/2019/10/08/11/10/doberman-pinscher-4534710_1280.jpg",
-  },
-  {
-    id: 8,
-    nombre: "Balto",
-    raza: "Husky",
-    edad: "1 año",
-    tamano: "Grande",
-    sexo: "Macho",
-    temperamento: "Inquieto",
-    salud: "Vacunado",
-    vacunado: true,
-    esterilizado: true,
-    desparasitado: true,
-    convivencia: "Apto con personas activas y senderismo",
-    historia:
-      "Balto es un cachorro lleno de energía. Necesita mucho ejercicio y estimulación. Perfecta para familias jóvenes con espacio.",
-    img: "https://tse1.mm.bing.net/th/id/OIP.iu_Z6fcSBMddwDiuhtXnqwHaE7?rs=1&pid=ImgDetMain&o=7&rm=3",
-  },
+import { limpiarTexto } from '../Utils/limpiarTexto.js';
+import { useAuth } from '../Context/AuthContext.jsx';
+import { getMascotasDisponibles, solicitarAdopcion } from '../Services/mascotasService.js';
+// Fondo propio de esta página
+const FONDO = 'https://images.unsplash.com/photo-1552053831-71594a27632d?w=1920&q=70'
+// Lo que se elige en el formulario es el mismo texto que se guarda: así la fundación lo lee tal cual
+const EXPERIENCIAS = [
+  'Nunca he tenido mascotas',
+  'Sí, he tenido perros',
+  'Sí, he tenido gatos',
+  'Sí, he tenido varios animales',
+  'Actualmente tengo mascotas',
+];
+const TIEMPOS = [
+  'Menos de 2 horas',
+  'Entre 2 y 4 horas',
+  'Entre 4 y 6 horas',
+  'Más de 6 horas',
+  'Estoy en casa todo el día',
 ];
 
 const FORM_INICIAL = {
@@ -149,10 +33,34 @@ const FORM_INICIAL = {
   acepta_terminos: false,
 };
 
+/* ── Foto del animal (si la fundación no subió una, se muestra una huella) ── */
+const FotoAnimal = ({ animal }) =>
+  animal.img
+    ? <img src={animal.img} alt={`Foto de ${animal.nombre}`} />
+    : (
+      <div className="animal-sin-foto" role="img" aria-label={`${animal.nombre} aún no tiene foto`}>
+        <FaPaw />
+      </div>
+    );
+
 /* ── Tarjeta de animal ── */
-const AnimalCard = ({ animal, onVerDetalles }) => (
+const AnimalCard = ({ animal, esFavorito, onFavorito, onVerDetalles }) => (
   <div className="glass-effect animal-card">
-    <img src={animal.img} alt={animal.nombre} />
+    <div className="animal-card__foto">
+      <FotoAnimal animal={animal} />
+      <span className="animal-card__tag">{animal.sexo} · {animal.tamano}</span>
+      <button
+        type="button"
+        className={`animal-card__fav${esFavorito ? ' animal-card__fav--activo' : ''}`}
+        onClick={() => onFavorito(animal.id)}
+        aria-label="Guardar en favoritos"
+      >
+        <FiHeart />
+      </button>
+      {animal.vacunado && (
+        <span className="animal-card__vacunado"><FiCheck /> Vacunado</span>
+      )}
+    </div>
     <h3>{animal.nombre}</h3>
     <p>{animal.edad} - {animal.temperamento}</p>
     <button className="btn-ver-detalles" onClick={() => onVerDetalles(animal)}>
@@ -161,10 +69,17 @@ const AnimalCard = ({ animal, onVerDetalles }) => (
   </div>
 );
 
+/* ── Datos de las garantías y de los filtros ── */
+const GARANTIAS = [
+  { icono: <FiCheckCircle />, titulo: 'Salud revisada', texto: 'Cada ficha indica vacunas, esterilización y desparasitación.' },
+  { icono: <FiHome />, titulo: 'Fundaciones verificadas', texto: 'Solo organizaciones aprobadas por nuestro equipo publican animales.' },
+  { icono: <FiHeart />, titulo: 'Proceso acompañado', texto: 'La fundación te guía desde la solicitud hasta la entrega.' },
+]
+
 /* ── Info del animal (columna izquierda) ── */
 const AnimalInfo = ({ animal }) => (
   <div className="modal-izquierda">
-    <img src={animal.img} alt={animal.nombre} />
+    <FotoAnimal animal={animal} />
     <h2>{animal.nombre}</h2>
 
     <div className="modal-badges-section">
@@ -182,13 +97,13 @@ const AnimalInfo = ({ animal }) => (
         <span className="modal-badges-label">Salud & Cuidados</span>
         <div className="modal-badges-group">
           <span className={`badge ${animal.vacunado ? 'badge-vacunado' : 'badge-sin-vacunas'}`}>
-            {animal.vacunado ? '✓ Vacunado' : '⚠ Sin Vacunas'}
+            {animal.vacunado ? <><FiCheck /> Vacunado</> : <><FiAlertTriangle /> Sin Vacunas</>}
           </span>
           <span className={`badge ${animal.esterilizado ? 'badge-esterilizado' : 'badge-sin-esterilizar'}`}>
-            {animal.esterilizado ? '✓ Esterilizado' : 'Sin Esterilizar'}
+            {animal.esterilizado ? <><FiCheck /> Esterilizado</> : 'Sin Esterilizar'}
           </span>
           <span className={`badge ${animal.desparasitado ? 'badge-desparasitado' : 'badge-sin-desparasitar'}`}>
-            {animal.desparasitado ? '🛡️ Desparasitado' : '⚠ Sin desparasitar'}
+            {animal.desparasitado ? <><FiShield /> Desparasitado</> : <><FiAlertTriangle /> Sin desparasitar</>}
           </span>
         </div>
       </div>
@@ -212,7 +127,38 @@ const AnimalInfo = ({ animal }) => (
 );
  
 /* ── Formulario de adopción ── */
-const FormularioAdopcion = ({ animal, formData, onChange, onSubmit }) => (
+const FormularioAdopcion = ({ animal, formData, onChange, onSubmit, enviando, error }) => {
+  const { usuario } = useAuth();
+
+  // Solo un usuario civil con el perfil completo puede solicitar (la API también lo exige)
+  if (!usuario) {
+    return (
+      <div className="modal-derecha">
+        <h3 className="form-titulo">Inicia sesión para adoptar</h3>
+        <p className="form-subtitulo">Necesitas una cuenta para enviar tu solicitud por {animal.nombre}.</p>
+        <Link to="/login" className="btn-enviar adopcion-enlace-btn">Iniciar sesión</Link>
+      </div>
+    );
+  }
+  if (usuario.rol !== 'civil') {
+    return (
+      <div className="modal-derecha">
+        <h3 className="form-titulo">Solo cuentas de usuario</h3>
+        <p className="form-subtitulo">Las solicitudes de adopción las envían los usuarios, no las fundaciones ni los administradores.</p>
+      </div>
+    );
+  }
+  if (!usuario.perfilCompleto) {
+    return (
+      <div className="modal-derecha">
+        <h3 className="form-titulo">Completa tu perfil primero</h3>
+        <p className="form-subtitulo">La fundación necesita conocer tus datos para evaluar la solicitud por {animal.nombre}.</p>
+        <Link to="/perfil" className="btn-enviar adopcion-enlace-btn">Completar mi perfil</Link>
+      </div>
+    );
+  }
+
+  return (
   <div className="modal-derecha">
     <h3 className="form-titulo">Formulario de Adopción</h3>
     <p className="form-subtitulo">
@@ -223,11 +169,11 @@ const FormularioAdopcion = ({ animal, formData, onChange, onSubmit }) => (
  
       {/* Mensaje de presentación */}
       <div className="form-grupo">
-        <label>¿Por qué quieres adoptar?</label>
-        <textarea
+        <label htmlFor="adop-mensaje_presentacion">¿Por qué quieres adoptar?</label>
+        <textarea id="adop-mensaje_presentacion"
           name="mensaje_presentacion"
           rows="3"
-          placeholder="Cuéntanos tu motivación y por qué serías un buen hogar..."
+          placeholder="Cuéntanos tu motivación y por qué serías un buen hogar..." aria-label="Cuéntanos tu motivación y por qué serías un buen hogar..."
           value={formData.mensaje_presentacion}
           onChange={onChange}
           required
@@ -236,37 +182,29 @@ const FormularioAdopcion = ({ animal, formData, onChange, onSubmit }) => (
  
       {/* Experiencia con mascotas */}
       <div className="form-grupo">
-        <label>¿Has tenido mascotas antes?</label>
-        <select
+        <label htmlFor="adop-experiencia_mascotas">¿Has tenido mascotas antes?</label>
+        <select id="adop-experiencia_mascotas"
           name="experiencia_mascotas"
           value={formData.experiencia_mascotas}
           onChange={onChange}
           required
         >
           <option value="">Selecciona una opción</option>
-          <option value="nunca">Nunca he tenido mascotas</option>
-          <option value="perros">Sí, he tenido perros</option>
-          <option value="gatos">Sí, he tenido gatos</option>
-          <option value="varios">Sí, he tenido varios animales</option>
-          <option value="actualmente">Actualmente tengo mascotas</option>
+          {EXPERIENCIAS.map((texto) => <option key={texto} value={texto}>{texto}</option>)}
         </select>
       </div>
  
       {/* Tiempo disponible */}
       <div className="form-grupo">
-        <label>¿Cuánto tiempo le dedicarías al día?</label>
-        <select
+        <label htmlFor="adop-tiempo_disponible">¿Cuánto tiempo le dedicarías al día?</label>
+        <select id="adop-tiempo_disponible"
           name="tiempo_disponible"
           value={formData.tiempo_disponible}
           onChange={onChange}
           required
         >
           <option value="">Selecciona una opción</option>
-          <option value="menos2">Menos de 2 horas</option>
-          <option value="2a4">Entre 2 y 4 horas</option>
-          <option value="4a6">Entre 4 y 6 horas</option>
-          <option value="mas6">Más de 6 horas</option>
-          <option value="todo">Estoy en casa todo el día</option>
+          {TIEMPOS.map((texto) => <option key={texto} value={texto}>{texto}</option>)}
         </select>
       </div>
  
@@ -296,21 +234,23 @@ const FormularioAdopcion = ({ animal, formData, onChange, onSubmit }) => (
         </div>
       </div>
  
+      {error && <p className="adopcion-error" role="alert">{error}</p>}
       <button
         type="submit"
         className="btn-enviar"
-        disabled={!formData.acepta_terminos}
+        disabled={!formData.acepta_terminos || enviando}
       >
-        Enviar Solicitud de Adopción
+        {enviando ? 'Enviando...' : 'Enviar Solicitud de Adopción'}
       </button>
     </form>
   </div>
-);
+  );
+};
  
 /* ── Mensaje de éxito ── */
 const MensajeExito = ({ onCerrar }) => (
   <div className="modal-exito">
-    <div className="exito-icono">✓</div>
+    <div className="exito-icono"><FiCheck /></div>
     <h3>¡Solicitud enviada!</h3>
     <p>
       Nos pondremos en contacto contigo pronto para continuar el proceso de adopción.
@@ -323,14 +263,59 @@ const MensajeExito = ({ onCerrar }) => (
  
 /* ── Página principal ── */
 const Adopcion = () => {
+  const [animales, setAnimales] = useState([]);
+  const [cargando, setCargando] = useState(true);
+  const [errorCarga, setErrorCarga] = useState('');
+  const [enviando, setEnviando] = useState(false);
+  const [errorEnvio, setErrorEnvio] = useState('');
   const [animalSeleccionado, setAnimalSeleccionado] = useState(null);
   const [formData, setFormData] = useState(FORM_INICIAL);
   const [enviado, setEnviado] = useState(false);
- 
+  const [especie, setEspecie] = useState('todos');
+  const [raza, setRaza] = useState('todos');
+  const [tamano, setTamano] = useState('todos');
+  const [sexo, setSexo] = useState('todos');
+  const [favoritos, setFavoritos] = useState([]);
+
+  // Los animales disponibles vienen de la API
+  useEffect(() => {
+    getMascotasDisponibles()
+      .then(setAnimales)
+      .catch((error) => setErrorCarga(error.message))
+      .finally(() => setCargando(false));
+  }, []);
+
+  // Texto que llega desde la barra de búsqueda del encabezado (?buscar=...)
+  const [searchParams, setSearchParams] = useSearchParams();
+  const buscar = searchParams.get('buscar') || '';
+  const palabras = limpiarTexto(buscar).split(/\s+/).filter(Boolean);
+
+  // Las opciones salen de los propios animales: sirve para cualquier especie que se publique
+  const especies = [...new Set(animales.map((a) => a.especie))];
+  const razas = [...new Set(
+    animales.filter((a) => especie === 'todos' || a.especie === especie).map((a) => a.raza)
+  )];
+
+  const animalesFiltrados = animales.filter((a) =>
+    (especie === 'todos' || a.especie === especie) &&
+    (raza === 'todos' || a.raza === raza) &&
+    (tamano === 'todos' || a.tamano === tamano) &&
+    (sexo === 'todos' || a.sexo === sexo) &&
+    palabras.every((p) => limpiarTexto(`${a.nombre} ${a.raza} ${a.especie} ${a.temperamento} ${a.tamano} ${a.sexo}`).includes(p))
+  );
+
+  const elegirEspecie = (valor) => { setEspecie(valor); setRaza('todos') };
+
+  const limpiarFiltros = () => { setEspecie('todos'); setRaza('todos'); setTamano('todos'); setSexo('todos'); setSearchParams({}) };
+
+  const alternarFavorito = (id) =>
+    setFavoritos((prev) => prev.includes(id) ? prev.filter((f) => f !== id) : [...prev, id]);
+
   const abrirModal = (animal) => {
     setAnimalSeleccionado(animal);
     setFormData(FORM_INICIAL);
     setEnviado(false);
+    setErrorEnvio('');
   };
  
   const cerrarModal = () => {
@@ -346,36 +331,123 @@ const Adopcion = () => {
     }));
   };
  
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Solicitud enviada:", {
-      animal: animalSeleccionado.nombre,
-      ...formData,
-    });
-    setEnviado(true);
+    if (enviando) return;
+    setEnviando(true);
+    setErrorEnvio('');
+    try {
+      await solicitarAdopcion(animalSeleccionado.id, formData);
+      setEnviado(true);
+    } catch (error) {
+      setErrorEnvio(error.message);
+    }
+    setEnviando(false);
   };
  
   return (
     <>
-      <section className="hero">
+      <section className="hero adopcion-hero">
         <div>
-          <img className="portada" src={portada} alt="portada" />
+          <img className="portada" src={FONDO} alt="" />
         </div>
-        <div className="grid-adopcion">
-          {animales.map((animal) => (
-            <AnimalCard
-              key={animal.id}
-              animal={animal}
-              onVerDetalles={abrirModal}
-            />
-          ))}
+
+        <div className="adopcion-contenido">
+          <header className="adopcion-encabezado">
+            <h1>Encuentra a tu nuevo mejor amigo</h1>
+            <p>
+              <strong>{animales.length} peluditos</strong> esperan un hogar. Conoce su historia y envía tu solicitud de adopción.
+            </p>
+          </header>
+
+          <div className="adopcion-garantias">
+            {GARANTIAS.map((g) => (
+              <div className="adopcion-garantia" key={g.titulo}>
+                <span className="adopcion-garantia__icono">{g.icono}</span>
+                <div>
+                  <strong>{g.titulo}</strong>
+                  <small>{g.texto}</small>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="adopcion-filtros">
+            <div className="adopcion-chips">
+              {['todos', ...especies].map((e) => (
+                <button
+                  key={e}
+                  type="button"
+                  className={`adopcion-chip${especie === e ? ' adopcion-chip--activo' : ''}`}
+                  onClick={() => elegirEspecie(e)}
+                >
+                  {e === 'todos' ? 'Todos' : e}
+                </button>
+              ))}
+            </div>
+            <div className="adopcion-selects">
+              <select value={raza} onChange={(e) => setRaza(e.target.value)} aria-label="Filtrar por raza">
+                <option value="todos">Todas las razas</option>
+                {razas.map((r) => <option key={r} value={r}>{r}</option>)}
+              </select>
+              <select value={tamano} onChange={(e) => setTamano(e.target.value)} aria-label="Filtrar por tamaño">
+                <option value="todos">Todos los tamaños</option>
+                <option value="Pequeño">Pequeño</option>
+                <option value="Mediano">Mediano</option>
+                <option value="Grande">Grande</option>
+              </select>
+              <select value={sexo} onChange={(e) => setSexo(e.target.value)} aria-label="Filtrar por sexo">
+                <option value="todos">Macho y hembra</option>
+                <option value="Macho">Macho</option>
+                <option value="Hembra">Hembra</option>
+              </select>
+            </div>
+            {buscar && (
+              <button type="button" className="adopcion-chip adopcion-chip--activo" onClick={() => setSearchParams({})}>
+                Búsqueda: «{buscar}» <FiX />
+              </button>
+            )}
+            <span className="adopcion-contador">
+              {animalesFiltrados.length} {animalesFiltrados.length === 1 ? 'resultado' : 'resultados'}
+            </span>
+          </div>
+
+          {cargando && <p className="adopcion-estado">Cargando animales...</p>}
+          {errorCarga && <p className="adopcion-error" role="alert">{errorCarga}</p>}
+
+          {animalesFiltrados.length > 0 ? (
+            <div className="grid-adopcion">
+              {animalesFiltrados.map((animal) => (
+                <AnimalCard
+                  key={animal.id}
+                  animal={animal}
+                  esFavorito={favoritos.includes(animal.id)}
+                  onFavorito={alternarFavorito}
+                  onVerDetalles={abrirModal}
+                />
+              ))}
+            </div>
+          ) : !cargando && !errorCarga && (
+            <div className="adopcion-vacio">
+              <p>{animales.length === 0 ? 'Por ahora no hay animales disponibles para adopción.' : 'No encontramos animales con esos filtros.'}</p>
+              <button type="button" className="btn-ver-detalles" onClick={limpiarFiltros}>Limpiar filtros</button>
+            </div>
+          )}
+
+          <div className="adopcion-cta">
+            <div>
+              <strong>¿Eres una fundación?</strong>
+              <small>Registra tu organización y publica a tus animales para que encuentren hogar.</small>
+            </div>
+            <Link to="/registro/registroFundacion" className="adopcion-cta__boton">Registrar mi fundación</Link>
+          </div>
         </div>
       </section>
- 
+
       {animalSeleccionado && (
         <div className="modal-overlay" onClick={cerrarModal}>
           <div className="modal-adopcion" onClick={(e) => e.stopPropagation()}>
-            <button className="modal-close" onClick={cerrarModal}>✕</button>
+            <button className="modal-close" onClick={cerrarModal} aria-label="Cerrar"><FiX /></button>
             <AnimalInfo animal={animalSeleccionado} />
             {!enviado ? (
               <FormularioAdopcion
@@ -383,6 +455,8 @@ const Adopcion = () => {
                 formData={formData}
                 onChange={handleChange}
                 onSubmit={handleSubmit}
+                enviando={enviando}
+                error={errorEnvio}
               />
             ) : (
               <MensajeExito onCerrar={cerrarModal} />

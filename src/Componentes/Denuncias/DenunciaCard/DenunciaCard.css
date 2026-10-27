@@ -1,0 +1,218 @@
+/* Tarjeta de denuncia compartida (Home + Denuncia). Prefijo dc- para evitar choques de clases */
+.dc-card {
+  --dc-fondo: #162033;
+  --dc-borde: rgba(196, 181, 253, 0.18);
+  --dc-texto: var(--color-texto-claro);
+  --dc-texto-suave: #A9B4C8;
+  --dc-acento: var(--color-primario);
+  --dc-acento-claro: var(--color-acento);
+
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr);
+  background: var(--dc-fondo);
+  border: 1px solid var(--dc-borde);
+  border-radius: 16px;
+  overflow: hidden;
+  color: var(--dc-texto);
+  box-shadow: 0 8px 24px rgba(2, 6, 23, 0.35);
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dc-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(196, 181, 253, 0.4);
+}
+
+.dc-card--resumen {
+  grid-template-columns: 260px minmax(0, 1fr);
+}
+
+/* Cuando se llega desde "Ver detalles" en Home, la tarjeta se resalta */
+.dc-card--resaltada {
+  border-color: var(--dc-acento-claro);
+  box-shadow: 0 0 0 2px rgba(196, 181, 253, 0.45), 0 12px 32px rgba(124, 58, 237, 0.35);
+  animation: dc-pulso 1.6s ease-out 1;
+}
+
+@keyframes dc-pulso {
+  0% { box-shadow: 0 0 0 0 rgba(196, 181, 253, 0.7); }
+  100% { box-shadow: 0 0 0 2px rgba(196, 181, 253, 0.45), 0 12px 32px rgba(124, 58, 237, 0.35); }
+}
+
+/* Zona de imagen */
+.dc-media {
+  position: relative;
+  min-height: 220px;
+  background: var(--color-fondo);
+}
+
+.dc-media img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.dc-media-vacio {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  color: rgba(196, 181, 253, 0.35);
+  background: linear-gradient(135deg, #1E1B4B, var(--color-fondo));
+}
+
+.dc-media-contador {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  background: rgba(15, 23, 42, 0.88);
+  color: var(--color-texto-claro);
+}
+
+/* Contenido */
+.dc-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 1.25rem 1.5rem;
+  min-width: 0;
+}
+
+.dc-etiquetas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.dc-titulo {
+  margin: 0.15rem 0 0;
+  font-size: 1.3rem;
+  font-weight: 700;
+  line-height: 1.25;
+  color: #FFFFFF;
+}
+
+.dc-meta,
+.dc-ubicacion {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--dc-texto-suave);
+}
+
+.dc-meta-sep { opacity: 0.6; }
+
+.dc-ubicacion svg { color: #FB7185; flex-shrink: 0; }
+
+.dc-descripcion {
+  margin: 0;
+  font-size: 0.98rem;
+  line-height: 1.55;
+  color: var(--dc-texto);
+}
+
+/* En Home la descripción se recorta a 3 líneas */
+.dc-card--resumen .dc-descripcion {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Etiquetas: siempre fondo oscuro/translúcido con texto claro (regla de contraste) */
+.dc-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  border: 1px solid transparent;
+  white-space: nowrap;
+}
+
+.dc-badge--urgencia-alta  { background: rgba(225, 29, 72, 0.18);  color: var(--color-peligro-claro); border-color: rgba(225, 29, 72, 0.45); }
+.dc-badge--urgencia-media { background: rgba(245, 158, 11, 0.16); color: #FCD34D; border-color: rgba(245, 158, 11, 0.45); }
+.dc-badge--urgencia-baja  { background: rgba(16, 185, 129, 0.16); color: var(--color-exito-claro); border-color: rgba(16, 185, 129, 0.45); }
+.dc-badge--tipo           { background: rgba(124, 58, 237, 0.28); color: #EDE9FE; border-color: rgba(196, 181, 253, 0.4); }
+.dc-badge--proceso        { background: rgba(59, 130, 246, 0.18); color: #BFDBFE; border-color: rgba(59, 130, 246, 0.45); }
+.dc-badge--resuelta       { background: rgba(148, 163, 184, 0.18); color: #E2E8F0; border-color: rgba(148, 163, 184, 0.4); }
+.dc-badge--verificada     { background: rgba(16, 185, 129, 0.16); color: var(--color-exito-claro); border-color: rgba(16, 185, 129, 0.45); }
+.dc-badge--pendiente      { background: rgba(148, 163, 184, 0.14); color: var(--color-texto-suave); border-color: rgba(148, 163, 184, 0.35); }
+
+/* Acciones */
+.dc-acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: auto;
+  padding-top: 0.6rem;
+}
+
+.dc-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 16px;
+  border-radius: 10px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  font-family: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+}
+
+.dc-btn:hover { transform: translateY(-1px); }
+
+.dc-btn:focus-visible {
+  outline: 3px solid var(--color-acento);
+  outline-offset: 2px;
+}
+
+.dc-btn--primario { background: var(--color-primario); color: #FFFFFF; }
+.dc-btn--primario:hover { background: var(--color-primario-oscuro); }
+
+.dc-btn--secundario {
+  background: transparent;
+  color: #E9E5FF;
+  border-color: rgba(196, 181, 253, 0.4);
+}
+.dc-btn--secundario:hover { background: rgba(196, 181, 253, 0.12); }
+
+/* Texto oscuro sobre verde para que se lea bien */
+.dc-btn--emergencia { background: var(--color-exito); color: #04261A; }
+.dc-btn--emergencia:hover { background: #34D399; }
+
+/* Móvil: la foto pasa arriba */
+@media (max-width: 720px) {
+  .dc-card,
+  .dc-card--resumen {
+    grid-template-columns: 1fr;
+  }
+  .dc-media { min-height: 190px; }
+  .dc-body { padding: 1rem 1.1rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dc-card, .dc-btn { transition: none; }
+  .dc-card--resaltada { animation: none; }
+}

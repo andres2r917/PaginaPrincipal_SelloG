@@ -1,74 +1,27 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import '../Style/Seccion1.css'
-import DenunciaCard from './DenunciaCard/DenunciaCard.jsx'
-import { getDenuncias } from '../Services/denunciasService.js'
-
-// Mascotas en adopción. Ciudades actualizadas a municipios del Cauca.
-const pets = [
-  {
-    id: 'm-001',
-    name: "Luna",
-    type: "Hembra",
-    breed: "Labrador",
-    age: "2 años",
-    location: "Popayán",
-    tag: "Urgente",
-    tagColor: "red",
-    img: "https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=400&q=80",
-  },
-  {
-    id: 'm-002',
-    name: "Milan",
-    type: "Macho",
-    breed: "Golden",
-    age: "1 año",
-    location: "Timbío",
-    tag: "Nuevo",
-    tagColor: "green",
-    img: "https://tse2.mm.bing.net/th/id/OIP.-XYeFswvtJZihDG8W1glgQHaEo?pid=Api&P=0&h=180",
-  },
-  {
-    id: 'm-003',
-    name: "Thor",
-    type: "Macho",
-    breed: "Doberman",
-    age: "3 años",
-    location: "Cajibío",
-    tag: "Destacado",
-    tagColor: "yellow",
-    img: "https://tse1.mm.bing.net/th/id/OIP.BeO1Xyw4weSOHsgzyuO36QHaE8?pid=Api&P=0&h=180",
-  },
-  {
-    id: 'm-004',
-    name: "Coco",
-    type: "Macho",
-    breed: "Beagle",
-    age: "8 meses",
-    location: "Piendamó",
-    tag: "Cachorro",
-    tagColor: "blue",
-    img: "https://images.unsplash.com/photo-1560807707-8cc77767d783?w=400&q=80",
-  },
-];
+import DenunciaCard from './Denuncias/DenunciaCard/DenunciaCard.jsx'
+import { useDenuncias } from '../Context/DenunciasContext.jsx'
+import { getMascotasDisponibles } from '../Services/mascotasService.js'
 
 const Seccion1 = () => {
   const navigate = useNavigate()
-  const [reportes, setReportes] = useState([])
+  const { denuncias } = useDenuncias()
+  const [mascotas, setMascotas] = useState([])
 
+  // Las 4 mascotas disponibles más recientes
   useEffect(() => {
-    let activo = true
-    getDenuncias().then((lista) => {
-      if (!activo) return
-      // Los 3 casos activos más recientes
-      const recientes = lista
-        .filter((d) => d.estado !== 'resuelta')
-        .sort((a, b) => new Date(b.fecha) - new Date(a.fecha))
-        .slice(0, 3)
-      setReportes(recientes)
-    })
-    return () => { activo = false }
+    getMascotasDisponibles()
+      .then((lista) => setMascotas(lista.sort((a, b) => b.id - a.id).slice(0, 4)))
+      .catch(() => setMascotas([]))
   }, [])
+
+  // Los 3 casos activos más recientes
+  const reportes = denuncias
+    .filter((d) => ['pendiente', 'verificada', 'en_rescate'].includes(d.estado))
+    .sort((a, b) => new Date(b.fecha) - new Date(a.fecha))
+    .slice(0, 3)
 
   return (
     <div>
@@ -116,32 +69,35 @@ const Seccion1 = () => {
         </div>
 
         <div className="sec1__grid">
-          {pets.map((pet) => (
+          {mascotas.map((pet, i) => (
             <div className="sec1__card" key={pet.id}>
               <div className="sec1__card-img-wrap">
-                <img src={pet.img} alt={pet.name} className="sec1__card-img" />
-                <span className={`sec1__tag sec1__tag--${pet.tagColor}`}>{pet.tag}</span>
+                {pet.img && <img src={pet.img} alt={pet.nombre} className="sec1__card-img" />}
+                {i === 0 && <span className="sec1__tag sec1__tag--green">Nuevo</span>}
               </div>
               <div className="sec1__card-body">
                 <div className="sec1__card-top">
-                  <h3 className="sec1__pet-name">{pet.name}</h3>
-                  <span className="sec1__pet-type">{pet.type}</span>
+                  <h3 className="sec1__pet-name">{pet.nombre}</h3>
+                  <span className="sec1__pet-type">{pet.sexo}</span>
                 </div>
-                <p className="sec1__pet-breed">{pet.breed}</p>
+                <p className="sec1__pet-breed">{pet.raza}</p>
                 <div className="sec1__card-meta">
-                  <span>{pet.age}</span>
-                  <span>{pet.location}</span>
+                  <span>{pet.edad}</span>
+                  <span>{pet.tamano}</span>
                 </div>
                 <button
                   type="button"
                   className="sec1__btn"
-                  onClick={() => navigate(`/adopcion?mascota=${pet.id}`)}
+                  onClick={() => navigate(`/adopcion?buscar=${encodeURIComponent(pet.nombre)}`)}
                 >
                   Quiero adoptarlo
                 </button>
               </div>
             </div>
           ))}
+          {mascotas.length === 0 && (
+            <p className="sec1__subtitle">Por ahora no hay mascotas disponibles. <Link to="/adopcion">Ver adopción</Link></p>
+          )}
         </div>
       </section>
 

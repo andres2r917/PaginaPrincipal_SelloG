@@ -26,17 +26,16 @@
   background: rgba(15, 23, 42, 0.88);
   border: 1px solid rgba(196, 181, 253, 0.35);
   border-radius: 14px;
-  color: #C4B5FD;
+  color: var(--color-acento);
   font-size: 1rem;
   font-weight: 800;
-  font-family: 'Nunito', sans-serif;
   cursor: pointer;
   transition: background 0.2s ease, border-color 0.2s ease;
 }
 
 .dnfeed-acordeon:hover {
   background: rgba(124, 58, 237, 0.22);
-  border-color: #7C3AED;
+  border-color: var(--color-primario);
 }
 
 .dnfeed-acordeon__flecha {
@@ -69,15 +68,14 @@
   padding: 8px 18px;
   font-size: 0.9rem;
   font-weight: 700;
-  font-family: 'Nunito', sans-serif;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .dnfeed-tab:hover,
 .dnfeed-tab--activa {
-  background: #7C3AED;
-  border-color: #7C3AED;
+  background: var(--color-primario);
+  border-color: var(--color-primario);
   color: #FFFFFF;
 }
 
@@ -100,11 +98,10 @@
   padding: 24px;
   text-align: center;
   color: rgba(241, 245, 249, 0.75);
-  font-family: 'Nunito', sans-serif;
 }
 
 .dnfeed-vacio a {
-  color: #C4B5FD;
+  color: var(--color-acento);
   font-weight: 700;
 }
 
@@ -114,8 +111,7 @@
   border: 1px solid rgba(196, 181, 253, 0.18);
   border-radius: 14px;
   padding: 18px;
-  color: #F1F5F9;
-  font-family: 'Nunito', sans-serif;
+  color: var(--color-texto-claro);
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -132,7 +128,7 @@
 .dnfeed-card__titulo {
   font-size: 1.05rem;
   font-weight: 800;
-  color: #C4B5FD;
+  color: var(--color-acento);
 }
 
 .dnfeed-card__badges {
@@ -147,7 +143,7 @@
 }
 
 .dnfeed-reportero--fundacion {
-  color: #C4B5FD;
+  color: var(--color-acento);
   font-weight: 700;
 }
 
@@ -183,14 +179,14 @@
   white-space: nowrap;
 }
 
-.dnfeed-badge--pendiente { background: rgba(245, 158, 11, 0.15); color: #F59E0B; }
-.dnfeed-badge--verificada { background: rgba(16, 185, 129, 0.15); color: #10B981; }
-.dnfeed-badge--en_rescate { background: rgba(124, 58, 237, 0.22); color: #C4B5FD; }
+.dnfeed-badge--pendiente { background: rgba(245, 158, 11, 0.15); color: var(--color-aviso); }
+.dnfeed-badge--verificada { background: rgba(16, 185, 129, 0.15); color: var(--color-exito); }
+.dnfeed-badge--en_rescate { background: rgba(124, 58, 237, 0.22); color: var(--color-acento); }
 .dnfeed-badge--resuelta { background: rgba(248, 250, 252, 0.1); color: rgba(248, 250, 252, 0.7); }
-.dnfeed-badge--descartada { background: rgba(225, 29, 72, 0.15); color: #E11D48; }
-.dnfeed-badge--urgencia-alta { background: rgba(225, 29, 72, 0.15); color: #E11D48; }
-.dnfeed-badge--urgencia-media { background: rgba(245, 158, 11, 0.15); color: #F59E0B; }
-.dnfeed-badge--urgencia-baja { background: rgba(16, 185, 129, 0.15); color: #10B981; }
+.dnfeed-badge--descartada { background: rgba(225, 29, 72, 0.15); color: var(--color-peligro); }
+.dnfeed-badge--urgencia-alta { background: rgba(225, 29, 72, 0.15); color: var(--color-peligro); }
+.dnfeed-badge--urgencia-media { background: rgba(245, 158, 11, 0.15); color: var(--color-aviso); }
+.dnfeed-badge--urgencia-baja { background: rgba(16, 185, 129, 0.15); color: var(--color-exito); }
 
 /* Evidencia */
 .dnfeed-evidencias {
@@ -205,7 +201,7 @@
   object-fit: cover;
   border-radius: 10px;
   border: 1px solid rgba(196, 181, 253, 0.2);
-  background: #0F172A;
+  background: var(--color-fondo);
 }
 
 /* Mini mapa */
@@ -225,7 +221,6 @@
   padding: 8px 14px;
   font-size: 0.85rem;
   font-weight: 700;
-  font-family: 'Nunito', sans-serif;
   text-decoration: none;
   cursor: pointer;
   border: 1px solid transparent;
@@ -237,23 +232,23 @@
 }
 
 .dnfeed-btn--primario {
-  background: #7C3AED;
+  background: var(--color-primario);
   color: #ffffff;
 }
 
 .dnfeed-btn--primario:hover {
-  background: #6D28D9;
+  background: var(--color-primario-oscuro);
 }
 
 .dnfeed-btn--contacto {
-  background: #10B981;
+  background: var(--color-exito);
   color: #ffffff;
 }
 
 .dnfeed-btn--secundario {
   background: transparent;
   border-color: rgba(196, 181, 253, 0.35);
-  color: #C4B5FD;
+  color: var(--color-acento);
 }
 
 .dnfeed-btn--secundario:hover {
@@ -273,8 +268,8 @@
   font-weight: 600;
 }
 
-.dnfeed-aviso--exito { background: rgba(16, 185, 129, 0.15); color: #10B981; }
-.dnfeed-aviso--error { background: rgba(225, 29, 72, 0.15); color: #E11D48; }
+.dnfeed-aviso--exito { background: rgba(16, 185, 129, 0.15); color: var(--color-exito); }
+.dnfeed-aviso--error { background: rgba(225, 29, 72, 0.15); color: var(--color-peligro); }
 
 @media (max-width: 680px) {
   .dnfeed-lista--grid {

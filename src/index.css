@@ -1,12 +1,5 @@
-:root {
-  --color-primario: #7C3AED;         /* Púrpura Principal */
-  --color-primario-hover: #6D28D9;   /* Variante oscura para :hover/:active */
-  --color-fondo: #0F172A;            /* Azul Medianoche */
-  --color-superficie: rgba(15, 23, 42, 0.75); /* Cristal/Superficies flotantes */
-  --color-acento-suave: #C4B5FD;     /* Lavanda Suave */
-  --color-exito: #10B981;            /* Verde Esmeralda */
-  --color-error: #E11D48;            /* Rojo Carmesí */
-}
+@import './Style/variables.css';
+@import './Style/utilidades.css';
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -15,7 +8,8 @@
 
 body,
 #root {
-  background-color: #0F172A;
+  font-family: 'Nunito', sans-serif;
+  background-color: var(--color-fondo);
   min-height: 100vh;
 }
 
@@ -25,7 +19,34 @@ select {
 }
 
 select option {
-  background-color: #0F172A !important;
-  color: #F8FAFC !important;
+  background-color: var(--color-fondo) !important;
+  color: var(--color-texto) !important;
   padding: 8px 12px;
+}
+
+/* Los controles de formulario no heredan la fuente por defecto */
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+}
+
+/* Iconos de react-icons alineados con el texto */
+svg {
+  vertical-align: middle;
+}
+
+/* Accesibilidad: foco visible con teclado y menos movimiento si el sistema lo pide */
+:focus-visible {
+  outline: 2px solid var(--color-acento-suave);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

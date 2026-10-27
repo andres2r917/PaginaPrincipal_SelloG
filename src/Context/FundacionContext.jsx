@@ -1,73 +1,97 @@
-import { createContext, useContext, useMemo, useState } from 'react'
+import { createContext, useContext, useEffect, useState } from 'react'
 import { useAuth } from './AuthContext.jsx'
-import { seedMascotas, seedSolicitudes, CAPACIDAD_REFUGIO } from '../Data/seedFundacion.js'
+import * as fundacionApi from '../Services/fundacionService.js'
 
 const FundacionContext = createContext(null)
 
-// Siguiente id disponible dentro de un arreglo [{ id }]
-const siguienteId = (lista) => (lista.length ? Math.max(...lista.map((i) => i.id)) + 1 : 1)
+// Las acciones devuelven { ok, mensaje } para que cada pantalla muestre el aviso si algo falla
+const intentar = async (accion) => {
+  try {
+    await accion()
+    return { ok: true }
+  } catch (error) {
+    return { ok: false, mensaje: error.message }
+  }
+}
 
 export const FundacionProvider = ({ children }) => {
-  const { usuario } = useAuth()
-  const fundacionId = usuario?.fundacionId ?? 1
+  const { usuario, guardarPerfilFundacion } = useAuth()
+  const idUsuario = usuario?.id
+  const esFundacion = usuario?.rol === 'fundacion'
 
-  const [todasMascotas, setTodasMascotas] = useState(seedMascotas)
-  const [todasSolicitudes, setTodasSolicitudes] = useState(seedSolicitudes)
+  // Los datos guardan de quién son: al cambiar de cuenta no se ven los de la anterior
+  const [datos, setDatos] = useState({ idUsuario: null, mascotas: [], solicitudes: [] })
+  const [error, setError] = useState('')
 
-  // Solo los datos de la fundación con sesión activa
-  const mascotas = useMemo(
-    () => todasMascotas.filter((m) => m.fundacionId === fundacionId),
-    [todasMascotas, fundacionId]
-  )
-  const solicitudes = useMemo(
-    () => todasSolicitudes.filter((s) => s.fundacionId === fundacionId),
-    [todasSolicitudes, fundacionId]
-  )
+  const cargarTodo = () =>
+    Promise.all([fundacionApi.getMascotas(), fundacionApi.getSolicitudes()])
+      .then(([mascotas, solicitudes]) => {
+        setDatos({ idUsuario, mascotas, solicitudes })
+        setError('')
+      })
+      .catch((e) => setError(e.message))
 
-  const agregarMascota = (datos) =>
-    setTodasMascotas((lista) => [
-      ...lista,
-      {
-        id: siguienteId(lista),
-        fundacionId,
-        estadoAdopcion: 'en_cuarentena',
-        fechaIngreso: new Date().toISOString().slice(0, 10),
-        ...datos,
-      },
-    ])
+  // Se carga al entrar y se refresca cada minuto (así llegan las solicitudes nuevas sin recargar)
+  useEffect(() => {
+    if (!esFundacion) return
+    cargarTodo()
+    const temporizador = setInterval(() => {
+      if (!document.hidden) cargarTodo()
+    }, 60000)
+    return () => clearInterval(temporizador)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [esFundacion, idUsuario])
 
-  const actualizarMascota = (id, datos) =>
-    setTodasMascotas((lista) => lista.map((m) => (m.id === id ? { ...m, ...datos } : m)))
+  const sonSuyos = datos.idUsuario === idUsuario
+  const mascotas = sonSuyos ? datos.mascotas : []
+  const solicitudes = sonSuyos ? datos.solicitudes : []
 
-  // Mueve una mascota entre columnas del Kanban
-  const moverMascota = (id, estadoAdopcion) => actualizarMascota(id, { estadoAdopcion })
+  // Registrar el ingreso de una mascota (la foto va como archivo o como enlace)
+  const agregarMascota = (nueva) =>
+    intentar(async () => {
+      await fundacionApi.crearMascota(nueva)
+      await cargarTodo()
+    })
 
-  // Aprobar, rechazar o pasar a evaluación; al aprobar la mascota pasa a "en_proceso"
-  const resolverSolicitud = (id, estado, comentariosFundacion = '') => {
-    const solicitud = todasSolicitudes.find((s) => s.id === id)
-    setTodasSolicitudes((lista) =>
-      lista.map((s) => (s.id === id ? { ...s, estado, comentariosFundacion } : s))
-    )
-    if (estado === 'aprobada' && solicitud) moverMascota(solicitud.mascotaId, 'en_proceso')
+  const actualizarMascota = (id, cambios) =>
+    intentar(async () => {
+      await fundacionApi.actualizarMascota(id, cambios)
+      await cargarTodo()
+    })
+
+  // Mueve una mascota entre columnas del Kanban: la tarjeta cambia al instante y, si falla, se recarga
+  const moverMascota = async (id, estadoAdopcion) => {
+    setDatos((actual) => ({
+      ...actual,
+      mascotas: actual.mascotas.map((m) => (m.id === id ? { ...m, estadoAdopcion } : m)),
+    }))
+    const resultado = await intentar(() => fundacionApi.actualizarMascota(id, { estadoAdopcion }))
+    if (!resultado.ok) await cargarTodo()
+    return resultado
   }
 
-  const [capacidad, setCapacidad] = useState(CAPACIDAD_REFUGIO)
+  // Aprobar, rechazar o pasar a evaluación; al aprobar la API deja la mascota "en_proceso"
+  const resolverSolicitud = (id, estado, comentariosFundacion = '') =>
+    intentar(async () => {
+      await fundacionApi.resolverSolicitud(id, estado, comentariosFundacion)
+      await cargarTodo()
+    })
+
+  // Cupos del refugio: viven en la fundación (columna Capacidad)
+  const capacidad = usuario?.capacidad ?? 50
 
   const actualizarCapacidad = (nuevaCapacidad) => {
     const num = parseInt(nuevaCapacidad, 10)
-    if (!isNaN(num) && num > 0) {
-      setCapacidad(num)
-      return true
-    }
-    return false
+    if (isNaN(num) || num < 1) return Promise.resolve({ ok: false, mensaje: 'Escribe un número mayor que cero.' })
+    return intentar(() => guardarPerfilFundacion({ capacidad: num }))
   }
 
   const value = {
-    fundacionId,
+    fundacionId: usuario?.fundacionId,
     mascotas,
     solicitudes,
     capacidad,
-    setCapacidad,
+    error,
     actualizarCapacidad,
     agregarMascota,
     actualizarMascota,

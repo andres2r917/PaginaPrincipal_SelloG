@@ -7,24 +7,26 @@ import Registro from './Pages/Registro.jsx'
 import Adopcion from './Pages/Adopcion.jsx'
 import Denuncia from './Pages/Denuncia.jsx'
 import Perfil from './Pages/Perfil.jsx'
+import MisSolicitudes from './Pages/MisSolicitudes.jsx'
 import RegistroFundacion from './Pages/RegistroFundacion.jsx'
-import AdminDashboard from './Pages/AdminDashboard.jsx'
-import AdminAdopciones from './Pages/AdminAdopciones.jsx'
-import AdminMascotas from './Pages/AdminMascotas.jsx'
-import AdminDenuncias from './Pages/AdminDenuncias.jsx'
-import AdminUsuarios from './Pages/AdminUsuarios.jsx'
-import AdminConfiguracion from './Pages/AdminConfiguracion.jsx'
+import AdminDashboard from './Pages/Admin/AdminDashboard.jsx'
+import AdminAdopciones from './Pages/Admin/AdminAdopciones.jsx'
+import AdminMascotas from './Pages/Admin/AdminMascotas.jsx'
+import AdminDenuncias from './Pages/Admin/AdminDenuncias.jsx'
+import AdminUsuarios from './Pages/Admin/AdminUsuarios.jsx'
+import AdminConfiguracion from './Pages/Admin/AdminConfiguracion.jsx'
 import { AuthProvider } from './Context/AuthContext.jsx'
 import RutaProtegida from './Componentes/RutaProtegida.jsx'
+import AdminLayout from './Componentes/Admin/AdminLayout.jsx'
 import { FundacionProvider } from './Context/FundacionContext.jsx'
-import FundacionLayout from './Componentes/FundacionLayout.jsx'
-import FundacionDashboard from './Pages/FundacionDashboard.jsx'
-import FundacionExpedientes from './Pages/FundacionExpedientes.jsx'
-import FundacionPipeline from './Pages/FundacionPipeline.jsx'
-import FundacionAdopciones from './Pages/FundacionAdopciones.jsx'
-import FundacionAjustes from './Pages/FundacionAjustes.jsx'
-import FundacionProximamente from './Pages/FundacionProximamente.jsx'
-import FundacionDenuncias from './Pages/FundacionDenuncias.jsx'
+import FundacionLayout from './Componentes/Fundacion/FundacionLayout.jsx'
+import FundacionDashboard from './Pages/Fundacion/FundacionDashboard.jsx'
+import FundacionExpedientes from './Pages/Fundacion/FundacionExpedientes.jsx'
+import FundacionPipeline from './Pages/Fundacion/FundacionPipeline.jsx'
+import FundacionAdopciones from './Pages/Fundacion/FundacionAdopciones.jsx'
+import FundacionAjustes from './Pages/Fundacion/FundacionAjustes.jsx'
+import FundacionProximamente from './Pages/Fundacion/FundacionProximamente.jsx'
+import FundacionDenuncias from './Pages/Fundacion/FundacionDenuncias.jsx'
 import { DenunciasProvider } from './Context/DenunciasContext.jsx'
 
 const AppContenido = () => {
@@ -52,16 +54,19 @@ const AppContenido = () => {
         {/* Solo usuario civil */}
         <Route element={<RutaProtegida roles={['civil']} />}>
           <Route path="/perfil" element={<Perfil />} />
+          <Route path="/mis-solicitudes" element={<MisSolicitudes />} />
         </Route>
 
         {/* Solo administrador */}
         <Route element={<RutaProtegida roles={['admin']} />}>
-          <Route path="/admin" element={<AdminDashboard />} />
-          <Route path="/admin/adopciones" element={<AdminAdopciones />} />
-          <Route path="/admin/mascotas" element={<AdminMascotas />} />
-          <Route path="/admin/denuncias" element={<AdminDenuncias />} />
-          <Route path="/admin/usuarios" element={<AdminUsuarios />} />
-          <Route path="/admin/configuracion" element={<AdminConfiguracion />} />
+          <Route element={<AdminLayout />}>
+            <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/admin/adopciones" element={<AdminAdopciones />} />
+            <Route path="/admin/mascotas" element={<AdminMascotas />} />
+            <Route path="/admin/denuncias" element={<AdminDenuncias />} />
+            <Route path="/admin/usuarios" element={<AdminUsuarios />} />
+            <Route path="/admin/configuracion" element={<AdminConfiguracion />} />
+          </Route>
         </Route>
 
         {/* Solo fundación, con su propio contexto de datos */}

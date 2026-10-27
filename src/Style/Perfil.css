@@ -3,14 +3,14 @@
   --perfil-bg: #0B0F19;
   --perfil-card-bg: rgba(15, 23, 42, 0.82);
   --perfil-border: rgba(124, 58, 237, 0.28);
-  --perfil-brand: #7C3AED;
-  --perfil-brand-hover: #6D28D9;
+  --perfil-brand: var(--color-primario);
+  --perfil-brand-hover: var(--color-primario-oscuro);
   --perfil-brand-glow: rgba(124, 58, 237, 0.35);
-  --perfil-accent: #C4B5FD;
+  --perfil-accent: var(--color-acento);
   --perfil-input-bg: rgba(15, 23, 42, 0.7);
   --perfil-input-border: rgba(255, 255, 255, 0.14);
-  --perfil-text: #F8FAFC;
-  --perfil-text-muted: #94A3B8;
+  --perfil-text: var(--color-texto);
+  --perfil-text-muted: var(--color-texto-gris);
 }
 
 .perfil-page {
@@ -19,7 +19,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: 'Nunito', 'Segoe UI', sans-serif;
   overflow-x: hidden;
   background-color: var(--perfil-bg);
 }
@@ -132,7 +131,7 @@
   right: 0;
   background-color: var(--perfil-brand);
   color: #FFFFFF;
-  border: 2px solid #0F172A;
+  border: 2px solid var(--color-fondo);
   border-radius: 50%;
   width: 34px;
   height: 34px;
@@ -211,8 +210,8 @@
 }
 
 .perfil-select option {
-  background-color: #0F172A;
-  color: #F8FAFC;
+  background-color: var(--color-fondo);
+  color: var(--color-texto);
 }
 
 /* Opciones de hijos */
@@ -322,4 +321,20 @@
   .perfil-fila {
     grid-template-columns: 1fr;
   }
+}
+
+.perfil-error {
+  margin: 0 0 12px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: rgba(225, 29, 72, 0.15);
+  border: 1px solid rgba(225, 29, 72, 0.5);
+  color: #fecdd3;
+  font-size: 14px;
+  text-align: center;
+}
+
+.btn-completar:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }

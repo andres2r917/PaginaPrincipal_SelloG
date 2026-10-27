@@ -2,7 +2,7 @@
 .sg-footer {
   background: #0B1224;
   border-top: 1px solid rgba(196, 181, 253, 0.15);
-  color: #CBD5E1;
+  color: var(--color-texto-suave);
 }
 
 .sg-footer__contenedor {
@@ -25,7 +25,7 @@
   font-size: 0.8rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #C4B5FD;
+  color: var(--color-acento);
 }
 
 .sg-footer__texto {
@@ -62,12 +62,12 @@
 
 .sg-footer__lista svg {
   margin-top: 3px;
-  color: #C4B5FD;
+  color: var(--color-acento);
   flex-shrink: 0;
 }
 
 .sg-footer a {
-  color: #CBD5E1;
+  color: var(--color-texto-suave);
   text-decoration: none;
   transition: color 0.2s ease;
 }
@@ -75,7 +75,7 @@
 .sg-footer a:hover { color: #FFFFFF; }
 
 .sg-footer a:focus-visible {
-  outline: 3px solid #C4B5FD;
+  outline: 3px solid var(--color-acento);
   outline-offset: 3px;
   border-radius: 4px;
 }
@@ -97,13 +97,13 @@
   border-radius: 50%;
   background: rgba(124, 58, 237, 0.2);
   border: 1px solid rgba(196, 181, 253, 0.3);
-  color: #F1F5F9;
+  color: var(--color-texto-claro);
   font-size: 1rem;
 }
 
 .sg-footer__redes a:hover {
-  background: #7C3AED;
-  border-color: #7C3AED;
+  background: var(--color-primario);
+  border-color: var(--color-primario);
 }
 
 .sg-footer__legal {

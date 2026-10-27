@@ -1,38 +1,44 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;900&display=swap');
-
-
-.login-page {
+/* ── Pantallas de acceso (Login y Registro): foto a un lado y panel oscuro al otro ── */
+.acceso-page {
   min-height: calc(100vh - 70px);
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #f4fafd;
   padding: 40px 20px;
-  font-family: 'Nunito', sans-serif;
+  /* Foto de fondo con velo oscuro para que el panel se lea bien */
+  background:
+    radial-gradient(circle at 12% 18%, rgba(124, 58, 237, 0.30), transparent 45%),
+    linear-gradient(rgba(11, 15, 25, 0.72), rgba(11, 15, 25, 0.82)),
+    url('https://images.unsplash.com/photo-1537151625747-768eb6cf92b2?w=1920&q=70') center / cover no-repeat fixed,
+    var(--color-fondo);
 }
 
-.login-container {
+.acceso-card {
   display: flex;
   width: 100%;
-  max-width: 900px;
-  min-height: 520px;
-  border-radius: 20px;
+  max-width: 980px;
+  min-height: 600px;
+  background: rgba(15, 23, 42, 0.92);
+  border: 1px solid rgba(124, 58, 237, 0.28);
+  border-radius: 22px;
   overflow: hidden;
-  box-shadow: 0 16px 48px rgba(22, 29, 31, 0.288);
- background: rgba(0, 0, 0, 0.416) ;
- backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+  animation: accesoEntrar 0.45s cubic-bezier(.22, 1, .36, 1) both;
 }
 
+@keyframes accesoEntrar {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
 
-.login-visual {
+/* Lado de la foto */
+.acceso-visual {
   position: relative;
-  width: 48%;
+  width: 44%;
   flex-shrink: 0;
-  overflow: hidden;
 }
 
-.login-visual__img {
+.acceso-visual__img {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -40,229 +46,297 @@
   object-fit: cover;
 }
 
-.login-visual__overlay {
+.acceso-visual__overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.3) 55%, transparent 100%);
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  padding: 36px 32px;
+  padding: 32px;
+  background: linear-gradient(to top, rgba(15, 23, 42, 0.96) 0%, rgba(15, 23, 42, 0.5) 55%, rgba(124, 58, 237, 0.18) 100%);
 }
 
-.login-visual__title {
-  color: var(--color-primario);
-  font-size: 1.3rem;
-  font-weight: 700;
-  line-height: 1.4;
-  margin: 0 0 10px;
+.acceso-visual__chip {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(124, 58, 237, 0.9);
+  color: #ffffff;
+  border-radius: 20px;
+  padding: 5px 12px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  margin-bottom: 14px;
 }
 
-.login-visual__subtitle {
-  color: rgba(255,255,255,0.85);
-  font-size: 0.9rem;
-  line-height: 1.6;
-  margin: 0;
+.acceso-visual__title {
+  color: #ffffff;
+  font-size: 1.6rem;
+  font-weight: 900;
+  line-height: 1.2;
+  margin-bottom: 10px;
 }
 
+.acceso-visual__subtitle {
+  color: rgba(241, 245, 249, 0.85);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
 
-.login-form-side {
+/* Lado del formulario */
+.acceso-panel {
   flex: 1;
-  padding: 48px 40px;
+  min-width: 0;
+  padding: 44px;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
-.login-brand {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 24px;
-}
+.acceso-header { margin-bottom: 24px; }
 
-.login-brand__icon {
-  font-size: 1.5rem;
-}
-
-.login-brand__name {
-  font-size: 1.2rem;
+.acceso-header h1 {
+  color: var(--color-texto);
+  font-size: 1.8rem;
   font-weight: 900;
-  color: var(--color-primario);
+  margin-bottom: 6px;
 }
 
-
-.login-form-header {
-  margin-bottom: 28px;
+.acceso-header p {
+  color: rgba(241, 245, 249, 0.7);
+  font-size: 0.95rem;
 }
 
-.login-form-header__title {
-  font-size: 1.75rem;
-  font-weight: 900;
-  color: var(--color-primario);
-  margin: 0 0 6px;
-}
-
-.login-form-header__sub {
-  font-size: 0.9rem;
-  color: #fcfcfc;
-  margin: 0;
-}
-
-
-.login-form {
+.acceso-form {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 16px;
 }
 
-.lg-group {
+.acceso-fila {
+  display: flex;
+  gap: 14px;
+}
+
+.acceso-grupo {
   display: flex;
   flex-direction: column;
   gap: 6px;
+  flex: 1;
+  min-width: 0;
 }
 
-.lg-label-row {
+.acceso-label-fila {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.lg-label {
-  font-size: 0.78rem;
+.acceso-label {
+  color: rgba(241, 245, 249, 0.85);
+  font-size: 0.8rem;
   font-weight: 700;
-  color: #ffffffee;
-  text-transform: uppercase;
-  letter-spacing: 0.4px;
 }
 
-.lg-forgot {
-  font-size: 0.78rem;
-  font-weight: 600;
-  color: #ffffff;
+/* Campo con icono a la izquierda */
+.acceso-campo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 12px;
+  padding: 0 14px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.acceso-campo:focus-within {
+  border-color: var(--color-primario);
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.25);
+}
+
+.acceso-campo > svg {
+  flex-shrink: 0;
+  color: rgba(196, 181, 253, 0.85);
+  font-size: 1.05rem;
+}
+
+.acceso-campo input {
+  flex: 1;
+  min-width: 0;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--color-texto);
+  font-size: 0.95rem;
+  padding: 13px 0;
+}
+
+.acceso-campo input::placeholder { color: rgba(241, 245, 249, 0.5); }
+
+/* Se oculta el ojo nativo del navegador: la página ya trae el suyo */
+.acceso-campo input::-ms-reveal,
+.acceso-campo input::-ms-clear { display: none; }
+
+/* El relleno automático del navegador no debe pintar el campo de blanco */
+.acceso-campo input:-webkit-autofill,
+.acceso-campo input:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--color-texto);
+  box-shadow: 0 0 0 1000px #1e293b inset;
+  caret-color: var(--color-texto);
+}
+
+/* Botón de mostrar u ocultar contraseña */
+.acceso-ojo {
+  display: flex;
+  background: none;
+  border: none;
+  color: rgba(196, 181, 253, 0.85);
+  font-size: 1.1rem;
+  padding: 4px;
+  cursor: pointer;
+}
+
+.acceso-ojo:hover { color: #ffffff; }
+
+.acceso-ayuda {
+  color: rgba(241, 245, 249, 0.6);
+  font-size: 0.75rem;
+}
+
+.acceso-enlace {
+  color: var(--color-acento);
+  font-size: 0.85rem;
+  font-weight: 700;
   text-decoration: none;
 }
 
-.lg-forgot:hover {
-  text-decoration: underline;
+.acceso-enlace:hover { text-decoration: underline; }
+
+.acceso-opciones {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
-.lg-input {
-  height: 46px;
-  padding: 0 14px;
-  border: 1.5px solid #e5e7eb;
-  border-radius: 10px;
-  font-size: 0.9rem;
-  font-family: 'Nunito', sans-serif;
-  color: hsl(0, 0%, 0%);
-  background: #ffffff94;
-  outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.lg-input:focus {
-  border-color: var(--color-primario);
-  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
-}
-
-
-.lg-remember {
+.acceso-recordar {
   display: flex;
   align-items: center;
   gap: 8px;
+  color: rgba(241, 245, 249, 0.8);
   font-size: 0.85rem;
-  color: #e6e8ece7;
-}
-
-.lg-remember input[type="checkbox"] {
   accent-color: var(--color-primario);
-  width: 16px;
-  height: 16px;
-  cursor: pointer;
 }
 
-
-.lg-btn {
+.acceso-btn {
   width: 100%;
-  height: 48px;
   background: var(--color-primario);
   color: #ffffff;
   border: none;
-  text-decoration: none;
-  border-radius: 10px;
+  border-radius: 12px;
+  padding: 13px;
   font-size: 1rem;
   font-weight: 800;
-  font-family: 'Nunito', sans-serif;
   cursor: pointer;
-  justify-content: center;
-  align-items: center;
-  transition: background 0.25s, transform 0.2s, box-shadow 0.25s;
+  box-shadow: 0 8px 20px rgba(124, 58, 237, 0.35);
+  transition: background 0.2s, transform 0.2s;
 }
 
-.lg-btn:hover {
-  background: var(--color-primario-hover);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+.acceso-btn:hover:not(:disabled) {
+  background: var(--color-primario-oscuro);
+  transform: translateY(-1px);
 }
 
-.lg-btn:active {
-  transform: scale(0.98);
+.acceso-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
+.acceso-btn--secundario {
+  width: auto;
+  background: transparent;
+  border: 1px solid rgba(196, 181, 253, 0.4);
+  color: var(--color-acento);
+  box-shadow: none;
+  padding: 13px 20px;
+}
 
-.login-footer {
-  margin-top: 24px;
-  padding-top: 20px;
-  border-top: 1px solid #e5e7eb;
+.acceso-btn--secundario:hover:not(:disabled) {
+  background: rgba(124, 58, 237, 0.15);
+  transform: none;
+}
+
+/* Mensajes de éxito y de error */
+.acceso-aviso {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.acceso-aviso svg { flex-shrink: 0; margin-top: 2px; }
+
+.acceso-aviso--ok {
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  color: var(--color-exito-claro);
+}
+
+.acceso-aviso--error {
+  background: rgba(225, 29, 72, 0.15);
+  border: 1px solid rgba(225, 29, 72, 0.45);
+  color: var(--color-peligro-claro);
+}
+
+.acceso-pie {
+  margin-top: 22px;
   text-align: center;
-  font-size: 0.875rem;
-  color: #ffffff;
+  color: rgba(241, 245, 249, 0.7);
+  font-size: 0.9rem;
+  line-height: 1.8;
 }
 
-.login-footer__link {
-  color: #ffffff;
-  font-weight: 700;
-  text-decoration: none;
+/* Acceso rápido de desarrollo (solo con npm run dev) */
+.acceso-demo {
+  margin-top: 4px;
+  padding: 12px 14px;
+  border: 1px dashed rgba(196, 181, 253, 0.35);
+  border-radius: 12px;
 }
 
-.login-footer__link:hover {
-  color: #ffffff;
-  text-decoration: underline;
+.acceso-demo__titulo {
+  color: rgba(241, 245, 249, 0.6);
+  font-size: 0.75rem;
+  margin-bottom: 8px;
 }
 
-
-@media (max-width: 680px) {
-  .login-container {
-    flex-direction: column;
-  }
-
-  .login-visual {
-    width: 100%;
-    height: 220px;
-  }
-
-  .login-form-side {
-    padding: 32px 24px;
-  }
+.acceso-demo__botones {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
-/* Mensaje de error del login */
-.lg-error {
-  background: rgba(225, 29, 72, 0.12);
-  color: #E11D48;
-  border: 1px solid rgba(225, 29, 72, 0.4);
-  padding: 10px;
+.acceso-demo__botones button {
+  background: transparent;
+  color: var(--color-acento);
+  border: 1px solid rgba(124, 58, 237, 0.6);
   border-radius: 8px;
-  margin-bottom: 15px;
-  text-align: center;
-  font-size: 14px;
+  padding: 6px 12px;
+  font-size: 0.75rem;
+  cursor: pointer;
 }
 
-/* Acceso rápido de desarrollo */
-.lg-demo { margin-top: 16px; padding-top: 14px; border-top: 1px dashed rgba(124, 58, 237, 0.35); }
-.lg-demo__titulo { font-size: 12px; opacity: 0.7; margin-bottom: 8px; text-align: center; }
-.lg-demo__botones { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
-.lg-demo__botones button { background: transparent; color: #7C3AED; border: 1px solid #7C3AED; border-radius: 8px; padding: 6px 12px; font-size: 12px; cursor: pointer; }
-.lg-demo__botones button:hover { background: rgba(124, 58, 237, 0.12); }
+.acceso-demo__botones button:hover { background: rgba(124, 58, 237, 0.2); }
+
+@media (max-width: 860px) {
+  .acceso-visual { display: none; }
+  .acceso-panel { padding: 32px 22px; }
+  .acceso-fila { flex-direction: column; }
+}

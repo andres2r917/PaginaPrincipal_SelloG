@@ -1,108 +1,81 @@
-// Servicio de denuncias (por ahora con datos de prueba).
-// TODO: reemplazar por llamada a la API de Laravel (GET /api/denuncias)
+import api, { mensajeError } from './api.js'
 
-// Teléfono de emergencia de respaldo.
-// TODO: tomar de platform_settings.Telefono_emergencia cuando exista la API
-export const TELEFONO_EMERGENCIA = '+57 300 123 4567';
+// Fecha_denuncia llega como "2026-10-24 16:46:09" (hora UTC, sin zona): se marca como UTC para que "hace X" salga bien
+const aFechaIso = (fecha) => (fecha && !fecha.includes('T') ? `${fecha.replace(' ', 'T')}Z` : fecha)
 
-// Genera una fecha ISO restando minutos a la hora actual (para que "hace X" siempre sea coherente)
-const hace = (minutos) => new Date(Date.now() - minutos * 60000).toISOString();
+// Convierte una denuncia de la API (nombres de columna) a la forma que usan los componentes
+export const mapDenuncia = (d) => ({
+  id: d.id,
+  tipo: d.Tipo_denuncia,
+  descripcion: d.Descripcion_hecho,
+  ubicacion: d.Ubicacion,
+  latitud: d.Latitud != null ? Number(d.Latitud) : null,
+  longitud: d.Longitud != null ? Number(d.Longitud) : null,
+  anonima: Boolean(d.Anonima),
+  estado: d.Estado_denuncia,
+  urgencia: d.Urgencia,
+  fecha: aFechaIso(d.Fecha_denuncia),
+  // "Mías" no trae reportado_por: se deduce de si fue anónima
+  reportadoPor: d.reportado_por ?? (d.Anonima
+    ? { tipo: 'anonimo', nombre: 'Denuncia anónima' }
+    : { tipo: 'civil', nombre: 'Usuario registrado' }),
+  fundacionAsignada: d.fundacion_asignada
+    ? { id: d.fundacion_asignada.id, nombre: d.fundacion_asignada.Nombre_organizacion, telefono: d.fundacion_asignada.Telefono }
+    : null,
+  fechaAsignacion: d.Fecha_asignacion,
+  evidencias: (d.evidences ?? []).map((e) => ({
+    id: e.id,
+    url: e.Url,
+    tipoArchivo: e.Tipo_archivo,
+    tamanoBytes: e.Tamano_bytes,
+  })),
+})
 
-/*
-  Estructura canónica de una denuncia:
-  {
-    id: string,
-    titulo?: string,            // opcional; si no existe se muestra el tipo
-    tipo: string,               // 'Maltrato físico' | 'Abandono' | ...
-    urgencia: 'alta' | 'media' | 'baja',
-    estado: 'abierta' | 'en_proceso' | 'resuelta',
-    verificada: boolean,
-    anonima: boolean,
-    autor: string | null,
-    descripcion: string,
-    direccion: string,
-    lat: number | null,
-    lng: number | null,
-    fecha: string (ISO),
-    evidencia: string[]         // URLs o base64 de fotos
-  }
-*/
-const DENUNCIAS_MOCK = [
-  {
-    id: 'd-001',
-    tipo: 'Maltrato físico',
-    urgencia: 'alta',
-    estado: 'abierta',
-    verificada: false,
-    anonima: false,
-    autor: 'Usuario registrado',
-    descripcion: 'Vi un caso de maltrato animal en Bello Horizonte.',
-    direccion: 'Bello Horizonte, Comuna 2, Popayán, Cauca',
-    lat: 2.4575,
-    lng: -76.6058,
-    fecha: hace(4),
-    evidencia: [
-      'https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=600&h=400&fit=crop'
-    ]
-  },
-  {
-    id: 'd-002',
-    tipo: 'Maltrato físico',
-    urgencia: 'alta',
-    estado: 'abierta',
-    verificada: true,
-    anonima: false,
-    autor: 'Usuario registrado',
-    descripcion: 'Perro atado sin agua ni comida frente a una casa abandonada. Se ve muy delgado.',
-    direccion: 'Carrera 6 #4-20, Centro, Popayán, Cauca',
-    lat: 2.4419,
-    lng: -76.6063,
-    fecha: hace(60 * 24 * 2),
-    evidencia: [
-      'https://images.unsplash.com/photo-1450778869180-41d0601e046e?w=600&h=400&fit=crop'
-    ]
-  },
-  {
-    id: 'd-003',
-    tipo: 'Abandono',
-    urgencia: 'media',
-    estado: 'abierta',
-    verificada: true,
-    anonima: true,
-    autor: null,
-    descripcion: 'Gata con crías abandonadas dentro de una caja junto al parque.',
-    direccion: 'Parque Caldas, Popayán, Cauca',
-    lat: 2.4421,
-    lng: -76.6067,
-    fecha: hace(60 * 24 * 2),
-    evidencia: [
-      'https://images.unsplash.com/photo-1537151625747-768eb6cf92b2?w=600&h=400&fit=crop'
-    ]
-  }
-];
-
-// Devuelve la lista de denuncias. Es asíncrona para que el cambio a la API no afecte a los componentes.
-export async function getDenuncias() {
-  return DENUNCIAS_MOCK;
+// Feed público; el admin ve además las descartadas
+export const getDenuncias = async (esAdmin = false) => {
+  const { data } = await api.get(esAdmin ? '/admin/denunciations' : '/denunciations')
+  return data.map(mapDenuncia)
 }
 
-// Crea una denuncia nueva (desde el formulario) con la estructura canónica.
-// TODO: reemplazar por POST /api/denuncias
-export function crearDenunciaLocal(datos) {
-  return {
-    id: `local-${Date.now()}`,
-    titulo: datos.titulo || undefined,
-    tipo: datos.tipo,
-    urgencia: datos.urgencia || 'media',
-    estado: 'abierta',
-    verificada: false,
-    anonima: Boolean(datos.anonima),
-    autor: datos.anonima ? null : (datos.autor || 'Usuario registrado'),
-    descripcion: datos.descripcion,
-    direccion: datos.direccion,
-    lat: datos.lat ?? null,
-    lng: datos.lng ?? null,
-    fecha: new Date().toISOString(),
-    evidencia: datos.evidencia || []
-  };
+// Pestaña "Mías" (requiere sesión)
+export const getMisDenuncias = async () => {
+  const { data } = await api.get('/denunciations/mine')
+  return data.map(mapDenuncia)
 }
+
+// Teléfono de emergencia de la plataforma (platform_settings)
+export const getTelefonoEmergencia = async () => {
+  const { data } = await api.get('/settings/emergency-phone')
+  return data.Telefono_emergencia ?? ''
+}
+
+// Crea una denuncia. Va como FormData porque lleva archivos (evidencias[]).
+export const crearDenuncia = async (datos) => {
+  const formData = new FormData()
+  formData.append('Tipo_denuncia', datos.tipo)
+  formData.append('Descripcion_hecho', datos.descripcion)
+  formData.append('Ubicacion', datos.ubicacion)
+  if (datos.latitud != null) formData.append('Latitud', datos.latitud)
+  if (datos.longitud != null) formData.append('Longitud', datos.longitud)
+  formData.append('Anonima', datos.anonima ? 1 : 0)
+  formData.append('Urgencia', datos.urgencia || 'Media')
+  datos.archivos?.forEach((archivo) => formData.append('evidencias[]', archivo))
+
+  try {
+    const { data } = await api.post('/denunciations', formData)
+    return mapDenuncia(data)
+  } catch (error) {
+    throw new Error(mensajeError(error), { cause: error })
+  }
+}
+
+// Una fundación se hace cargo del caso. Si otra se adelantó, la API responde 409.
+export const reclamarDenuncia = (id) => api.patch(`/denunciations/${id}/claim`)
+
+// El admin asigna el caso a una fundación verificada
+export const asignarDenuncia = (id, fundacionId) =>
+  api.put(`/admin/denunciations/${id}/assign`, { Id_fundacion_asignada: fundacionId })
+
+// Admin: cualquier estado. Fundación: solo en su propio caso.
+export const actualizarEstado = (id, estado) =>
+  api.patch(`/denunciations/${id}/status`, { Estado_denuncia: estado })

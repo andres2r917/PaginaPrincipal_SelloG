@@ -4,7 +4,12 @@ import { rutaInicioPorRol } from '../Services/authService.js'
 
 // Uso: <Route element={<RutaProtegida roles={['admin']} />}> ...rutas hijas... </Route>
 const RutaProtegida = ({ roles }) => {
-  const { usuario } = useAuth()
+  const { usuario, cargando } = useAuth()
+
+  // Se está verificando el token guardado: no se redirige todavía
+  if (cargando) {
+    return null
+  }
 
   // Sin sesión: se envía al login
   if (!usuario) {

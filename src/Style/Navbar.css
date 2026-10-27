@@ -41,7 +41,7 @@
 }
 
 .hero-highlight {
-  color: #7C3AED;
+  color: var(--color-primario);
 }
 
 .hero-text {
@@ -63,7 +63,6 @@
 .btn {
   padding: 0.75rem 1.6rem;
   border-radius: 999px;
-  font-family: 'Nunito', sans-serif;
   font-weight: 800;
   font-size: 1rem;
   text-decoration: none;
@@ -75,7 +74,7 @@
 }
 
 .btn-primary {
-  background: #7C3AED;
+  background: var(--color-primario);
   color: #fff;
   box-shadow: 0 4px 20px rgba(124,58,237,0.45);
 }
@@ -83,8 +82,8 @@
 .btn-primary:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 28px rgba(196,181,253,0.55);
-  background: #C4B5FD;
-  color: #0F172A;
+  background: var(--color-acento);
+  color: var(--color-fondo);
 }
 
 .btn-outline {
@@ -96,7 +95,7 @@
 .btn-outline:hover {
   background: rgba(124, 58, 237, 0.18);
   transform: translateY(-2px);
-  border-color: #C4B5FD;
+  border-color: var(--color-acento);
 }
 
 
@@ -107,6 +106,13 @@
   flex-wrap: wrap;
 }
 
+/* Cada estadística con su separador, en fila como antes */
+.stat-item-wrap {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
 .stat-item {
   display: flex;
   flex-direction: column;
@@ -115,8 +121,9 @@
 .stat-num {
   font-size: 1.6rem;
   font-weight: 900;
-  color: #7C3AED;
+  color: var(--color-primario);
   line-height: 1;
+  font-variant-numeric: tabular-nums; /* los dígitos no se mueven mientras cuentan */
 }
 
 .stat-label {
@@ -138,5 +145,5 @@
   height: 100%;
   object-fit: cover;
   z-index: 0;
-  background-color: #0F172A; 
+  background-color: var(--color-fondo); 
 }

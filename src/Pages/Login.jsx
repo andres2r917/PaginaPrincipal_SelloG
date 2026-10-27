@@ -1,18 +1,21 @@
 import { useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom'; 
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { FaPaw } from 'react-icons/fa';
+import { FiAlertCircle, FiCheckCircle, FiEye, FiEyeOff, FiLock, FiMail } from 'react-icons/fi';
 import '../Style/Login.css';
-import portada from '../assets/portada.jpeg';
 import { useAuth } from '../Context/AuthContext';
+
+// Foto del panel lateral (Registro usa otras distintas)
+const FOTO = 'https://images.pexels.com/photos/3628100/pexels-photo-3628100.jpeg?cs=srgb&dl=pexels-edd1egalaxy-3628100.jpg&fm=jpg';
 
 const Login = () => {
   const location = useLocation();
-  
-  // Inicializamos el hook de navegación
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
   const { login } = useAuth();
   const [error, setError] = useState('');
   const [cargando, setCargando] = useState(false);
-  
+  const [verPassword, setVerPassword] = useState(false);
+
   const mensajeExito = location.state?.mensajeExito;
 
   const [credentials, setCredentials] = useState({
@@ -42,83 +45,74 @@ const Login = () => {
   };
 
   return (
-    <div className="login-page"
-      style={{
-        backgroundImage: `url(${portada})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-      }}>
-      <div className="login-container">
-        <div className="login-visual">
-          <img src="https://images.pexels.com/photos/3628100/pexels-photo-3628100.jpeg?cs=srgb&dl=pexels-edd1egalaxy-3628100.jpg&fm=jpg"alt="Voluntario con perro rescatado"className="login-visual__img"/>
-          <div className="login-visual__overlay">
-            <h2 className="login-visual__title">Tu compromiso cambia vidas.</h2>
-            <p className="login-visual__subtitle">
+    <div className="acceso-page">
+      <div className="acceso-card">
+        <div className="acceso-visual">
+          <img className="acceso-visual__img" src={FOTO} alt="" />
+          <div className="acceso-visual__overlay">
+            <span className="acceso-visual__chip"><FaPaw /> Sello Guardián</span>
+            <h2 className="acceso-visual__title">Tu compromiso cambia vidas.</h2>
+            <p className="acceso-visual__subtitle">
               Cada ingreso nos acerca un paso más a encontrar el hogar perfecto para quienes más lo necesitan.
             </p>
           </div>
         </div>
-        <div className="login-form-side">
-          <div className="login-form-header">
-            <div className="login-brand"></div>
-            <h1 className="login-form-header__title">Iniciar Sesión</h1>
-            <p className="login-form-header__sub">
-              Bienvenido de nuevo a nuestra comunidad de rescate.
-            </p>
-          </div>
-          <form className="login-form" onSubmit={handleSubmit}>
+
+        <div className="acceso-panel">
+          <header className="acceso-header">
+            <h1>Bienvenido de nuevo</h1>
+            <p>Inicia sesión para denunciar, adoptar y seguir tus casos.</p>
+          </header>
+
+          <form className="acceso-form" onSubmit={handleSubmit}>
             {mensajeExito && (
-              <div className="rg-error" style={{ backgroundColor: '#d4edda', color: '#155724', borderColor: '#c3e6cb', padding: '10px', borderRadius: '5px', marginBottom: '15px', textAlign: 'center' }}>
-                {mensajeExito}
-              </div>
+              <div className="acceso-aviso acceso-aviso--ok" role="status"><FiCheckCircle /> {mensajeExito}</div>
             )}
-            {error && <div className="lg-error">{error}</div>}
-            <div className="lg-group">
-              <label className="lg-label">Correo electrónico</label>
-              <input
-                name="email"
-                type="email"
-                className="lg-input"
-                placeholder="Ingresar correo"
-                value={credentials.email}
-                onChange={handleChange}
-                required/>
-                </div>
-            <div className="lg-group">
-              <div className="lg-label-row">
-                <label className="lg-label">Contraseña</label>
-                <a href="#" className="lg-forgot">¿Olvidaste tu contraseña?</a>
+            {error && (
+              <div className="acceso-aviso acceso-aviso--error" role="alert"><FiAlertCircle /> {error}</div>
+            )}
+
+            <div className="acceso-grupo">
+              <label className="acceso-label" htmlFor="email">Correo electrónico</label>
+              <div className="acceso-campo">
+                <FiMail />
+                <input id="email" name="email" type="email" autoComplete="email"
+                  placeholder="tucorreo@ejemplo.com"
+                  value={credentials.email} onChange={handleChange} required />
               </div>
-              <input
-                name="password"
-                type="password"
-                className="lg-input"
-                placeholder="Ingresar contraseña"
-                value={credentials.password}
-                onChange={handleChange}
-                required/>
-            </div>
-            <div className="lg-remember">
-              <input
-                type="checkbox"
-                name="remember"
-                id="remember"
-                checked={credentials.remember}
-                onChange={handleChange}
-              />
-              <label htmlFor="remember">Recordarme en este dispositivo</label>
             </div>
 
-            <button type="submit" className="lg-btn" disabled={cargando}>
+            <div className="acceso-grupo">
+              <div className="acceso-label-fila">
+                <label className="acceso-label" htmlFor="password">Contraseña</label>
+                <a href="#" className="acceso-enlace">¿Olvidaste tu contraseña?</a>
+              </div>
+              <div className="acceso-campo">
+                <FiLock />
+                <input id="password" name="password" type={verPassword ? 'text' : 'password'} autoComplete="current-password"
+                  placeholder="Ingresa tu contraseña"
+                  value={credentials.password} onChange={handleChange} required />
+                <button type="button" className="acceso-ojo" onClick={() => setVerPassword(!verPassword)}
+                  aria-label={verPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}>
+                  {verPassword ? <FiEyeOff /> : <FiEye />}
+                </button>
+              </div>
+            </div>
+
+            <label className="acceso-recordar">
+              <input type="checkbox" name="remember" checked={credentials.remember} onChange={handleChange} />
+              Recordarme en este dispositivo
+            </label>
+
+            <button type="submit" className="acceso-btn" disabled={cargando}>
               {cargando ? 'Ingresando...' : 'Ingresar'}
             </button>
 
             {/* Acceso rápido: solo aparece con npm run dev */}
             {import.meta.env.DEV && (
-              <div className="lg-demo">
-                <p className="lg-demo__titulo">Acceso rápido (solo desarrollo)</p>
-                <div className="lg-demo__botones">
+              <div className="acceso-demo">
+                <p className="acceso-demo__titulo">Acceso rápido (solo desarrollo)</p>
+                <div className="acceso-demo__botones">
                   <button type="button" onClick={() => setCredentials({ ...credentials, email: 'admin@selloguardian.com', password: 'Admin123*' })}>Admin</button>
                   <button type="button" onClick={() => setCredentials({ ...credentials, email: 'civil@selloguardian.com', password: 'Civil123*' })}>Usuario civil</button>
                   <button type="button" onClick={() => setCredentials({ ...credentials, email: 'fundacion@selloguardian.com', password: 'Fundacion123*' })}>Fundación</button>
@@ -126,14 +120,12 @@ const Login = () => {
               </div>
             )}
           </form>
-          <div className="login-footer">
-            <p>
-              ¿No tienes una cuenta?{' '}
-              <Link to="/registro" className="login-footer__link">Regístrate aquí</Link>
-            </p>
-          </div>
-        </div>
 
+          <p className="acceso-pie">
+            ¿No tienes una cuenta?{' '}
+            <Link to="/registro" className="acceso-enlace">Regístrate aquí</Link>
+          </p>
+        </div>
       </div>
     </div>
   );
