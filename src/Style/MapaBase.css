@@ -1,4 +1,0 @@
-/* Suaviza los colores del mapa de OpenStreetMap (solo afecta a las teselas, no a los pines) */
-.capa-mapa-suave {
-  filter: saturate(0.7) brightness(0.95);
-}

@@ -1,5 +1,4 @@
 import L from 'leaflet';
-import '../Style/MapaBase.css';
 
 // CARTO ahora exige una clave gratuita para sus mapas. Si existe VITE_CARTO_KEY se usa
 // el mapa oscuro de CARTO; si no, OpenStreetMap (sin clave) con los colores suavizados por CSS.
@@ -19,6 +18,6 @@ export function crearCapaBase() {
   return L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; OpenStreetMap contributors',
     maxZoom: 19,
-    className: 'capa-mapa-suave',
+    className: 'saturate-[0.7] brightness-[0.95]', // Tailwind: suaviza los colores del mapa
   });
 }
