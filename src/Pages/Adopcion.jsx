@@ -3,7 +3,7 @@ import { FaPaw } from 'react-icons/fa';
 // Página de adopción — muestra los animales disponibles para adoptar
 import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import '../Style/Adopcion.css';
+import * as A from '../Utils/adopcionEstilos.js';
 import { limpiarTexto } from '../Utils/limpiarTexto.js';
 import { useAuth } from '../Context/AuthContext.jsx';
 import { getMascotasDisponibles, solicitarAdopcion } from '../Services/mascotasService.js';
@@ -34,36 +34,36 @@ const FORM_INICIAL = {
 };
 
 /* ── Foto del animal (si la fundación no subió una, se muestra una huella) ── */
-const FotoAnimal = ({ animal }) =>
+const FotoAnimal = ({ animal, claseImg }) =>
   animal.img
-    ? <img src={animal.img} alt={`Foto de ${animal.nombre}`} />
+    ? <img className={claseImg} src={animal.img} alt={`Foto de ${animal.nombre}`} />
     : (
-      <div className="animal-sin-foto" role="img" aria-label={`${animal.nombre} aún no tiene foto`}>
+      <div className={A.SIN_FOTO} role="img" aria-label={`${animal.nombre} aún no tiene foto`}>
         <FaPaw />
       </div>
     );
 
 /* ── Tarjeta de animal ── */
 const AnimalCard = ({ animal, esFavorito, onFavorito, onVerDetalles }) => (
-  <div className="glass-effect animal-card">
-    <div className="animal-card__foto">
-      <FotoAnimal animal={animal} />
-      <span className="animal-card__tag">{animal.sexo} · {animal.tamano}</span>
+  <div className={A.TARJETA}>
+    <div className={A.TARJETA_FOTO}>
+      <FotoAnimal animal={animal} claseImg={A.TARJETA_IMG} />
+      <span className={A.TARJETA_ETIQUETA}>{animal.sexo} · {animal.tamano}</span>
       <button
         type="button"
-        className={`animal-card__fav${esFavorito ? ' animal-card__fav--activo' : ''}`}
+        className={A.favorito(esFavorito)}
         onClick={() => onFavorito(animal.id)}
         aria-label="Guardar en favoritos"
       >
         <FiHeart />
       </button>
       {animal.vacunado && (
-        <span className="animal-card__vacunado"><FiCheck /> Vacunado</span>
+        <span className={A.TARJETA_VACUNADO}><FiCheck /> Vacunado</span>
       )}
     </div>
-    <h3>{animal.nombre}</h3>
-    <p>{animal.edad} - {animal.temperamento}</p>
-    <button className="btn-ver-detalles" onClick={() => onVerDetalles(animal)}>
+    <h3 className={A.TARJETA_NOMBRE}>{animal.nombre}</h3>
+    <p className={A.TARJETA_DATOS}>{animal.edad} - {animal.temperamento}</p>
+    <button className={A.BTN_VER} onClick={() => onVerDetalles(animal)}>
       Ver Detalles
     </button>
   </div>
@@ -78,50 +78,50 @@ const GARANTIAS = [
 
 /* ── Info del animal (columna izquierda) ── */
 const AnimalInfo = ({ animal }) => (
-  <div className="modal-izquierda">
-    <FotoAnimal animal={animal} />
-    <h2>{animal.nombre}</h2>
+  <div className={A.INFO}>
+    <FotoAnimal animal={animal} claseImg={A.INFO_IMG} />
+    <h2 className={A.INFO_NOMBRE}>{animal.nombre}</h2>
 
-    <div className="modal-badges-section">
-      <div className="modal-badges-block">
-        <span className="modal-badges-label">Ficha Básica</span>
-        <div className="modal-badges-group">
-          <span className="badge badge-green">{animal.raza}</span>
-          <span className="badge badge-cyan">{animal.edad}</span>
-          <span className="badge badge-violet">{animal.sexo || 'Macho'}</span>
-          <span className="badge badge-violet">{animal.tamano}</span>
+    <div className={A.FICHA_SECCION}>
+      <div className={A.FICHA_BLOQUE}>
+        <span className={A.FICHA_ETIQUETA}>Ficha Básica</span>
+        <div className={A.FICHA_GRUPO}>
+          <span className={A.insignia('verde')}>{animal.raza}</span>
+          <span className={A.insignia('cian')}>{animal.edad}</span>
+          <span className={A.insignia('violeta')}>{animal.sexo || 'Macho'}</span>
+          <span className={A.insignia('violeta')}>{animal.tamano}</span>
         </div>
       </div>
 
-      <div className="modal-badges-block">
-        <span className="modal-badges-label">Salud & Cuidados</span>
-        <div className="modal-badges-group">
-          <span className={`badge ${animal.vacunado ? 'badge-vacunado' : 'badge-sin-vacunas'}`}>
+      <div className={A.FICHA_BLOQUE}>
+        <span className={A.FICHA_ETIQUETA}>Salud & Cuidados</span>
+        <div className={A.FICHA_GRUPO}>
+          <span className={A.insignia(animal.vacunado ? 'vacunado' : 'sinVacunas')}>
             {animal.vacunado ? <><FiCheck /> Vacunado</> : <><FiAlertTriangle /> Sin Vacunas</>}
           </span>
-          <span className={`badge ${animal.esterilizado ? 'badge-esterilizado' : 'badge-sin-esterilizar'}`}>
+          <span className={A.insignia(animal.esterilizado ? 'esterilizado' : 'sinEsterilizar')}>
             {animal.esterilizado ? <><FiCheck /> Esterilizado</> : 'Sin Esterilizar'}
           </span>
-          <span className={`badge ${animal.desparasitado ? 'badge-desparasitado' : 'badge-sin-desparasitar'}`}>
+          <span className={A.insignia(animal.desparasitado ? 'desparasitado' : 'sinDesparasitar')}>
             {animal.desparasitado ? <><FiShield /> Desparasitado</> : <><FiAlertTriangle /> Sin desparasitar</>}
           </span>
         </div>
       </div>
     </div>
 
-    <div className="modal-info-row">
-      <div className="modal-info-item">
-        <label>Temperamento</label>
-        <span>{animal.temperamento}</span>
+    <div className={A.DATOS}>
+      <div className={A.DATO}>
+        <label className={A.DATO_ETIQUETA}>Temperamento</label>
+        <span className={A.DATO_VALOR}>{animal.temperamento}</span>
       </div>
-      <div className="modal-info-item">
-        <label>Convivencia</label>
-        <span>{animal.convivencia || 'Apto para todo hogar'}</span>
+      <div className={A.DATO}>
+        <label className={A.DATO_ETIQUETA}>Convivencia</label>
+        <span className={A.DATO_VALOR}>{animal.convivencia || 'Apto para todo hogar'}</span>
       </div>
     </div>
-    <div className="modal-historia">
-      <h5>Historia</h5>
-      <p>{animal.historia}</p>
+    <div className={A.HISTORIA}>
+      <h5 className={A.HISTORIA_TITULO}>Historia</h5>
+      <p className={A.HISTORIA_TEXTO}>{animal.historia}</p>
     </div>
   </div>
 );
@@ -133,44 +133,45 @@ const FormularioAdopcion = ({ animal, formData, onChange, onSubmit, enviando, er
   // Solo un usuario civil con el perfil completo puede solicitar (la API también lo exige)
   if (!usuario) {
     return (
-      <div className="modal-derecha">
-        <h3 className="form-titulo">Inicia sesión para adoptar</h3>
-        <p className="form-subtitulo">Necesitas una cuenta para enviar tu solicitud por {animal.nombre}.</p>
-        <Link to="/login" className="btn-enviar adopcion-enlace-btn">Iniciar sesión</Link>
+      <div className={A.FORMULARIO_PANEL}>
+        <h3 className={A.FORM_TITULO}>Inicia sesión para adoptar</h3>
+        <p className={A.FORM_SUBTITULO}>Necesitas una cuenta para enviar tu solicitud por {animal.nombre}.</p>
+        <Link to="/login" className={`${A.BTN_ENVIAR} ${A.BTN_ENLACE}`}>Iniciar sesión</Link>
       </div>
     );
   }
   if (usuario.rol !== 'civil') {
     return (
-      <div className="modal-derecha">
-        <h3 className="form-titulo">Solo cuentas de usuario</h3>
-        <p className="form-subtitulo">Las solicitudes de adopción las envían los usuarios, no las fundaciones ni los administradores.</p>
+      <div className={A.FORMULARIO_PANEL}>
+        <h3 className={A.FORM_TITULO}>Solo cuentas de usuario</h3>
+        <p className={A.FORM_SUBTITULO}>Las solicitudes de adopción las envían los usuarios, no las fundaciones ni los administradores.</p>
       </div>
     );
   }
   if (!usuario.perfilCompleto) {
     return (
-      <div className="modal-derecha">
-        <h3 className="form-titulo">Completa tu perfil primero</h3>
-        <p className="form-subtitulo">La fundación necesita conocer tus datos para evaluar la solicitud por {animal.nombre}.</p>
-        <Link to="/perfil" className="btn-enviar adopcion-enlace-btn">Completar mi perfil</Link>
+      <div className={A.FORMULARIO_PANEL}>
+        <h3 className={A.FORM_TITULO}>Completa tu perfil primero</h3>
+        <p className={A.FORM_SUBTITULO}>La fundación necesita conocer tus datos para evaluar la solicitud por {animal.nombre}.</p>
+        <Link to="/perfil" className={`${A.BTN_ENVIAR} ${A.BTN_ENLACE}`}>Completar mi perfil</Link>
       </div>
     );
   }
 
   return (
-  <div className="modal-derecha">
-    <h3 className="form-titulo">Formulario de Adopción</h3>
-    <p className="form-subtitulo">
+  <div className={A.FORMULARIO_PANEL}>
+    <h3 className={A.FORM_TITULO}>Formulario de Adopción</h3>
+    <p className={A.FORM_SUBTITULO}>
       Completa los siguientes detalles para iniciar tu proceso de solicitud. Buscamos el hogar perfecto para {animal.nombre}.
     </p>
  
-    <form onSubmit={onSubmit}>
+    <form className={A.FORMULARIO} onSubmit={onSubmit}>
  
       {/* Mensaje de presentación */}
-      <div className="form-grupo">
-        <label htmlFor="adop-mensaje_presentacion">¿Por qué quieres adoptar?</label>
+      <div className={A.FORM_GRUPO}>
+        <label className={A.FORM_ETIQUETA} htmlFor="adop-mensaje_presentacion">¿Por qué quieres adoptar?</label>
         <textarea id="adop-mensaje_presentacion"
+          className={A.FORM_CAMPO}
           name="mensaje_presentacion"
           rows="3"
           placeholder="Cuéntanos tu motivación y por qué serías un buen hogar..." aria-label="Cuéntanos tu motivación y por qué serías un buen hogar..."
@@ -181,9 +182,10 @@ const FormularioAdopcion = ({ animal, formData, onChange, onSubmit, enviando, er
       </div>
  
       {/* Experiencia con mascotas */}
-      <div className="form-grupo">
-        <label htmlFor="adop-experiencia_mascotas">¿Has tenido mascotas antes?</label>
+      <div className={A.FORM_GRUPO}>
+        <label className={A.FORM_ETIQUETA} htmlFor="adop-experiencia_mascotas">¿Has tenido mascotas antes?</label>
         <select id="adop-experiencia_mascotas"
+          className={A.FORM_CAMPO}
           name="experiencia_mascotas"
           value={formData.experiencia_mascotas}
           onChange={onChange}
@@ -195,9 +197,10 @@ const FormularioAdopcion = ({ animal, formData, onChange, onSubmit, enviando, er
       </div>
  
       {/* Tiempo disponible */}
-      <div className="form-grupo">
-        <label htmlFor="adop-tiempo_disponible">¿Cuánto tiempo le dedicarías al día?</label>
+      <div className={A.FORM_GRUPO}>
+        <label className={A.FORM_ETIQUETA} htmlFor="adop-tiempo_disponible">¿Cuánto tiempo le dedicarías al día?</label>
         <select id="adop-tiempo_disponible"
+          className={A.FORM_CAMPO}
           name="tiempo_disponible"
           value={formData.tiempo_disponible}
           onChange={onChange}
@@ -209,35 +212,37 @@ const FormularioAdopcion = ({ animal, formData, onChange, onSubmit, enviando, er
       </div>
  
       {/* Checkboxes */}
-      <div className="form-grupo">
-        <label>Compromisos</label>
-        <div className="checkbox-grupo">
-          <label className="checkbox-label">
+      <div className={A.FORM_GRUPO}>
+        <label className={A.FORM_ETIQUETA}>Compromisos</label>
+        <div className={A.CASILLAS}>
+          <label className={A.CASILLA}>
             <input
               type="checkbox"
+              className={A.CASILLA_CAJA}
               name="compromiso_veterinario"
               checked={formData.compromiso_veterinario}
               onChange={onChange}
             />
-            <span>Me comprometo a llevar la mascota al veterinario regularmente</span>
+            <span className={A.CASILLA_TEXTO}>Me comprometo a llevar la mascota al veterinario regularmente</span>
           </label>
-          <label className="checkbox-label">
+          <label className={A.CASILLA}>
             <input
               type="checkbox"
+              className={A.CASILLA_CAJA}
               name="acepta_terminos"
               checked={formData.acepta_terminos}
               onChange={onChange}
               required
             />
-            <span>Acepto los términos y condiciones del proceso de adopción</span>
+            <span className={A.CASILLA_TEXTO}>Acepto los términos y condiciones del proceso de adopción</span>
           </label>
         </div>
       </div>
  
-      {error && <p className="adopcion-error" role="alert">{error}</p>}
+      {error && <p className={A.ERROR} role="alert">{error}</p>}
       <button
         type="submit"
-        className="btn-enviar"
+        className={A.BTN_ENVIAR}
         disabled={!formData.acepta_terminos || enviando}
       >
         {enviando ? 'Enviando...' : 'Enviar Solicitud de Adopción'}
@@ -249,13 +254,13 @@ const FormularioAdopcion = ({ animal, formData, onChange, onSubmit, enviando, er
  
 /* ── Mensaje de éxito ── */
 const MensajeExito = ({ onCerrar }) => (
-  <div className="modal-exito">
-    <div className="exito-icono"><FiCheck /></div>
-    <h3>¡Solicitud enviada!</h3>
-    <p>
+  <div className={A.EXITO}>
+    <div className={A.EXITO_ICONO}><FiCheck /></div>
+    <h3 className={A.EXITO_TITULO}>¡Solicitud enviada!</h3>
+    <p className={A.EXITO_TEXTO}>
       Nos pondremos en contacto contigo pronto para continuar el proceso de adopción.
     </p>
-    <button className="btn-ver-detalles" onClick={onCerrar}>
+    <button className={A.BTN_VER} onClick={onCerrar}>
       Cerrar
     </button>
   </div>
@@ -347,76 +352,76 @@ const Adopcion = () => {
  
   return (
     <>
-      <section className="hero adopcion-hero">
+      <section className={A.HERO}>
         <div>
-          <img className="portada" src={FONDO} alt="" />
+          <img className={A.PORTADA} src={FONDO} alt="" />
         </div>
 
-        <div className="adopcion-contenido">
-          <header className="adopcion-encabezado">
-            <h1>Encuentra a tu nuevo mejor amigo</h1>
-            <p>
-              <strong>{animales.length} peluditos</strong> esperan un hogar. Conoce su historia y envía tu solicitud de adopción.
+        <div className={A.CONTENIDO}>
+          <header className={A.ENCABEZADO}>
+            <h1 className={A.ENCABEZADO_TITULO}>Encuentra a tu nuevo mejor amigo</h1>
+            <p className={A.ENCABEZADO_TEXTO}>
+              <strong className={A.ENCABEZADO_DESTACADO}>{animales.length} peluditos</strong> esperan un hogar. Conoce su historia y envía tu solicitud de adopción.
             </p>
           </header>
 
-          <div className="adopcion-garantias">
+          <div className={A.GARANTIAS_GRID}>
             {GARANTIAS.map((g) => (
-              <div className="adopcion-garantia" key={g.titulo}>
-                <span className="adopcion-garantia__icono">{g.icono}</span>
+              <div className={A.GARANTIA} key={g.titulo}>
+                <span className={A.GARANTIA_ICONO}>{g.icono}</span>
                 <div>
-                  <strong>{g.titulo}</strong>
-                  <small>{g.texto}</small>
+                  <strong className={A.GARANTIA_TITULO}>{g.titulo}</strong>
+                  <small className={A.GARANTIA_TEXTO}>{g.texto}</small>
                 </div>
               </div>
             ))}
           </div>
 
-          <div className="adopcion-filtros">
-            <div className="adopcion-chips">
+          <div className={A.FILTROS}>
+            <div className={A.FILTRO_GRUPO}>
               {['todos', ...especies].map((e) => (
                 <button
                   key={e}
                   type="button"
-                  className={`adopcion-chip${especie === e ? ' adopcion-chip--activo' : ''}`}
+                  className={A.chip(especie === e)}
                   onClick={() => elegirEspecie(e)}
                 >
                   {e === 'todos' ? 'Todos' : e}
                 </button>
               ))}
             </div>
-            <div className="adopcion-selects">
-              <select value={raza} onChange={(e) => setRaza(e.target.value)} aria-label="Filtrar por raza">
+            <div className={A.FILTRO_GRUPO}>
+              <select className={A.FILTRO_SELECT} value={raza} onChange={(e) => setRaza(e.target.value)} aria-label="Filtrar por raza">
                 <option value="todos">Todas las razas</option>
                 {razas.map((r) => <option key={r} value={r}>{r}</option>)}
               </select>
-              <select value={tamano} onChange={(e) => setTamano(e.target.value)} aria-label="Filtrar por tamaño">
+              <select className={A.FILTRO_SELECT} value={tamano} onChange={(e) => setTamano(e.target.value)} aria-label="Filtrar por tamaño">
                 <option value="todos">Todos los tamaños</option>
                 <option value="Pequeño">Pequeño</option>
                 <option value="Mediano">Mediano</option>
                 <option value="Grande">Grande</option>
               </select>
-              <select value={sexo} onChange={(e) => setSexo(e.target.value)} aria-label="Filtrar por sexo">
+              <select className={A.FILTRO_SELECT} value={sexo} onChange={(e) => setSexo(e.target.value)} aria-label="Filtrar por sexo">
                 <option value="todos">Macho y hembra</option>
                 <option value="Macho">Macho</option>
                 <option value="Hembra">Hembra</option>
               </select>
             </div>
             {buscar && (
-              <button type="button" className="adopcion-chip adopcion-chip--activo" onClick={() => setSearchParams({})}>
+              <button type="button" className={A.CHIP_ACTIVO} onClick={() => setSearchParams({})}>
                 Búsqueda: «{buscar}» <FiX />
               </button>
             )}
-            <span className="adopcion-contador">
+            <span className={A.CONTADOR}>
               {animalesFiltrados.length} {animalesFiltrados.length === 1 ? 'resultado' : 'resultados'}
             </span>
           </div>
 
-          {cargando && <p className="adopcion-estado">Cargando animales...</p>}
-          {errorCarga && <p className="adopcion-error" role="alert">{errorCarga}</p>}
+          {cargando && <p className={A.ESTADO}>Cargando animales...</p>}
+          {errorCarga && <p className={A.ERROR} role="alert">{errorCarga}</p>}
 
           {animalesFiltrados.length > 0 ? (
-            <div className="grid-adopcion">
+            <div className={A.GRID}>
               {animalesFiltrados.map((animal) => (
                 <AnimalCard
                   key={animal.id}
@@ -428,26 +433,26 @@ const Adopcion = () => {
               ))}
             </div>
           ) : !cargando && !errorCarga && (
-            <div className="adopcion-vacio">
+            <div className={A.VACIO}>
               <p>{animales.length === 0 ? 'Por ahora no hay animales disponibles para adopción.' : 'No encontramos animales con esos filtros.'}</p>
-              <button type="button" className="btn-ver-detalles" onClick={limpiarFiltros}>Limpiar filtros</button>
+              <button type="button" className={A.BTN_LIMPIAR} onClick={limpiarFiltros}>Limpiar filtros</button>
             </div>
           )}
 
-          <div className="adopcion-cta">
+          <div className={A.CTA}>
             <div>
-              <strong>¿Eres una fundación?</strong>
-              <small>Registra tu organización y publica a tus animales para que encuentren hogar.</small>
+              <strong className={A.CTA_TITULO}>¿Eres una fundación?</strong>
+              <small className={A.CTA_TEXTO}>Registra tu organización y publica a tus animales para que encuentren hogar.</small>
             </div>
-            <Link to="/registro/registroFundacion" className="adopcion-cta__boton">Registrar mi fundación</Link>
+            <Link to="/registro/registroFundacion" className={A.CTA_BOTON}>Registrar mi fundación</Link>
           </div>
         </div>
       </section>
 
       {animalSeleccionado && (
-        <div className="modal-overlay" onClick={cerrarModal}>
-          <div className="modal-adopcion" onClick={(e) => e.stopPropagation()}>
-            <button className="modal-close" onClick={cerrarModal} aria-label="Cerrar"><FiX /></button>
+        <div className={A.OVERLAY} onClick={cerrarModal}>
+          <div className={A.MODAL} onClick={(e) => e.stopPropagation()}>
+            <button className={A.MODAL_CERRAR} onClick={cerrarModal} aria-label="Cerrar"><FiX /></button>
             <AnimalInfo animal={animalSeleccionado} />
             {!enviado ? (
               <FormularioAdopcion

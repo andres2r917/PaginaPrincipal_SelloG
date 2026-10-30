@@ -1,3 +1,4 @@
+import { FND_SCORE_COLOR } from './fundacionEstilos'
 // Puntúa de 0 a 100 qué tan sólida es una solicitud de adopción (es solo orientativa)
 export const calcularPuntuacion = (solicitud) => {
   const a = solicitud.adoptante || {}
@@ -31,4 +32,4 @@ export const calcularPuntuacion = (solicitud) => {
 export const esPrioritaria = (solicitud) => calcularPuntuacion(solicitud) >= 85
 
 // Clase CSS del color de la puntuación (alta, media o baja)
-export const claseScore = (p) => p >= 85 ? 'fnd-score--alta' : p >= 60 ? 'fnd-score--media' : 'fnd-score--baja'
+export const claseScore = (p) => p >= 85 ? FND_SCORE_COLOR.alta : p >= 60 ? FND_SCORE_COLOR.media : FND_SCORE_COLOR.baja

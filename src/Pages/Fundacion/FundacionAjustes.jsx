@@ -4,6 +4,7 @@ import { useFundacion } from '../../Context/FundacionContext.jsx'
 import { FiHome, FiCheck, FiSave } from 'react-icons/fi'
 import { BADGE_COLOR } from '../../Utils/adminEstilos'
 import { CARD, CARD_SUBTITULO, TITULO } from '../../Utils/panelEstilos'
+import { FND_AJUSTES_ACCIONES, FND_AJUSTES_ANCHO, FND_AJUSTES_CABECERA, FND_AJUSTES_FORM, FND_AVISO, FND_BTN_PRIMARIO, FND_FORM_CARD, FND_GUARDADO, FND_MODAL_INPUT } from '../../Utils/fundacionEstilos'
 
 const FundacionAjustes = () => {
 	const { usuario, guardarPerfilFundacion } = useAuth()
@@ -60,11 +61,11 @@ const FundacionAjustes = () => {
 	return (
 		<section>
 			<h1 className={TITULO}>Ajustes de Sede y Refugio</h1>
-			{aviso && <p className="fnd-aviso fnd-aviso--error" role="alert">{aviso}</p>}
+			{aviso && <p className={FND_AVISO} role="alert">{aviso}</p>}
 
 			{/* Tarjeta para configurar la capacidad del refugio */}
-			<div className={`${CARD} fnd-form-card`} style={{ marginBottom: 24 }}>
-				<div className="fnd-ajustes-cabecera">
+			<div className={`${CARD} ${FND_FORM_CARD}`} style={{ marginBottom: 24 }}>
+				<div className={FND_AJUSTES_CABECERA}>
 					<div>
 						<h2><FiHome style={{ marginRight: 8, verticalAlign: 'middle', color: '#7C3AED' }} /> Capacidad del Refugio</h2>
 						<p className={CARD_SUBTITULO}>Define el límite máximo de animales que el refugio puede albergar simultáneamente.</p>
@@ -97,7 +98,7 @@ const FundacionAjustes = () => {
 							type="number"
 							min="1"
 							max="500"
-							className="fnd-modal__input"
+							className={FND_MODAL_INPUT}
 							value={nuevaCapacidad}
 							onChange={(e) => {
 								setNuevaCapacidad(e.target.value)
@@ -108,7 +109,7 @@ const FundacionAjustes = () => {
 						/>
 					</label>
 
-					<button type="submit" className="fnd-btn-primario" style={{ alignSelf: 'flex-end', height: 42 }}>
+					<button type="submit" className={FND_BTN_PRIMARIO} style={{ alignSelf: 'flex-end', height: 42 }}>
 						<FiSave /> Guardar capacidad
 					</button>
 
@@ -121,8 +122,8 @@ const FundacionAjustes = () => {
 			</div>
 
 			{/* Tarjeta de información de la organización */}
-			<div className={`${CARD} fnd-form-card`}>
-				<div className="fnd-ajustes-cabecera">
+			<div className={`${CARD} ${FND_FORM_CARD}`}>
+				<div className={FND_AJUSTES_CABECERA}>
 					<div>
 						<h2>Información de la fundación</h2>
 						<p className={CARD_SUBTITULO}>Administra los datos visibles de tu organización.</p>
@@ -130,7 +131,7 @@ const FundacionAjustes = () => {
 					<span className={BADGE_COLOR.exito}>{usuario?.estadoVerificacion || 'verificada'}</span>
 				</div>
 
-				<form className="fnd-ajustes-form" onSubmit={guardarCambios}>
+				<form className={FND_AJUSTES_FORM} onSubmit={guardarCambios}>
 					{[
 						['nombre', 'Nombre de la organización'],
 						['cedulaRepresentante', 'Cédula del Representante'],
@@ -144,13 +145,13 @@ const FundacionAjustes = () => {
 							<input name={nombre} value={formulario[nombre]} onChange={cambiarCampo} />
 						</label>
 					))}
-					<label className="fnd-ajustes-form__ancho">
+					<label className={FND_AJUSTES_ANCHO}>
 						<span>Descripción</span>
 						<textarea name="descripcion" value={formulario.descripcion} onChange={cambiarCampo} rows="4" />
 					</label>
-					<div className="fnd-ajustes-form__acciones">
-						{guardado && <span className="fnd-guardado">Cambios guardados</span>}
-						<button type="submit" className="fnd-btn-primario">Guardar cambios</button>
+					<div className={FND_AJUSTES_ACCIONES}>
+						{guardado && <span className={FND_GUARDADO}>Cambios guardados</span>}
+						<button type="submit" className={FND_BTN_PRIMARIO}>Guardar cambios</button>
 					</div>
 				</form>
 			</div>

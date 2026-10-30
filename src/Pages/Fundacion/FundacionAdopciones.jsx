@@ -5,6 +5,7 @@ import { calcularPuntuacion, claseScore } from '../../Utils/puntuacion.js'
 import { BADGE_SOLICITUD, distintivo } from '../../Utils/estados.js'
 import { ACCIONES, BADGE, TABLA } from '../../Utils/adminEstilos'
 import { TITULO } from '../../Utils/panelEstilos'
+import { FND_AVISO, FND_BTN_APROBAR, FND_BTN_REVISAR, FND_FILTROS, FND_MODAL, FND_MODAL_ACCIONES, FND_MODAL_BTN_APROBAR, FND_MODAL_BTN_REVISAR, FND_MODAL_BTN_SECUNDARIO, FND_MODAL_CAMPO, FND_MODAL_CERRAR, FND_MODAL_FONDO, FND_MODAL_INPUT, FND_MODAL_LABEL, FND_MODAL_TITULO, FND_SCORE, FND_TABLA_WRAP, fndChip } from '../../Utils/fundacionEstilos'
 
 const FundacionAdopciones = () => {
   const { solicitudes, mascotas, resolverSolicitud, actualizarMascota } = useFundacion()
@@ -56,19 +57,19 @@ const FundacionAdopciones = () => {
   return (
     <div>
       <h1 className={TITULO}>Adopciones</h1>
-      {aviso && <p className="fnd-aviso fnd-aviso--error" role="alert">{aviso}</p>}
+      {aviso && <p className={FND_AVISO} role="alert">{aviso}</p>}
 
       {/* Filtro por estado */}
-      <div className="fnd-filtros" style={{ marginBottom: 16 }}>
+      <div className={FND_FILTROS} style={{ marginBottom: 16 }}>
         {['todos', 'pendiente', 'en_evaluacion', 'aprobada', 'rechazada'].map((e) => (
-          <button key={e} className={`fnd-chip${filtro === e ? ' fnd-chip--activo' : ''}`} onClick={() => setFiltro(e)}>
+          <button key={e} className={fndChip(filtro === e)} onClick={() => setFiltro(e)}>
             {e === 'todos' ? 'Todos' : distintivo(BADGE_SOLICITUD, e).txt}
           </button>
         ))}
       </div>
 
       {/* Tabla */}
-      <div className="fnd-tabla-wrap">
+      <div className={FND_TABLA_WRAP}>
         <table className={TABLA}>
           <thead>
             <tr>
@@ -90,14 +91,14 @@ const FundacionAdopciones = () => {
                   <td>{s.adoptante?.nombre}</td>
                   <td>{mascota?.nombre || '—'}</td>
                   <td>{new Date(s.fecha).toLocaleDateString('es-CO')}</td>
-                  <td><span className={`fnd-score ${claseScore(punt)}`}>{punt}%</span></td>
+                  <td><span className={`${FND_SCORE} ${claseScore(punt)}`}>{punt}%</span></td>
                   <td><span className={`${BADGE} ${badge.cls}`}>{badge.txt}</span></td>
                   <td>
                     <div className={ACCIONES}>
                       {['pendiente', 'en_evaluacion'].includes(s.estado) && (
                         <>
-                          <button className="fnd-btn-aprobar" onClick={(e) => { e.stopPropagation(); decidir(s.id, 'aprobada', s.comentariosFundacion) }}>Aprobar</button>
-                          <button className="fnd-btn-revisar" onClick={(e) => { e.stopPropagation(); decidir(s.id, 'en_evaluacion', s.comentariosFundacion) }}>Evaluar</button>
+                          <button className={FND_BTN_APROBAR} onClick={(e) => { e.stopPropagation(); decidir(s.id, 'aprobada', s.comentariosFundacion) }}>Aprobar</button>
+                          <button className={FND_BTN_REVISAR} onClick={(e) => { e.stopPropagation(); decidir(s.id, 'en_evaluacion', s.comentariosFundacion) }}>Evaluar</button>
                         </>
                       )}
                     </div>
@@ -114,10 +115,10 @@ const FundacionAdopciones = () => {
 
       {/* Modal de detalle */}
       {seleccionada && (
-        <div className="fnd-modal__fondo" onClick={() => setSeleccionada(null)}>
-          <div className="fnd-modal" onClick={(e) => e.stopPropagation()}>
-            <button className="fnd-modal__cerrar" onClick={() => setSeleccionada(null)}><FiX /></button>
-            <h2 className="fnd-modal__titulo">Solicitud #{seleccionada.id}</h2>
+        <div className={FND_MODAL_FONDO} onClick={() => setSeleccionada(null)}>
+          <div className={FND_MODAL} onClick={(e) => e.stopPropagation()}>
+            <button className={FND_MODAL_CERRAR} onClick={() => setSeleccionada(null)}><FiX /></button>
+            <h2 className={FND_MODAL_TITULO}>Solicitud #{seleccionada.id}</h2>
 
             {[['Adoptante', seleccionada.adoptante?.nombre],['Correo', seleccionada.adoptante?.correo || '—'],['Teléfono', seleccionada.adoptante?.telefono || '—'],['Vivienda', seleccionada.adoptante?.tipoVivienda || '—'],['¿Tiene hijos?', seleccionada.adoptante?.hijos === 'si' ? 'Sí' : seleccionada.adoptante?.hijos === 'no' ? 'No' : '—'],['Mensaje', seleccionada.mensaje],['Experiencia', seleccionada.experiencia || '—'],['Tiempo disponible', seleccionada.tiempoDisponible],['Compromiso veterinario', seleccionada.compromisoVeterinario ? 'Sí' : 'No']].map(([k, v]) => (
               <div key={k} style={{ marginBottom: 10 }}>
@@ -126,10 +127,10 @@ const FundacionAdopciones = () => {
               </div>
             ))}
 
-            <div className="fnd-modal__campo">
-              <label className="fnd-modal__label" htmlFor="fadop-comentarios-de-la-fundac">Comentarios de la fundación</label>
+            <div className={FND_MODAL_CAMPO}>
+              <label className={FND_MODAL_LABEL} htmlFor="fadop-comentarios-de-la-fundac">Comentarios de la fundación</label>
               <textarea id="fadop-comentarios-de-la-fundac"
- className="fnd-modal__input resize-y"
+ className={`${FND_MODAL_INPUT} resize-y`}
  rows="3"
  value={comentario}
  onChange={(e) => { setComentario(e.target.value); setErrorComentario('') }}
@@ -138,19 +139,19 @@ const FundacionAdopciones = () => {
               {errorComentario && <p style={{ color: '#E11D48', fontSize: 12, marginTop: 4 }}>{errorComentario}</p>}
             </div>
 
-            <div className="fnd-modal__acciones">
+            <div className={FND_MODAL_ACCIONES}>
               {['pendiente', 'en_evaluacion'].includes(seleccionada.estado) && (
                 <>
-                  <button className="fnd-btn-revisar fnd-modal__btn" disabled={guardando} onClick={() => resolver('en_evaluacion')}>En evaluación</button>
-                  <button className="fnd-modal__btn fnd-modal__btn--secundario" disabled={guardando} onClick={() => resolver('rechazada')}>Rechazar</button>
-                  <button className="fnd-btn-aprobar fnd-modal__btn" disabled={guardando} onClick={() => resolver('aprobada')}>Aprobar</button>
+                  <button className={FND_MODAL_BTN_REVISAR} disabled={guardando} onClick={() => resolver('en_evaluacion')}>En evaluación</button>
+                  <button className={FND_MODAL_BTN_SECUNDARIO} disabled={guardando} onClick={() => resolver('rechazada')}>Rechazar</button>
+                  <button className={FND_MODAL_BTN_APROBAR} disabled={guardando} onClick={() => resolver('aprobada')}>Aprobar</button>
                 </>
               )}
               {seleccionada.estado === 'aprobada' && mascotas.find((m) => m.id === seleccionada.mascotaId)?.estadoAdopcion === 'en_proceso' && (
-                <button className="fnd-btn-aprobar fnd-modal__btn" disabled={guardando} onClick={cerrarAdopcion}>Marcar como adoptada</button>
+                <button className={FND_MODAL_BTN_APROBAR} disabled={guardando} onClick={cerrarAdopcion}>Marcar como adoptada</button>
               )}
               {!['pendiente', 'en_evaluacion'].includes(seleccionada.estado) && (
-                <button className="fnd-modal__btn fnd-modal__btn--secundario" onClick={() => setSeleccionada(null)}>Cerrar</button>
+                <button className={FND_MODAL_BTN_SECUNDARIO} onClick={() => setSeleccionada(null)}>Cerrar</button>
               )}
             </div>
           </div>

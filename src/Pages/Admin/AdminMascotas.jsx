@@ -6,6 +6,7 @@ import { getMascotasAdmin } from '../../Services/adminService.js'
 import { BADGE_MASCOTA, distintivo } from '../../Utils/estados.js'
 import { ACCIONES, ACCION_BTN, BADGE, BTN_SECUNDARIO, CELDA_VACIA, DETALLE_ITEM, DETALLE_LABEL, DETALLE_NOTA, DETALLE_VALOR, FILTROS, MASCOTA_CELDA, MASCOTA_FOTO, MASCOTA_MINI, MASCOTA_MINI_VACIA, MASCOTA_NOMBRE, MASCOTA_SUB, MODAL, MODAL_CABECERA, MODAL_CABECERA_IZQ, MODAL_CERRAR, MODAL_CUERPO, MODAL_FONDO, MODAL_GRID, MODAL_PIE, MODAL_TITULO, PAGE_HEADER, SUBTITULO, TABLA, TABLA_WRAP } from '../../Utils/adminEstilos'
 import { MAIN, TITULO } from '../../Utils/panelEstilos'
+import { fndChip } from '../../Utils/fundacionEstilos'
 
 
 // Vista de supervisión: las mascotas las crea y edita cada fundación desde su panel
@@ -51,7 +52,7 @@ const AdminMascotas = () => {
           {['todos', 'en_cuarentena', 'disponible', 'en_proceso', 'adoptado'].map((st) => (
             <button
               key={st}
-              className={`fnd-chip${filtroEstado === st ? ' fnd-chip--activo' : ''}`}
+              className={fndChip(filtroEstado === st)}
               onClick={() => setFiltroEstado(st)}
             >
               {st === 'todos' ? 'Todas las mascotas' : BADGE_MASCOTA[st].txt}

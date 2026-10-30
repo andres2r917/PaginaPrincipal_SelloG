@@ -7,6 +7,7 @@ import TarjetaDenuncia from '../../Componentes/Denuncias/TarjetaDenuncia.jsx'
 import { SelectorUbicacion } from '../../Componentes/Denuncias/DenunciaFormulario.jsx'
 import * as E from '../../Utils/denunciaEstilos.js'
 import { TITULO } from '../../Utils/panelEstilos'
+import { FND_BTN_PRIMARIO, FND_DROPZONE_HINT, FND_DROPZONE_ICONO, FND_DROPZONE_LINK, FND_DROPZONE_TEXTO, FND_FILTROS, FND_MODAL, FND_MODAL_ACCIONES, FND_MODAL_BTN_PRIMARIO, FND_MODAL_BTN_SECUNDARIO, FND_MODAL_CAMPO, FND_MODAL_CERRAR, FND_MODAL_FONDO, FND_MODAL_INPUT, FND_MODAL_LABEL, FND_MODAL_SELECT, FND_MODAL_TITULO, FND_PREVIEW_GRID, FND_PREVIEW_THUMB, FND_PREVIEW_THUMB_QUITAR, fndChip, fndDropzone } from '../../Utils/fundacionEstilos'
 
 const FILTROS = [
   { id: 'disponibles', texto: 'Disponibles' },
@@ -135,19 +136,19 @@ const FundacionDenuncias = () => {
         {/* Despliega la ventana modal para realizar la denuncia sin salir del panel */}
         <button
           type="button"
-          className="fnd-btn-primario"
+          className={FND_BTN_PRIMARIO}
           onClick={() => { setModalReportar(true); setAviso(null) }}
         >
           <FiPlus /> Reportar una denuncia
         </button>
       </div>
 
-      <div className="fnd-filtros">
+      <div className={FND_FILTROS}>
         {FILTROS.map((f) => (
           <button
             key={f.id}
             type="button"
-            className={`fnd-chip${filtro === f.id ? ' fnd-chip--activo' : ''}`}
+            className={fndChip(filtro === f.id)}
             onClick={() => { setFiltro(f.id); setAviso(null) }}
           >
             {f.texto}
@@ -180,13 +181,13 @@ const FundacionDenuncias = () => {
 
       {/* ── VENTANA MODAL PARA REALIZAR DENUNCIA DESDE EL PANEL ── */}
       {modalReportar && (
-        <div className="fnd-modal__fondo" onClick={() => setModalReportar(false)}>
-          <div className="fnd-modal max-w-[600px]" onClick={(e) => e.stopPropagation()}>
-            <button className="fnd-modal__cerrar" onClick={() => setModalReportar(false)} title="Cerrar ventana">
+        <div className={FND_MODAL_FONDO} onClick={() => setModalReportar(false)}>
+          <div className={FND_MODAL} onClick={(e) => e.stopPropagation()}>
+            <button className={FND_MODAL_CERRAR} onClick={() => setModalReportar(false)} title="Cerrar ventana">
               <FiX />
             </button>
 
-            <h2 className="fnd-modal__titulo" style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
+            <h2 className={FND_MODAL_TITULO} style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
               <FiAlertTriangle className="text-peligro" /> Reportar Caso de Denuncia
             </h2>
             <p style={{ color: 'rgba(241, 245, 249, 0.6)', fontSize: 13, marginBottom: 18 }}>
@@ -196,10 +197,10 @@ const FundacionDenuncias = () => {
             <form onSubmit={handleSubmitReporte}>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
                 {/* Tipo de caso */}
-                <div className="fnd-modal__campo">
-                  <label className="fnd-modal__label" htmlFor="fden-tipo-de-denuncia">Tipo de denuncia *</label>
+                <div className={FND_MODAL_CAMPO}>
+                  <label className={FND_MODAL_LABEL} htmlFor="fden-tipo-de-denuncia">Tipo de denuncia *</label>
                   <select id="fden-tipo-de-denuncia"
-                    className="fnd-modal__input"
+                    className={FND_MODAL_SELECT}
                     value={formReporte.tipo}
                     onChange={(e) => setFormReporte({ ...formReporte, tipo: e.target.value })}
                   >
@@ -212,10 +213,10 @@ const FundacionDenuncias = () => {
                 </div>
 
                 {/* Urgencia */}
-                <div className="fnd-modal__campo">
-                  <label className="fnd-modal__label" htmlFor="fden-nivel-de-urgencia">Nivel de urgencia *</label>
+                <div className={FND_MODAL_CAMPO}>
+                  <label className={FND_MODAL_LABEL} htmlFor="fden-nivel-de-urgencia">Nivel de urgencia *</label>
                   <select id="fden-nivel-de-urgencia"
-                    className="fnd-modal__input"
+                    className={FND_MODAL_SELECT}
                     value={formReporte.urgencia}
                     onChange={(e) => setFormReporte({ ...formReporte, urgencia: e.target.value })}
                   >
@@ -227,8 +228,8 @@ const FundacionDenuncias = () => {
               </div>
 
               {/* Ubicación */}
-              <div className="fnd-modal__campo">
-                <span className="fnd-modal__label">Dirección o ubicación del caso *</span>
+              <div className={FND_MODAL_CAMPO}>
+                <span className={FND_MODAL_LABEL}>Dirección o ubicación del caso *</span>
                 <SelectorUbicacion
                   oscuro
                   onCambio={(u) => setFormReporte((prev) => ({ ...prev, ...u }))}
@@ -236,10 +237,10 @@ const FundacionDenuncias = () => {
               </div>
 
               {/* Descripción */}
-              <div className="fnd-modal__campo">
-                <label className="fnd-modal__label" htmlFor="fden-descripcion-de-los-hecho">Descripción de los hechos *</label>
+              <div className={FND_MODAL_CAMPO}>
+                <label className={FND_MODAL_LABEL} htmlFor="fden-descripcion-de-los-hecho">Descripción de los hechos *</label>
                 <textarea id="fden-descripcion-de-los-hecho"
- className="fnd-modal__input resize-y"
+ className={`${FND_MODAL_INPUT} resize-y`}
  rows="3"
  required
  placeholder="Describe la condición del animal, situación de peligro y referencias para ubicar el lugar..." aria-label="Describe la condición del animal, situación de peligro y referencias para ubicar el lugar..."
@@ -250,11 +251,11 @@ const FundacionDenuncias = () => {
               </div>
 
               {/* Subir fotos / evidencias desde el PC */}
-              <div className="fnd-modal__campo">
-                <span className="fnd-modal__label">Fotos o videos de evidencia</span>
+              <div className={FND_MODAL_CAMPO}>
+                <span className={FND_MODAL_LABEL}>Fotos o videos de evidencia</span>
 
                   <div
-                    className={`fnd-dropzone ${dragOver ? 'fnd-dropzone--drag' : ''}`}
+                    className={fndDropzone(dragOver)}
                     onDragOver={(e) => { e.preventDefault(); setDragOver(true) }}
                     onDragLeave={() => setDragOver(false)}
                     onDrop={(e) => {
@@ -266,11 +267,11 @@ const FundacionDenuncias = () => {
                     }}
                     onClick={() => fileInputRef.current?.click()}
                   >
-                    <FiUploadCloud className="fnd-dropzone__icon" />
-                    <p className="fnd-dropzone__texto">
-                      <span className="fnd-dropzone__link">Sube fotos o videos</span> desde tu PC
+                    <FiUploadCloud className={FND_DROPZONE_ICONO} />
+                    <p className={FND_DROPZONE_TEXTO}>
+                      <span className={FND_DROPZONE_LINK}>Sube fotos o videos</span> desde tu PC
                     </p>
-                    <span className="fnd-dropzone__hint">Arrastra archivos aquí o haz clic para seleccionarlos</span>
+                    <span className={FND_DROPZONE_HINT}>Arrastra archivos aquí o haz clic para seleccionarlos</span>
                     <input
                       ref={fileInputRef}
                       type="file"
@@ -287,9 +288,9 @@ const FundacionDenuncias = () => {
 
                 {/* Vista previa de miniaturas con botón eliminar */}
                 {archivos.length > 0 && (
-                  <div className="fnd-preview-grid">
+                  <div className={FND_PREVIEW_GRID}>
                     {archivos.map((archivo, i) => (
-                      <div key={i} className="fnd-preview-thumb">
+                      <div key={i} className={FND_PREVIEW_THUMB}>
                         {archivo.type?.startsWith('video/') ? (
                           <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#1e293b', color: '#fff', fontSize: 20 }}>
                             <FiVideo />
@@ -299,7 +300,7 @@ const FundacionDenuncias = () => {
                         )}
                         <button
                           type="button"
-                          className="fnd-preview-thumb__remover"
+                          className={FND_PREVIEW_THUMB_QUITAR}
                           onClick={() => eliminarArchivo(i)}
                           title="Quitar archivo"
                         >
@@ -324,15 +325,15 @@ const FundacionDenuncias = () => {
               </div>
 
               {/* Acciones */}
-              <div className="fnd-modal__acciones">
+              <div className={FND_MODAL_ACCIONES}>
                 <button
                   type="button"
-                  className="fnd-modal__btn fnd-modal__btn--secundario"
+                  className={FND_MODAL_BTN_SECUNDARIO}
                   onClick={() => setModalReportar(false)}
                 >
                   Cancelar
                 </button>
-                <button type="submit" className="fnd-modal__btn fnd-modal__btn--primario" disabled={enviando}>
+                <button type="submit" className={FND_MODAL_BTN_PRIMARIO} disabled={enviando}>
                   <FiCheck /> {enviando ? 'Publicando...' : 'Publicar denuncia'}
                 </button>
               </div>

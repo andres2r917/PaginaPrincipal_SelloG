@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useFundacion } from '../../Context/FundacionContext.jsx'
 import { BADGE_MASCOTA } from '../../Utils/estados.js'
 import { TITULO } from '../../Utils/panelEstilos'
+import { FND_AVISO, FND_BADGE, FND_BTN_APROBAR, FND_KANBAN, FND_KANBAN_CABECERA, FND_KANBAN_CHIPS, FND_KANBAN_NOMBRE, FND_KANBAN_SELECT, FND_KANBAN_SUB, FND_KANBAN_TITULO, fndChipMascota, fndKanbanCol, fndKanbanTarjeta } from '../../Utils/fundacionEstilos'
 
 const COLUMNAS = [
   { key: 'en_cuarentena', titulo: 'Ingreso & Cuarentena' },
@@ -42,27 +43,27 @@ const FundacionPipeline = () => {
         Arrastra las tarjetas para cambiar el estado. En pantallas táctiles usa el selector.
       </p>
 
-      {aviso && <p className="fnd-aviso fnd-aviso--error" role="alert">{aviso}</p>}
+      {aviso && <p className={FND_AVISO} role="alert">{aviso}</p>}
 
-      <div className="fnd-kanban">
+      <div className={FND_KANBAN}>
         {COLUMNAS.map((col) => {
           const lista = activas.filter((m) => m.estadoAdopcion === col.key)
           return (
             <div
               key={col.key}
-              className={`fnd-kanban__col${colDrop === col.key ? ' fnd-kanban__col--drop' : ''}`}
+              className={fndKanbanCol(colDrop === col.key)}
               onDragOver={(e) => onDragOver(e, col.key)}
               onDrop={(e) => onDrop(e, col.key)}
             >
-              <div className="fnd-kanban__col-header">
-                <span className="fnd-kanban__col-titulo">{col.titulo}</span>
-                <span className="fnd-badge">{lista.length}</span>
+              <div className={FND_KANBAN_CABECERA}>
+                <span className={FND_KANBAN_TITULO}>{col.titulo}</span>
+                <span className={FND_BADGE}>{lista.length}</span>
               </div>
 
               {lista.map((m) => (
                 <div
                   key={m.id}
-                  className={`fnd-kanban__tarjeta${arrastrando === m.id ? ' fnd-kanban__tarjeta--drag' : ''}`}
+                  className={fndKanbanTarjeta(arrastrando === m.id)}
                   draggable
                   onDragStart={() => onDragStart(m.id)}
                   onDragEnd={onDragEnd}
@@ -74,23 +75,23 @@ const FundacionPipeline = () => {
                       style={{ width: '100%', height: 80, objectFit: 'cover', borderRadius: 7, marginBottom: 8 }}
                     />
                   )}
-                  <p className="fnd-kanban__tarjeta-nombre">{m.nombre}</p>
-                  <p className="fnd-kanban__tarjeta-sub">{m.raza} · Ingresó {new Date(m.fechaIngreso).toLocaleDateString('es-CO')}</p>
-                  <div className="fnd-kanban__tarjeta-chips">
-                    {m.vacunado && <span className="fnd-mascota__chip">Vacunado</span>}
-                    {m.esterilizado && <span className="fnd-mascota__chip">Esterilizado</span>}
+                  <p className={FND_KANBAN_NOMBRE}>{m.nombre}</p>
+                  <p className={FND_KANBAN_SUB}>{m.raza} · Ingresó {new Date(m.fechaIngreso).toLocaleDateString('es-CO')}</p>
+                  <div className={FND_KANBAN_CHIPS}>
+                    {m.vacunado && <span className={fndChipMascota()}>Vacunado</span>}
+                    {m.esterilizado && <span className={fndChipMascota()}>Esterilizado</span>}
                     {(m.estadoSalud || '').toLowerCase().includes('tratamiento') && (
-                      <span className="fnd-mascota__chip fnd-mascota__chip--tratamiento">Tratamiento</span>
+                      <span className={fndChipMascota('tratamiento')}>Tratamiento</span>
                     )}
                   </div>
                   {m.estadoAdopcion === 'en_proceso' && (
-                    <button type="button" className="fnd-btn-aprobar" style={{ width: '100%', marginBottom: 8 }} onClick={() => mover(m.id, 'adoptado')}>
+                    <button type="button" className={FND_BTN_APROBAR} style={{ width: '100%', marginBottom: 8 }} onClick={() => mover(m.id, 'adoptado')}>
                       Marcar como adoptado
                     </button>
                   )}
                   {/* Selector alternativo para pantallas táctiles */}
                   <select
-                    className="fnd-kanban__select"
+                    className={FND_KANBAN_SELECT}
                     value={m.estadoAdopcion}
                     onChange={(e) => mover(m.id, e.target.value)}
                   >

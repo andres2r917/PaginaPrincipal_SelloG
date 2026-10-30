@@ -6,6 +6,7 @@ import CamposMascota from '../../Componentes/Fundacion/CamposMascota.jsx'
 import { BADGE_MASCOTA, distintivo } from '../../Utils/estados.js'
 import { BADGE, BTN_PRIMARIO, BTN_SECUNDARIO, DETALLE_ITEM, DETALLE_LABEL, DETALLE_VALOR, ETIQUETAS, MODAL, MODAL_CABECERA, MODAL_CABECERA_IZQ, MODAL_CERRAR, MODAL_CUERPO, MODAL_FONDO, MODAL_GRID, MODAL_PIE, MODAL_TITULO, etiqueta } from '../../Utils/adminEstilos'
 import { TITULO, TOPBAR_SEARCH } from '../../Utils/panelEstilos'
+import { FND_AVISO, FND_BTN_FICHA, FND_BTN_GESTIONAR, FND_BTN_PRIMARIO, FND_FILTROS, FND_GRID_MASCOTAS, FND_MASCOTA, FND_MASCOTA_ACCIONES, FND_MASCOTA_CHIPS, FND_MASCOTA_CUERPO, FND_MASCOTA_FOTO, FND_MASCOTA_NOMBRE, FND_MASCOTA_SUB, fndChip, fndChipMascota } from '../../Utils/fundacionEstilos'
 
 // Valores con los que arranca el formulario de ingreso (y a los que vuelve después de guardar)
 const FORM_INGRESO_INICIAL = {
@@ -117,11 +118,11 @@ const FundacionExpedientes = () => {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12, flexWrap: 'wrap', marginBottom: 16 }}>
         <h1 className={TITULO}>Expedientes Peluditos</h1>
         {/* Abre el modal para registrar el ingreso de una mascota */}
-        <button type="button" className="fnd-btn-primario" onClick={() => setModalIngreso(true)}>
+        <button type="button" className={FND_BTN_PRIMARIO} onClick={() => setModalIngreso(true)}>
           <FiPlus /> Registrar Ingreso
         </button>
       </div>
-      {aviso && !modalIngreso && !modalGestionar && <p className="fnd-aviso fnd-aviso--error" role="alert">{aviso}</p>}
+      {aviso && !modalIngreso && !modalGestionar && <p className={FND_AVISO} role="alert">{aviso}</p>}
 
       {/* Barra de filtros */}
       <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginBottom: 20 }}>
@@ -134,16 +135,16 @@ const FundacionExpedientes = () => {
             onChange={(e) => setBusqueda(e.target.value)}
           />
         </div>
-        <div className="fnd-filtros m-0" >
+        <div className={FND_FILTROS} >
           {['todos', 'perro', 'gato', 'ave', 'otro'].map((e) => (
-            <button key={e} className={`fnd-chip${filtroEspecie === e ? ' fnd-chip--activo' : ''}`} onClick={() => setFiltroEspecie(e)}>
+            <button key={e} className={fndChip(filtroEspecie === e)} onClick={() => setFiltroEspecie(e)}>
               {e === 'todos' ? 'Todos' : e.charAt(0).toUpperCase() + e.slice(1)}
             </button>
           ))}
         </div>
-        <div className="fnd-filtros m-0" >
+        <div className={FND_FILTROS} >
           {['todos', 'en_cuarentena', 'disponible', 'en_proceso', 'adoptado'].map((st) => (
-            <button key={st} className={`fnd-chip${filtroEstado === st ? ' fnd-chip--activo' : ''}`} onClick={() => setFiltroEstado(st)}>
+            <button key={st} className={fndChip(filtroEstado === st)} onClick={() => setFiltroEstado(st)}>
               {st === 'todos' ? 'Todos' : BADGE_MASCOTA[st].txt}
             </button>
           ))}
@@ -151,27 +152,27 @@ const FundacionExpedientes = () => {
       </div>
 
       {/* Grilla de mascotas */}
-      <div className="fnd-grid-mascotas">
+      <div className={FND_GRID_MASCOTAS}>
         {mascotasFiltradas.map((m) => (
-          <div className="fnd-mascota" key={m.id}>
-            <div className="fnd-mascota__foto">
+          <div className={FND_MASCOTA} key={m.id}>
+            <div className={FND_MASCOTA_FOTO}>
               {m.fotoUrl ? <img src={m.fotoUrl} alt={m.nombre} /> : <FaPaw />}
             </div>
-            <div className="fnd-mascota__body">
-              <p className="fnd-mascota__nombre">{m.nombre}</p>
-              <p className="fnd-mascota__sub">{m.especie} · {m.raza} · {m.edadEstimada}</p>
-              <div className="fnd-mascota__chips">
+            <div className={FND_MASCOTA_CUERPO}>
+              <p className={FND_MASCOTA_NOMBRE}>{m.nombre}</p>
+              <p className={FND_MASCOTA_SUB}>{m.especie} · {m.raza} · {m.edadEstimada}</p>
+              <div className={FND_MASCOTA_CHIPS}>
                 <span className={`${BADGE} ${distintivo(BADGE_MASCOTA, m.estadoAdopcion).cls}`}>{distintivo(BADGE_MASCOTA, m.estadoAdopcion).txt}</span>
-                <span className={`fnd-mascota__chip ${m.vacunado ? 'fnd-chip--vacunado' : 'fnd-chip--sin-vacunas'}`}>
+                <span className={fndChipMascota(m.vacunado ? 'vacunado' : 'sinVacunas')}>
                   {m.vacunado ? <><FiCheck /> Vacunado</> : <><FiAlertTriangle /> Sin vacunas</>}
                 </span>
-                <span className={`fnd-mascota__chip ${m.esterilizado ? 'fnd-chip--esterilizado' : 'fnd-chip--sin-esterilizar'}`}>
+                <span className={fndChipMascota(m.esterilizado ? 'esterilizado' : 'sinEsterilizar')}>
                   {m.esterilizado ? <><FiCheck /> Esterilizado</> : 'Sin esterilizar'}
                 </span>
               </div>
-              <div className="fnd-mascota__acciones">
-                <button className="fnd-btn-gestionar" onClick={() => abrirGestionar(m)}>Gestionar</button>
-                <button className="fnd-btn-ficha" onClick={() => setModalFicha(m)}>Ficha técnica</button>
+              <div className={FND_MASCOTA_ACCIONES}>
+                <button className={FND_BTN_GESTIONAR} onClick={() => abrirGestionar(m)}>Gestionar</button>
+                <button className={FND_BTN_FICHA} onClick={() => setModalFicha(m)}>Ficha técnica</button>
               </div>
             </div>
           </div>
@@ -203,7 +204,7 @@ const FundacionExpedientes = () => {
             <form onSubmit={guardarIngreso}>
               <div className={`${MODAL_CUERPO} max-h-[70vh] overflow-y-auto`} >
                 <CamposMascota form={formIngreso} setForm={setFormIngreso} />
-                {aviso && <p className="fnd-aviso fnd-aviso--error" role="alert">{aviso}</p>}
+                {aviso && <p className={FND_AVISO} role="alert">{aviso}</p>}
               </div>
 
               <div className={MODAL_PIE}>
@@ -241,7 +242,7 @@ const FundacionExpedientes = () => {
             <form onSubmit={guardarGestionar}>
               <div className={`${MODAL_CUERPO} max-h-[70vh] overflow-y-auto`} >
                 <CamposMascota form={formGestionar} setForm={setFormGestionar} />
-                {aviso && <p className="fnd-aviso fnd-aviso--error" role="alert">{aviso}</p>}
+                {aviso && <p className={FND_AVISO} role="alert">{aviso}</p>}
               </div>
 
               <div className={MODAL_PIE}>

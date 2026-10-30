@@ -22,9 +22,9 @@ import { useFundacion } from '../../Context/FundacionContext.jsx'
 import { useDenuncias } from '../../Context/DenunciasContext.jsx'
 import { ETIQUETA_TIPO } from '../../Utils/estados.js'
 import Notificaciones from '../Notificaciones.jsx'
-import '../../Style/Fundacion/FundacionPanel.css'
 import { BADGE_COLOR } from '../../Utils/adminEstilos'
 import { AVATAR_BTN, BRAND, BRAND_LOGO, CONTENT, ICON_BTN, LAYOUT, MAIN, NAV, PERFIL_AVATAR, PERFIL_CABECERA, PERFIL_OK, SELECT, SIDEBAR, TOPBAR, TOPBAR_ACCIONES, TOPBAR_SEARCH, navItem } from '../../Utils/panelEstilos'
+import { FND_AVISO, FND_BADGE, FND_BREADCRUMB, FND_KBD, FND_MODAL, FND_MODAL_ACCIONES, FND_MODAL_BTN_PRIMARIO, FND_MODAL_BTN_SECUNDARIO, FND_MODAL_CAMPO, FND_MODAL_CERRAR, FND_MODAL_FONDO, FND_MODAL_INPUT, FND_MODAL_LABEL, FND_MODAL_TITULO, FND_USUARIO, FND_USUARIO_META } from '../../Utils/fundacionEstilos'
 
 const FundacionLayout = () => {
   const { usuario, logout, guardarPerfilFundacion } = useAuth()
@@ -129,19 +129,19 @@ const FundacionLayout = () => {
                 className={navItem}
               >
                 {it.icono} <span>{it.texto}</span>
-                {it.badge > 0 && <span className="fnd-badge">{it.badge}</span>}
+                {it.badge > 0 && <span className={FND_BADGE}>{it.badge}</span>}
               </NavLink>
             ))}
           </nav>
 
           {/* Bloque de usuario al pie del menú */}
-          <div className="fnd-usuario">
+          <div className={FND_USUARIO}>
             <button className={AVATAR_BTN} onClick={abrirPerfil} aria-label="Editar perfil" title="Mi perfil">
               {usuario?.foto
                 ? <img src={usuario.foto} alt="Foto de perfil" className="size-full rounded-full object-cover" />
                 : inicial}
             </button>
-            <div className="fnd-usuario__meta">
+            <div className={FND_USUARIO_META}>
               <strong>{usuario?.nombre}</strong>
               <small>Fundación</small>
             </div>
@@ -153,14 +153,14 @@ const FundacionLayout = () => {
 
         <div className={CONTENT}>
           <header className={TOPBAR}>
-            <div className="fnd-breadcrumb">
+            <div className={FND_BREADCRUMB}>
               Sello Guardián <span>›</span> <strong>{usuario?.nombre}</strong>
             </div>
 
             <div className={TOPBAR_SEARCH}>
               <FiSearch />
               <input ref={buscadorRef} type="text" placeholder="Buscar animal o expediente..." aria-label="Buscar animal o expediente..." />
-              <kbd className="fnd-kbd">Ctrl K</kbd>
+              <kbd className={FND_KBD}>Ctrl K</kbd>
             </div>
 
             <div className={TOPBAR_ACCIONES}>
@@ -184,9 +184,9 @@ const FundacionLayout = () => {
 
       {/* Modal de perfil de fundación */}
       {perfilAbierto && (
-        <div className="fnd-modal__fondo" onClick={() => setPerfilAbierto(false)}>
-          <div className={`fnd-modal`} onClick={(e) => e.stopPropagation()}>
-            <button className="fnd-modal__cerrar" onClick={() => setPerfilAbierto(false)}>
+        <div className={FND_MODAL_FONDO} onClick={() => setPerfilAbierto(false)}>
+          <div className={FND_MODAL} onClick={(e) => e.stopPropagation()}>
+            <button className={FND_MODAL_CERRAR} onClick={() => setPerfilAbierto(false)}>
               <FiX />
             </button>
 
@@ -195,25 +195,25 @@ const FundacionLayout = () => {
                 {usuario?.foto ? <img src={usuario.foto} alt="Foto de perfil" /> : <FiUser size={28} />}
               </div>
               <div>
-                <h2 className="fnd-modal__titulo" style={{ marginBottom: 2 }}>Mi perfil</h2>
+                <h2 className={FND_MODAL_TITULO} style={{ marginBottom: 2 }}>Mi perfil</h2>
                 <span className={BADGE_COLOR.neutro} style={{ fontSize: 12 }}>Fundación</span>
               </div>
             </div>
 
             <form onSubmit={guardarPerfil}>
-              <div className="fnd-modal__campo">
-                <label className="fnd-modal__label" htmlFor="fperfil-nombre-de-la-fundacion">Nombre de la fundación</label>
+              <div className={FND_MODAL_CAMPO}>
+                <label className={FND_MODAL_LABEL} htmlFor="fperfil-nombre-de-la-fundacion">Nombre de la fundación</label>
                 <input id="fperfil-nombre-de-la-fundacion"
-                  className="fnd-modal__input"
+                  className={FND_MODAL_INPUT}
                   value={formPerfil.nombre}
                   onChange={(e) => { setFormPerfil((p) => ({ ...p, nombre: e.target.value })); setGuardado(false) }}
                   required
                 />
               </div>
-              <div className="fnd-modal__campo">
-                <label className="fnd-modal__label" htmlFor="fperfil-correo-de-acceso">Correo de acceso</label>
+              <div className={FND_MODAL_CAMPO}>
+                <label className={FND_MODAL_LABEL} htmlFor="fperfil-correo-de-acceso">Correo de acceso</label>
                 <input id="fperfil-correo-de-acceso"
-                  className="fnd-modal__input"
+                  className={FND_MODAL_INPUT}
                   type="email"
                   value={formPerfil.email}
                   readOnly
@@ -221,13 +221,13 @@ const FundacionLayout = () => {
                   title="El correo de acceso no se puede cambiar desde aquí"
                 />
               </div>
-              {errorPerfil && <p className="fnd-aviso fnd-aviso--error" role="alert">{errorPerfil}</p>}
-              <div className="fnd-modal__acciones">
+              {errorPerfil && <p className={FND_AVISO} role="alert">{errorPerfil}</p>}
+              <div className={FND_MODAL_ACCIONES}>
                 {guardado && <span className={PERFIL_OK}><FiCheck /> Cambios guardados</span>}
-                <button type="button" className="fnd-modal__btn fnd-modal__btn--secundario" onClick={() => setPerfilAbierto(false)}>
+                <button type="button" className={FND_MODAL_BTN_SECUNDARIO} onClick={() => setPerfilAbierto(false)}>
                   Cancelar
                 </button>
-                <button type="submit" className="fnd-modal__btn fnd-modal__btn--primario">
+                <button type="submit" className={FND_MODAL_BTN_PRIMARIO}>
                   Guardar
                 </button>
               </div>

@@ -7,6 +7,7 @@ import { ETIQUETA_TIPO } from '../../Utils/estados.js'
 import Notificaciones from '../Notificaciones.jsx'
 import { BADGE_COLOR } from '../../Utils/adminEstilos'
 import { AVATAR_BTN, PERFIL_AVATAR, PERFIL_CABECERA, TOPBAR, TOPBAR_ACCIONES, TOPBAR_SEARCH } from '../../Utils/panelEstilos'
+import { FND_MODAL, FND_MODAL_ACCIONES, FND_MODAL_BTN_SECUNDARIO, FND_MODAL_CAMPO, FND_MODAL_CERRAR, FND_MODAL_FONDO, FND_MODAL_LABEL, FND_MODAL_TITULO } from '../../Utils/fundacionEstilos'
 
 const AdminTopbar = ({ placeholder = 'Buscar...', valor, onChange, value }) => {
   const { usuario } = useAuth()
@@ -100,9 +101,9 @@ const AdminTopbar = ({ placeholder = 'Buscar...', valor, onChange, value }) => {
 
       {/* Modal de perfil */}
       {perfilAbierto && (
-        <div className="fnd-modal__fondo" onClick={() => setPerfilAbierto(false)}>
-          <div className={`fnd-modal`} onClick={(e) => e.stopPropagation()}>
-            <button className="fnd-modal__cerrar" onClick={() => setPerfilAbierto(false)}>
+        <div className={FND_MODAL_FONDO} onClick={() => setPerfilAbierto(false)}>
+          <div className={FND_MODAL} onClick={(e) => e.stopPropagation()}>
+            <button className={FND_MODAL_CERRAR} onClick={() => setPerfilAbierto(false)}>
               <FiX />
             </button>
 
@@ -114,23 +115,23 @@ const AdminTopbar = ({ placeholder = 'Buscar...', valor, onChange, value }) => {
                   : <FiUser size={28} />}
               </div>
               <div>
-                <h2 className="fnd-modal__titulo" style={{ marginBottom: 2 }}>Mi perfil</h2>
+                <h2 className={FND_MODAL_TITULO} style={{ marginBottom: 2 }}>Mi perfil</h2>
                 <span className={BADGE_COLOR.neutro} style={{ fontSize: 12 }}>
                   {usuario?.rol === 'admin' ? 'Administrador' : 'Fundación'}
                 </span>
               </div>
             </div>
 
-            <div className="fnd-modal__campo">
-              <p className="fnd-modal__label">Nombre</p>
+            <div className={FND_MODAL_CAMPO}>
+              <p className={FND_MODAL_LABEL}>Nombre</p>
               <p className="text-texto">{usuario?.nombre || '—'}</p>
             </div>
-            <div className="fnd-modal__campo">
-              <p className="fnd-modal__label">Correo electrónico</p>
+            <div className={FND_MODAL_CAMPO}>
+              <p className={FND_MODAL_LABEL}>Correo electrónico</p>
               <p className="text-texto">{usuario?.email}</p>
             </div>
-            <div className="fnd-modal__acciones">
-              <button type="button" className="fnd-modal__btn fnd-modal__btn--secundario" onClick={() => setPerfilAbierto(false)}>
+            <div className={FND_MODAL_ACCIONES}>
+              <button type="button" className={FND_MODAL_BTN_SECUNDARIO} onClick={() => setPerfilAbierto(false)}>
                 Cerrar
               </button>
             </div>
