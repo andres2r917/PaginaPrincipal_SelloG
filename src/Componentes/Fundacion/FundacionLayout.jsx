@@ -10,7 +10,6 @@ import {
   FiGrid,
   FiHeart,
   FiLogOut,
-  FiPlus,
   FiSearch,
   FiSettings,
   FiUser,
@@ -172,14 +171,6 @@ const FundacionLayout = () => {
 
               {/* Campana: avisos reales; lo que ya leíste se recuerda en este navegador */}
               <Notificaciones key={usuario?.id} items={avisos} usuarioId={usuario?.id} />
-
-              {/* Abre el modal de nuevo ingreso en Expedientes */}
-              <button
-                className="fnd-btn-primario"
-                onClick={() => navigate('/fundacion/expedientes', { state: { abrirModal: true } })}
-              >
-                <FiPlus /> Registrar Ingreso
-              </button>
             </div>
           </header>
 

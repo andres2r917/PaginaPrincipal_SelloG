@@ -887,15 +887,6 @@ select.fnd-modal__input option {
   color: var(--color-exito);
 }
 
-/* Selector de ubicación (el mismo del formulario público) dentro del modal oscuro */
-.fnd-modal .dn-ubicacion-search {
-  background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(255, 255, 255, 0.14);
-}
-
-.fnd-modal .dn-ubicacion-search__input { color: var(--color-texto); }
-.fnd-modal .dn-ubicacion-search__input::placeholder { color: rgba(241, 245, 249, 0.5); }
-
 .fnd-aviso {
   margin: 0 0 14px;
   padding: 10px 14px;

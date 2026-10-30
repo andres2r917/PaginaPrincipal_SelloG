@@ -1,6 +1,5 @@
 import { FaPaw } from 'react-icons/fa'
 import { useState } from 'react'
-import { useLocation } from 'react-router-dom'
 import { FiAlertTriangle, FiCheck, FiClipboard, FiPlus, FiSearch, FiShield, FiX } from 'react-icons/fi'
 import { useFundacion } from '../../Context/FundacionContext.jsx'
 import CamposMascota from '../../Componentes/Fundacion/CamposMascota.jsx'
@@ -29,12 +28,11 @@ const FORM_INGRESO_INICIAL = {
 
 const FundacionExpedientes = () => {
   const { mascotas, agregarMascota, actualizarMascota } = useFundacion()
-  const location = useLocation()
 
   const [busqueda, setBusqueda] = useState('')
   const [filtroEspecie, setFiltroEspecie] = useState('todos')
   const [filtroEstado, setFiltroEstado] = useState('todos')
-  const [modalIngreso, setModalIngreso] = useState(() => Boolean(location.state?.abrirModal))
+  const [modalIngreso, setModalIngreso] = useState(false)
   const [modalGestionar, setModalGestionar] = useState(null)
   const [modalFicha, setModalFicha] = useState(null)
   const [enviando, setEnviando] = useState(false)
@@ -115,7 +113,13 @@ const FundacionExpedientes = () => {
 
   return (
     <div>
-      <h1 className="admin-title">Expedientes Peluditos</h1>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12, flexWrap: 'wrap', marginBottom: 16 }}>
+        <h1 className="admin-title sin-margen">Expedientes Peluditos</h1>
+        {/* Abre el modal para registrar el ingreso de una mascota */}
+        <button type="button" className="fnd-btn-primario" onClick={() => setModalIngreso(true)}>
+          <FiPlus /> Registrar Ingreso
+        </button>
+      </div>
       {aviso && !modalIngreso && !modalGestionar && <p className="fnd-aviso fnd-aviso--error" role="alert">{aviso}</p>}
 
       {/* Barra de filtros */}

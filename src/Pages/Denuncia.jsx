@@ -1,7 +1,7 @@
 import { FiCheckCircle, FiX } from 'react-icons/fi'
 import { useState, useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import '../Style/Denuncia.css'
+import { PAGINA, CONTENIDO, TOAST } from '../Utils/denunciaEstilos.js'
 import '../Style/DenunciaFeed.css'
 // Fondo propio de esta página
 const FONDO = 'https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=1920&q=70'
@@ -69,8 +69,8 @@ const Denuncia = () => {
   const cambiarPestana = (id) => setPestana(id)
 
   return (
-    <div className="denuncias-page dnfeed-page denuncia-fondo" style={{ backgroundImage: `url(${FONDO})` }}>
-      <div className="dnfeed-wrap">
+    <div className={PAGINA} style={{ backgroundImage: `url(${FONDO})` }}>
+      <div className={`dnfeed-wrap ${CONTENIDO}`}>
         {/* Acordeón: el formulario solo se monta al abrirlo para que el mapa de Leaflet cargue bien */}
         <button
           type="button"
@@ -122,8 +122,8 @@ const Denuncia = () => {
         </div>
       </div>
 
-      {errorEnvio && <div className="dn-toast" style={{ background: 'var(--color-error)' }}><FiX /> {errorEnvio}</div>}
-      {enviado && <div className="dn-toast"><FiCheckCircle /> Denuncia enviada correctamente</div>}
+      {errorEnvio && <div className={TOAST} style={{ background: 'var(--color-error)' }}><FiX /> {errorEnvio}</div>}
+      {enviado && <div className={TOAST}><FiCheckCircle /> Denuncia enviada correctamente</div>}
     </div>
   )
 }

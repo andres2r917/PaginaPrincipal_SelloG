@@ -228,6 +228,7 @@ const FundacionDenuncias = () => {
               <div className="fnd-modal__campo">
                 <span className="fnd-modal__label">Dirección o ubicación del caso *</span>
                 <SelectorUbicacion
+                  oscuro
                   onCambio={(u) => setFormReporte((prev) => ({ ...prev, ...u }))}
                 />
               </div>

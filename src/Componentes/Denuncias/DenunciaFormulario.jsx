@@ -1,6 +1,6 @@
 import { FiLoader, FiMapPin, FiSearch, FiUploadCloud, FiVideo, FiX } from 'react-icons/fi';
 import { useState, useRef, useEffect } from 'react';
-import '../../Style/Denuncia.css';
+import * as E from '../../Utils/denunciaEstilos.js';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { crearCapaBase } from '../../Utils/mapaBase.js';
@@ -118,7 +118,7 @@ const useLeafletMap = (coordenadas, setCoordenadas, onDireccionChange) => {
 
 // Selector de ubicación: buscador de direcciones, "usar mi ubicación" y mapa con la patica.
 // Lo usan el formulario público y el panel de fundación; avisa con onCambio({ ubicacion, latitud, longitud }).
-export const SelectorUbicacion = ({ onCambio }) => {
+export const SelectorUbicacion = ({ onCambio, oscuro = false }) => {
   const [busqueda,        setBusqueda]        = useState('');
   const [coordenadas,     setCoordenadas]     = useState({ lat: DEFAULT_LAT, lng: DEFAULT_LNG });
   const [ubicacionError,  setUbicacionError]  = useState('');
@@ -239,11 +239,11 @@ export const SelectorUbicacion = ({ onCambio }) => {
 
   return (
     <>
-    <div className="dn-ubicacion-search">
-      <span className="dn-ubicacion-search__icon"><FiSearch /></span>
+    <div className={oscuro ? E.BUSQUEDA_OSCURA : E.BUSQUEDA_CLARA}>
+      <span className={E.BUSQUEDA_ICONO}><FiSearch /></span>
       <input
         type="text"
-        className="dn-ubicacion-search__input"
+        className={oscuro ? E.BUSQUEDA_CAMPO_OSCURO : E.BUSQUEDA_CAMPO_CLARO}
         placeholder="Busca una dirección o haz clic en el mapa..." aria-label="Busca una dirección o haz clic en el mapa..."
         value={busqueda}
         onChange={(e) => setBusqueda(e.target.value)}
@@ -251,7 +251,7 @@ export const SelectorUbicacion = ({ onCambio }) => {
       />
       <button
         type="button"
-        className="dn-ubicacion-search__btn"
+        className={E.BTN_BUSCAR}
         onClick={handleBuscar}
         disabled={buscando}
       >
@@ -261,7 +261,7 @@ export const SelectorUbicacion = ({ onCambio }) => {
 
     <button
       type="button"
-      className="dn-btn-ubicacion-actual"
+      className={E.BTN_UBICACION}
       onClick={handleUbicacionActual}
       disabled={usandoUbicacion}
     >
@@ -269,11 +269,11 @@ export const SelectorUbicacion = ({ onCambio }) => {
     </button>
 
     {ubicacionError && (
-      <p className="dn-ubicacion-error">{ubicacionError}</p>
+      <p className={E.UBICACION_ERROR}>{ubicacionError}</p>
     )}
 
-    <div ref={mapRef} className="dn-mapa" />
-    <p className="dn-mapa-hint">
+    <div ref={mapRef} className={E.MAPA} />
+    <p className={E.MAPA_AYUDA}>
       Haz clic en el mapa o arrastra el marcador para ajustar la ubicación.
     </p>
     </>
@@ -338,37 +338,37 @@ const DenunciaFormulario = ({ onEnviar }) => {
   };
 
   return (
-      <div className="denuncias-container">
-        <div className="denuncias-visual">
+      <div className={E.CONTENEDOR}>
+        <div className={E.VISUAL}>
           <img
             src="https://images.unsplash.com/photo-1450778869180-41d0601e046e?w=800&h=1000&fit=crop"
             alt="Animal rescatado"
-            className="denuncias-visual__img"/>
-          <div className="denuncias-visual__overlay">
-            <h2 className="denuncias-visual__title">
+            className={E.VISUAL_IMG}/>
+          <div className={E.VISUAL_CAPA}>
+            <h2 className={E.VISUAL_TITULO}>
               Ayúdanos a proteger a los que no tienen voz.
             </h2>
-            <p className="denuncias-visual__subtitle">
+            <p className={E.VISUAL_SUBTITULO}>
               Tu reporte puede ser anónimo, si quieres eso lo decides tú.
             </p>
           </div>
         </div>
-        <div className="denuncias-form-side">
-          <div className="denuncias-form-header">
-            <h1 className="denuncias-form-header__title">Realiza tu Denuncia</h1>
-            <p className="denuncias-form-header__sub">
+        <div className={E.LADO}>
+          <div className={E.CABECERA}>
+            <h1 className={E.H1}>Realiza tu Denuncia</h1>
+            <p className={E.CABECERA_TEXTO}>
               Cada denuncia cuenta. Juntos podemos marcar la diferencia.
             </p>
           </div>
 
-          <form className="denuncias-form" onSubmit={handleSubmit}>
+          <form className={E.FORM} onSubmit={handleSubmit}>
 
             {/* Tipo de denuncia */}
-            <div className="dn-group">
-              <label className="dn-label" htmlFor="dn-tipo">Tipo de denuncia</label>
+            <div className={E.GRUPO}>
+              <label className={E.LABEL} htmlFor="dn-tipo">Tipo de denuncia</label>
               <select id="dn-tipo"
                 name="tipo"
-                className="dn-input"
+                className={E.INPUT}
                 value={formData.tipo}
                 onChange={handleChange}
                 required>
@@ -382,11 +382,11 @@ const DenunciaFormulario = ({ onEnviar }) => {
             </div>
 
             {/* Urgencia: ayuda a la comunidad y a las fundaciones a priorizar los casos */}
-            <div className="dn-group">
-              <label className="dn-label" htmlFor="dn-urgencia">Nivel de urgencia</label>
+            <div className={E.GRUPO}>
+              <label className={E.LABEL} htmlFor="dn-urgencia">Nivel de urgencia</label>
               <select id="dn-urgencia"
                 name="urgencia"
-                className="dn-input"
+                className={E.INPUT}
                 value={formData.urgencia}
                 onChange={handleChange}>
                 <option value="Alta">Alta: el animal está en peligro ahora</option>
@@ -395,11 +395,11 @@ const DenunciaFormulario = ({ onEnviar }) => {
               </select>
             </div>
 
-            <div className="dn-group">
-              <label className="dn-label" htmlFor="dn-descripcion">Descripción de los hechos</label>
+            <div className={E.GRUPO}>
+              <label className={E.LABEL} htmlFor="dn-descripcion">Descripción de los hechos</label>
               <textarea id="dn-descripcion"
                 name="descripcion"
-                className="dn-input dn-textarea"
+                className={E.TEXTAREA}
                 rows="4"
                 placeholder="Describe lo que ocurrió con el mayor detalle posible..." aria-label="Describe lo que ocurrió con el mayor detalle posible..."
                 value={formData.descripcion}
@@ -407,49 +407,49 @@ const DenunciaFormulario = ({ onEnviar }) => {
                 required
               />
             </div>
-            <div className="dn-group">
-              <span className="dn-label">Ubicación</span>
+            <div className={E.GRUPO}>
+              <span className={E.LABEL}>Ubicación</span>
 
               <SelectorUbicacion onCambio={setUbicacion} />
             </div>
 
             {/* Archivos */}
-            <div className="dn-group">
-              <span className="dn-label">Sube imágenes o videos</span>
+            <div className={E.GRUPO}>
+              <span className={E.LABEL}>Sube imágenes o videos</span>
               <div
-                className={`dn-dropzone ${dragOver ? 'drag-over' : ''}`}
+                className={dragOver ? E.DROPZONE_ARRASTRANDO : E.DROPZONE_REPOSO}
                 onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
                 onDragLeave={() => setDragOver(false)}
                 onDrop={handleDrop}
                 onClick={() => fileInputRef.current.click()}
               >
-                <span className="dn-dropzone__icon"><FiUploadCloud /></span>
-                <p>
-                  <span className="dn-dropzone__link">Sube el archivo</span> o arrástralo aquí
+                <span className={E.DROPZONE_ICONO}><FiUploadCloud /></span>
+                <p className={E.DROPZONE_TEXTO}>
+                  <span className={E.DROPZONE_ENLACE}>Sube el archivo</span> o arrástralo aquí
                 </p>
                 <input
                   type="file"
                   ref={fileInputRef}
                   multiple
                   accept="image/*,video/*"
-                  className="dn-file-input-hidden"
+                  className="hidden"
                   onChange={(e) => agregarArchivos(e.target.files)}
                 />
               </div>
 
               {archivos.length > 0 && (
-                <div className="dn-preview">
+                <div className={E.PREVIEW}>
                   {archivos.map((archivo, i) => (
-                    <div key={i} className="dn-preview__item">
+                    <div key={i} className={E.PREVIEW_ITEM}>
                       {archivo.type.startsWith('image/') ? (
-                        <img src={archivo.url} alt={archivo.name} />
+                        <img className={E.PREVIEW_IMG} src={archivo.url} alt={archivo.name} />
                       ) : (
-                        <span className="dn-preview__video"><FiVideo /></span>
+                        <span className={E.PREVIEW_VIDEO}><FiVideo /></span>
                       )}
-                      <span className="dn-preview__name">{archivo.name}</span>
+                      <span className={E.PREVIEW_NOMBRE}>{archivo.name}</span>
                       <button
                         type="button"
-                        className="dn-preview__remove"
+                        className={E.PREVIEW_QUITAR}
                         onClick={() => eliminarArchivo(i)}
                       >
                         <FiX />
@@ -461,9 +461,10 @@ const DenunciaFormulario = ({ onEnviar }) => {
             </div>
 
             {/* Anónimo */}
-            <div className="dn-anonimo">
+            <div className={E.ANONIMO}>
               <input
                 type="checkbox"
+                className={E.ANONIMO_CHECK}
                 name="anonimo"
                 id="checkAnonimo"
                 checked={formData.anonimo}
@@ -472,7 +473,7 @@ const DenunciaFormulario = ({ onEnviar }) => {
               <label htmlFor="checkAnonimo">Enviar de forma anónima</label>
             </div>
 
-            <button type="submit" className="dn-btn" disabled={enviando}>
+            <button type="submit" className={E.BTN_ENVIAR} disabled={enviando}>
               {enviando ? 'Enviando...' : 'Enviar denuncia'}
             </button>
           </form>

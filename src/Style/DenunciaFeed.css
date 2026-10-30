@@ -1,11 +1,5 @@
 /* Feed de denuncias (vista pública y panel de fundación). Todas las clases usan el prefijo dnfeed- */
 
-/* La página pasa de centrar un solo formulario a apilar acordeón + feed */
-.denuncias-page.dnfeed-page {
-  align-items: flex-start;
-  background-attachment: fixed;
-}
-
 .dnfeed-wrap {
   width: 100%;
   max-width: 1100px;

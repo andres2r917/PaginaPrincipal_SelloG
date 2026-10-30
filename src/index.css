@@ -28,6 +28,12 @@
 @keyframes accesoEntrar {
   from { opacity: 0; transform: translateY(18px); }
   to { opacity: 1; transform: translateY(0); }
+
+/* Aviso que sube desde abajo (denuncia enviada / error) */
+@keyframes toastSubir {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 }
 
 *, *::before, *::after {
