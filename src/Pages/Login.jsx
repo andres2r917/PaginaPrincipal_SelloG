@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { FaPaw } from 'react-icons/fa';
 import { FiAlertCircle, FiCheckCircle, FiEye, FiEyeOff, FiLock, FiMail } from 'react-icons/fi';
-import '../Style/Login.css';
+import * as A from '../Utils/accesoEstilos.js';
 import { useAuth } from '../Context/AuthContext';
 
 // Foto del panel lateral (Registro usa otras distintas)
@@ -45,85 +45,85 @@ const Login = () => {
   };
 
   return (
-    <div className="acceso-page">
-      <div className="acceso-card">
-        <div className="acceso-visual">
-          <img className="acceso-visual__img" src={FOTO} alt="" />
-          <div className="acceso-visual__overlay">
-            <span className="acceso-visual__chip"><FaPaw /> Sello Guardián</span>
-            <h2 className="acceso-visual__title">Tu compromiso cambia vidas.</h2>
-            <p className="acceso-visual__subtitle">
+    <div className={A.PAGINA} style={A.FONDO_PAGINA}>
+      <div className={A.TARJETA}>
+        <div className={A.VISUAL}>
+          <img className={A.VISUAL_IMG} src={FOTO} alt="" />
+          <div className={A.VISUAL_CAPA}>
+            <span className={A.VISUAL_CHIP}><FaPaw /> Sello Guardián</span>
+            <h2 className={A.VISUAL_TITULO}>Tu compromiso cambia vidas.</h2>
+            <p className={A.VISUAL_SUBTITULO}>
               Cada ingreso nos acerca un paso más a encontrar el hogar perfecto para quienes más lo necesitan.
             </p>
           </div>
         </div>
 
-        <div className="acceso-panel">
-          <header className="acceso-header">
-            <h1>Bienvenido de nuevo</h1>
-            <p>Inicia sesión para denunciar, adoptar y seguir tus casos.</p>
+        <div className={A.PANEL}>
+          <header className={A.CABECERA}>
+            <h1 className={A.H1}>Bienvenido de nuevo</h1>
+            <p className={A.CABECERA_TEXTO}>Inicia sesión para denunciar, adoptar y seguir tus casos.</p>
           </header>
 
-          <form className="acceso-form" onSubmit={handleSubmit}>
+          <form className={A.FORM} onSubmit={handleSubmit}>
             {mensajeExito && (
-              <div className="acceso-aviso acceso-aviso--ok" role="status"><FiCheckCircle /> {mensajeExito}</div>
+              <div className={A.AVISO_OK} role="status"><FiCheckCircle /> {mensajeExito}</div>
             )}
             {error && (
-              <div className="acceso-aviso acceso-aviso--error" role="alert"><FiAlertCircle /> {error}</div>
+              <div className={A.AVISO_ERROR} role="alert"><FiAlertCircle /> {error}</div>
             )}
 
-            <div className="acceso-grupo">
-              <label className="acceso-label" htmlFor="email">Correo electrónico</label>
-              <div className="acceso-campo">
+            <div className={A.GRUPO}>
+              <label className={A.LABEL} htmlFor="email">Correo electrónico</label>
+              <div className={A.CAMPO}>
                 <FiMail />
-                <input id="email" name="email" type="email" autoComplete="email"
+                <input className={A.INPUT} id="email" name="email" type="email" autoComplete="email"
                   placeholder="tucorreo@ejemplo.com"
                   value={credentials.email} onChange={handleChange} required />
               </div>
             </div>
 
-            <div className="acceso-grupo">
-              <div className="acceso-label-fila">
-                <label className="acceso-label" htmlFor="password">Contraseña</label>
-                <a href="#" className="acceso-enlace">¿Olvidaste tu contraseña?</a>
+            <div className={A.GRUPO}>
+              <div className={A.LABEL_FILA}>
+                <label className={A.LABEL} htmlFor="password">Contraseña</label>
+                <a href="#" className={A.ENLACE}>¿Olvidaste tu contraseña?</a>
               </div>
-              <div className="acceso-campo">
+              <div className={A.CAMPO}>
                 <FiLock />
-                <input id="password" name="password" type={verPassword ? 'text' : 'password'} autoComplete="current-password"
+                <input className={A.INPUT} id="password" name="password" type={verPassword ? 'text' : 'password'} autoComplete="current-password"
                   placeholder="Ingresa tu contraseña"
                   value={credentials.password} onChange={handleChange} required />
-                <button type="button" className="acceso-ojo" onClick={() => setVerPassword(!verPassword)}
+                <button type="button" className={A.OJO} onClick={() => setVerPassword(!verPassword)}
                   aria-label={verPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}>
                   {verPassword ? <FiEyeOff /> : <FiEye />}
                 </button>
               </div>
             </div>
 
-            <label className="acceso-recordar">
+            <label className={A.RECORDAR}>
               <input type="checkbox" name="remember" checked={credentials.remember} onChange={handleChange} />
               Recordarme en este dispositivo
             </label>
 
-            <button type="submit" className="acceso-btn" disabled={cargando}>
+            <button type="submit" className={A.BTN} disabled={cargando}>
               {cargando ? 'Ingresando...' : 'Ingresar'}
             </button>
 
             {/* Acceso rápido: solo aparece con npm run dev */}
             {import.meta.env.DEV && (
-              <div className="acceso-demo">
-                <p className="acceso-demo__titulo">Acceso rápido (solo desarrollo)</p>
-                <div className="acceso-demo__botones">
-                  <button type="button" onClick={() => setCredentials({ ...credentials, email: 'admin@selloguardian.com', password: 'Admin123*' })}>Admin</button>
-                  <button type="button" onClick={() => setCredentials({ ...credentials, email: 'civil@selloguardian.com', password: 'Civil123*' })}>Usuario civil</button>
-                  <button type="button" onClick={() => setCredentials({ ...credentials, email: 'fundacion@selloguardian.com', password: 'Fundacion123*' })}>Fundación</button>
+              <div className={A.DEMO}>
+                <p className={A.DEMO_TITULO}>Acceso rápido (solo desarrollo)</p>
+                <div className={A.DEMO_BOTONES}>
+                  <button type="button" className={A.DEMO_BOTON} onClick={() => setCredentials({ ...credentials, email: 'admin@selloguardian.com', password: 'Admin123*' })}>Admin</button>
+                  <button type="button" className={A.DEMO_BOTON} onClick={() => setCredentials({ ...credentials, email: 'civil@selloguardian.com', password: 'Civil123*' })}>Usuario civil</button>
+                  <button type="button" className={A.DEMO_BOTON} onClick={() => setCredentials({ ...credentials, email: 'fundacion@selloguardian.com', password: 'Fundacion123*' })}>Fundación</button>
                 </div>
               </div>
             )}
           </form>
 
-          <p className="acceso-pie">
+          <p className={A.PIE}>
             ¿No tienes una cuenta?{' '}
-            <Link to="/registro" className="acceso-enlace">Regístrate aquí</Link>
+            <Link to="/registro" className={A.ENLACE}>Regístrate aquí</Link>
           </p>
         </div>
       </div>

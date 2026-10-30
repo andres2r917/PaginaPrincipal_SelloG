@@ -23,6 +23,13 @@
   --color-acento-suave: #C4B5FD;
   --color-error: #E11D48;
 }
+
+/* Entrada de la tarjeta de Login y Registro (se usa con animate-[accesoEntrar_...]) */
+@keyframes accesoEntrar {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;

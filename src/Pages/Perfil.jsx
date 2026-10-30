@@ -8,7 +8,7 @@ import { useAuth } from '../Context/AuthContext';
 // Estilos con Tailwind. Los colores de la marca salen de @theme (index.css)
 const INPUT =
   'box-border w-full rounded-[10px] border border-[rgba(255,255,255,0.14)] bg-[rgba(15,23,42,0.7)] ' +
-  'px-3.5 py-2.5 text-[14px] text-texto outline-none [color-scheme:dark] ' +
+  'px-3.5 py-2.5 text-[14px] text-texto outline-none focus-visible:outline-none [color-scheme:dark] ' +
   'transition-[border-color,box-shadow,background-color] duration-200 ' +
   'placeholder:text-[rgba(148,163,184,0.5)] ' +
   'focus:border-primario focus:bg-[rgba(15,23,42,0.9)] focus:shadow-[0_0_0_3px_rgba(124,58,237,0.25)]';
