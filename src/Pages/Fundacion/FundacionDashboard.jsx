@@ -4,6 +4,8 @@ import { useState } from 'react'
 import { useFundacion } from '../../Context/FundacionContext.jsx'
 import { calcularPuntuacion, claseScore, esPrioritaria } from '../../Utils/puntuacion.js'
 import { BADGE_SOLICITUD, distintivo } from '../../Utils/estados.js'
+import { BADGE } from '../../Utils/adminEstilos'
+import { CARD, CARD_SUBTITULO, TITULO } from '../../Utils/panelEstilos'
 
 // Convierte una fecha ISO a texto relativo
 const hace = (fechaISO) => {
@@ -54,20 +56,20 @@ const FundacionDashboard = () => {
 
   return (
     <div>
-      <h1 className="admin-title">Panel General</h1>
+      <h1 className={TITULO}>Panel General</h1>
 
       {/* KPIs */}
       <div className="fnd-kpis">
-        <div className="admin-card p-[18px]" >
-          <p className="admin-card__subtitle">En Custodia</p>
+        <div className={CARD} >
+          <p className={CARD_SUBTITULO}>En Custodia</p>
           <p className="mt-1 mb-[6px] text-[28px] font-extrabold text-acento">{enCustodia.length}</p>
           <svg className="fnd-sparkline" viewBox="0 0 60 24">
             <polyline fill="none" stroke="#7C3AED" strokeWidth="1.8" points={puntosSparkline} />
           </svg>
         </div>
 
-        <div className="admin-card p-[18px]" >
-          <p className="admin-card__subtitle">Solicitudes Activas</p>
+        <div className={CARD} >
+          <p className={CARD_SUBTITULO}>Solicitudes Activas</p>
           <p className="mt-1 mb-[6px] text-[28px] font-extrabold text-acento">{solicitudesActivas.length}</p>
           <p style={{ fontSize: 12, color: '#10B981', marginBottom: 8 }}>{prioritarias.length} prioritarias</p>
           <svg className="fnd-sparkline" viewBox="0 0 60 24">
@@ -75,16 +77,16 @@ const FundacionDashboard = () => {
           </svg>
         </div>
 
-        <div className="admin-card p-[18px]" >
-          <p className="admin-card__subtitle">Adopciones Concretadas</p>
+        <div className={CARD} >
+          <p className={CARD_SUBTITULO}>Adopciones Concretadas</p>
           <p className="mt-1 mb-[6px] text-[28px] font-extrabold text-acento">{concretadas}</p>
           <svg className="fnd-sparkline" viewBox="0 0 60 24">
             <polyline fill="none" stroke="#10B981" strokeWidth="1.8" points={puntosSparkline} />
           </svg>
         </div>
 
-        <div className="admin-card p-[18px]" >
-          <p className="admin-card__subtitle">Capacidad del Refugio</p>
+        <div className={CARD} >
+          <p className={CARD_SUBTITULO}>Capacidad del Refugio</p>
           <p className="mt-1 mb-[6px] text-[28px] font-extrabold text-acento">{porcentajeCapacidad}%</p>
           <p style={{ fontSize: 12, color: 'rgba(241,245,249,0.5)', marginBottom: 6 }}>{enCustodia.length} / {capacidad}</p>
           <div className="fnd-kpi__barra">
@@ -100,7 +102,7 @@ const FundacionDashboard = () => {
       <div className="fnd-dos-cols">
 
         {/* Animales bajo cuidado */}
-        <div className="admin-card p-[18px]" >
+        <div className={CARD} >
           <h2 className="mb-3 text-[15px] font-extrabold text-texto">Animales bajo cuidado</h2>
           <div className="fnd-filtros">
             {[
@@ -156,7 +158,7 @@ const FundacionDashboard = () => {
         </div>
 
         {/* Solicitudes recientes */}
-        <div className="admin-card p-[18px]" >
+        <div className={CARD} >
           <h2 className="mb-3 text-[15px] font-extrabold text-texto">Solicitudes recientes</h2>
           <div className="fnd-timeline">
             {solicitudesRecientes.map((s) => {
@@ -170,7 +172,7 @@ const FundacionDashboard = () => {
                   <div className="fnd-timeline__body">
                     <p className="fnd-timeline__nombre">{s.adoptante?.nombre} — {mascota?.nombre}</p>
                     <div className="fnd-timeline__acciones">
-                      <span className={`admin-badge ${badgeSt.cls}`}>{badgeSt.txt}</span>
+                      <span className={`${BADGE} ${badgeSt.cls}`}>{badgeSt.txt}</span>
                       <span className={`fnd-score ${claseScore(punt)}`}>{punt}%</span>
                       {['pendiente', 'en_evaluacion'].includes(s.estado) && (
                         <>
@@ -189,7 +191,7 @@ const FundacionDashboard = () => {
       </div>
 
       {/* Pipeline Kanban compacto */}
-      <div className="admin-card" style={{ padding: '18px', marginBottom: 24 }}>
+      <div className={CARD} style={{ padding: '18px', marginBottom: 24 }}>
         <h2 className="mb-3 text-[15px] font-extrabold text-texto">Pipeline operativo</h2>
         <div className="fnd-kanban">
           {ESTADOS_KANBAN.map((col) => {

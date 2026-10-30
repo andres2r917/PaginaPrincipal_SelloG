@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react'
 import { FiAlertTriangle, FiCheck, FiShield, FiUploadCloud, FiX } from 'react-icons/fi'
+import { DETALLE_ITEM, DETALLE_LABEL, ETIQUETAS, MODAL_GRID, etiqueta } from '../../Utils/adminEstilos'
 
 // Campos de una mascota: los comparten "Registrar ingreso" y "Gestionar".
 // form: { nombre, especie, raza, edadEstimada, tamano, sexo, temperamento, convivencia, estadoAdopcion,
@@ -21,15 +22,15 @@ const CamposMascota = ({ form, setForm }) => {
 
   return (
     <>
-      <div className="admin-modal__grid">
-        <div className="admin-detail-item">
-          <span className="admin-detail-label">Nombre *</span>
+      <div className={MODAL_GRID}>
+        <div className={DETALLE_ITEM}>
+          <span className={DETALLE_LABEL}>Nombre *</span>
           <input type="text" className="fnd-modal__input mt-1 w-full" value={form.nombre} onChange={cambiar('nombre')}
  required placeholder="Ej: Max, Luna" />
         </div>
 
-        <div className="admin-detail-item">
-          <span className="admin-detail-label">Especie</span>
+        <div className={DETALLE_ITEM}>
+          <span className={DETALLE_LABEL}>Especie</span>
           <select className="fnd-modal__input mt-1 w-full" value={form.especie} onChange={cambiar('especie')} >
             <option value="perro">Perro</option>
             <option value="gato">Gato</option>
@@ -38,20 +39,20 @@ const CamposMascota = ({ form, setForm }) => {
           </select>
         </div>
 
-        <div className="admin-detail-item">
-          <span className="admin-detail-label">Raza *</span>
+        <div className={DETALLE_ITEM}>
+          <span className={DETALLE_LABEL}>Raza *</span>
           <input type="text" className="fnd-modal__input mt-1 w-full" value={form.raza} onChange={cambiar('raza')}
  required placeholder="Ej: Criollo, Labrador" />
         </div>
 
-        <div className="admin-detail-item">
-          <span className="admin-detail-label">Edad estimada *</span>
+        <div className={DETALLE_ITEM}>
+          <span className={DETALLE_LABEL}>Edad estimada *</span>
           <input type="text" className="fnd-modal__input mt-1 w-full" value={form.edadEstimada} onChange={cambiar('edadEstimada')}
  required placeholder="Ej: 2 años, 8 meses" />
         </div>
 
-        <div className="admin-detail-item">
-          <span className="admin-detail-label">Tamaño</span>
+        <div className={DETALLE_ITEM}>
+          <span className={DETALLE_LABEL}>Tamaño</span>
           <select className="fnd-modal__input mt-1 w-full" value={form.tamano} onChange={cambiar('tamano')} >
             <option value="pequeño">Pequeño</option>
             <option value="mediano">Mediano</option>
@@ -59,16 +60,16 @@ const CamposMascota = ({ form, setForm }) => {
           </select>
         </div>
 
-        <div className="admin-detail-item">
-          <span className="admin-detail-label">Sexo</span>
+        <div className={DETALLE_ITEM}>
+          <span className={DETALLE_LABEL}>Sexo</span>
           <select className="fnd-modal__input mt-1 w-full" value={form.sexo} onChange={cambiar('sexo')} >
             <option value="Macho">Macho</option>
             <option value="Hembra">Hembra</option>
           </select>
         </div>
 
-        <div className="admin-detail-item">
-          <span className="admin-detail-label">Estado de adopción</span>
+        <div className={DETALLE_ITEM}>
+          <span className={DETALLE_LABEL}>Estado de adopción</span>
           <select className="fnd-modal__input mt-1 w-full" value={form.estadoAdopcion} onChange={cambiar('estadoAdopcion')} >
             <option value="en_cuarentena">En cuarentena</option>
             <option value="disponible">Disponible</option>
@@ -77,14 +78,14 @@ const CamposMascota = ({ form, setForm }) => {
           </select>
         </div>
 
-        <div className="admin-detail-item">
-          <span className="admin-detail-label">Temperamento</span>
+        <div className={DETALLE_ITEM}>
+          <span className={DETALLE_LABEL}>Temperamento</span>
           <input type="text" className="fnd-modal__input mt-1 w-full" value={form.temperamento} onChange={cambiar('temperamento')}
  placeholder="Ej: Juguetón, tranquilo, tímido" />
         </div>
 
-        <div className="admin-detail-item">
-          <span className="admin-detail-label">Convivencia</span>
+        <div className={DETALLE_ITEM}>
+          <span className={DETALLE_LABEL}>Convivencia</span>
           <input type="text" className="fnd-modal__input mt-1 w-full" value={form.convivencia} onChange={cambiar('convivencia')}
  placeholder="Ej: Apto con niños y otros perros" />
         </div>
@@ -93,7 +94,7 @@ const CamposMascota = ({ form, setForm }) => {
       {/* Foto: se sube desde el computador o se pega un enlace */}
       <div className="mt-4">
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
-          <span className="admin-detail-label">Foto de la mascota</span>
+          <span className={DETALLE_LABEL}>Foto de la mascota</span>
           <button type="button" onClick={() => setModoUrl(!modoUrl)}
             style={{ background: 'none', border: 'none', color: '#C4B5FD', fontSize: 12, cursor: 'pointer', textDecoration: 'underline' }}>
             {modoUrl ? 'Subir desde mi PC' : 'Pegar URL de imagen'}
@@ -132,31 +133,31 @@ const CamposMascota = ({ form, setForm }) => {
       </div>
 
       <div className="mt-3.5">
-        <span className="admin-detail-label">Estado de salud *</span>
+        <span className={DETALLE_LABEL}>Estado de salud *</span>
         <input type="text" className="fnd-modal__input mt-1 w-full" value={form.estadoSalud} onChange={cambiar('estadoSalud')}
  required placeholder="Ej: Saludable, esquema de vacunas completo..." />
       </div>
 
       <div className="mt-3.5">
-        <span className="admin-detail-label">Etiquetas de salud (clic para alternar)</span>
-        <div className="admin-tags-group">
+        <span className={DETALLE_LABEL}>Etiquetas de salud (clic para alternar)</span>
+        <div className={ETIQUETAS}>
           <button type="button" onClick={alternar('vacunado')}
-            className={`admin-tag-toggle ${form.vacunado ? 'admin-tag-toggle--vacunado' : 'admin-tag-toggle--sin-vacunas'}`}>
+            className={etiqueta(form.vacunado ? 'vacunado' : 'sinVacunas')}>
             {form.vacunado ? <><FiCheck /> Vacunado</> : <><FiAlertTriangle /> Sin Vacunas</>}
           </button>
           <button type="button" onClick={alternar('esterilizado')}
-            className={`admin-tag-toggle ${form.esterilizado ? 'admin-tag-toggle--esterilizado' : 'admin-tag-toggle--sin-esterilizar'}`}>
+            className={etiqueta(form.esterilizado ? 'esterilizado' : 'sinEsterilizar')}>
             {form.esterilizado ? <><FiCheck /> Esterilizado</> : 'Sin Esterilizar'}
           </button>
           <button type="button" onClick={alternar('desparasitado')}
-            className={`admin-tag-toggle ${form.desparasitado ? 'admin-tag-toggle--desparasitado' : 'admin-tag-toggle--sin-desparasitar'}`}>
+            className={etiqueta(form.desparasitado ? 'desparasitado' : 'sinDesparasitar')}>
             {form.desparasitado ? <><FiShield /> Desparasitado</> : <><FiAlertTriangle /> Sin desparasitar</>}
           </button>
         </div>
       </div>
 
       <div className="mt-3.5">
-        <span className="admin-detail-label">Historia de la mascota *</span>
+        <span className={DETALLE_LABEL}>Historia de la mascota *</span>
         <textarea className="fnd-modal__input mt-1 w-full resize-y" rows="3" value={form.descripcion} onChange={cambiar('descripcion')} required
  placeholder="Cuenta cómo llegó al refugio, su historia y cómo es su carácter. Es lo que leerán quienes quieran adoptarlo."
  />

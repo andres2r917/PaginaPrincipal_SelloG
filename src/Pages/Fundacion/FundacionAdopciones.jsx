@@ -3,6 +3,8 @@ import { FiX } from 'react-icons/fi'
 import { useFundacion } from '../../Context/FundacionContext.jsx'
 import { calcularPuntuacion, claseScore } from '../../Utils/puntuacion.js'
 import { BADGE_SOLICITUD, distintivo } from '../../Utils/estados.js'
+import { ACCIONES, BADGE, TABLA } from '../../Utils/adminEstilos'
+import { TITULO } from '../../Utils/panelEstilos'
 
 const FundacionAdopciones = () => {
   const { solicitudes, mascotas, resolverSolicitud, actualizarMascota } = useFundacion()
@@ -53,7 +55,7 @@ const FundacionAdopciones = () => {
 
   return (
     <div>
-      <h1 className="admin-title">Adopciones</h1>
+      <h1 className={TITULO}>Adopciones</h1>
       {aviso && <p className="fnd-aviso fnd-aviso--error" role="alert">{aviso}</p>}
 
       {/* Filtro por estado */}
@@ -67,7 +69,7 @@ const FundacionAdopciones = () => {
 
       {/* Tabla */}
       <div className="fnd-tabla-wrap">
-        <table className="admin-table">
+        <table className={TABLA}>
           <thead>
             <tr>
               <th>Adoptante</th>
@@ -89,9 +91,9 @@ const FundacionAdopciones = () => {
                   <td>{mascota?.nombre || '—'}</td>
                   <td>{new Date(s.fecha).toLocaleDateString('es-CO')}</td>
                   <td><span className={`fnd-score ${claseScore(punt)}`}>{punt}%</span></td>
-                  <td><span className={`admin-badge ${badge.cls}`}>{badge.txt}</span></td>
+                  <td><span className={`${BADGE} ${badge.cls}`}>{badge.txt}</span></td>
                   <td>
-                    <div className="admin-actions">
+                    <div className={ACCIONES}>
                       {['pendiente', 'en_evaluacion'].includes(s.estado) && (
                         <>
                           <button className="fnd-btn-aprobar" onClick={(e) => { e.stopPropagation(); decidir(s.id, 'aprobada', s.comentariosFundacion) }}>Aprobar</button>

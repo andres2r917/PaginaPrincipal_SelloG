@@ -22,8 +22,9 @@ import { useFundacion } from '../../Context/FundacionContext.jsx'
 import { useDenuncias } from '../../Context/DenunciasContext.jsx'
 import { ETIQUETA_TIPO } from '../../Utils/estados.js'
 import Notificaciones from '../Notificaciones.jsx'
-import '../../Style/Admin/AdminDashboard.css'
 import '../../Style/Fundacion/FundacionPanel.css'
+import { BADGE_COLOR } from '../../Utils/adminEstilos'
+import { AVATAR_BTN, BRAND, BRAND_LOGO, CONTENT, ICON_BTN, LAYOUT, MAIN, NAV, PERFIL_AVATAR, PERFIL_CABECERA, PERFIL_OK, SELECT, SIDEBAR, TOPBAR, TOPBAR_ACCIONES, TOPBAR_SEARCH, navItem } from '../../Utils/panelEstilos'
 
 const FundacionLayout = () => {
   const { usuario, logout, guardarPerfilFundacion } = useAuth()
@@ -113,19 +114,19 @@ const FundacionLayout = () => {
 
   return (
     <>
-      <div className="admin-layout">
-        <aside className="admin-sidebar">
-          <Link to="/home" className="admin-brand" title="Ir al Inicio">
-            <img className="admin-brand__logo" src={Group} alt="Sello Guardián" />
+      <div className={LAYOUT}>
+        <aside className={SIDEBAR}>
+          <Link to="/home" className={BRAND} title="Ir al Inicio">
+            <img className={BRAND_LOGO} src={Group} alt="Sello Guardián" />
           </Link>
 
-          <nav className="admin-nav">
+          <nav className={NAV}>
             {items.map((it) => (
               <NavLink
                 key={it.to}
                 to={it.to}
                 end={it.fin}
-                className={({ isActive }) => `admin-nav__item${isActive ? ' admin-nav__item--active' : ''}`}
+                className={navItem}
               >
                 {it.icono} <span>{it.texto}</span>
                 {it.badge > 0 && <span className="fnd-badge">{it.badge}</span>}
@@ -135,7 +136,7 @@ const FundacionLayout = () => {
 
           {/* Bloque de usuario al pie del menú */}
           <div className="fnd-usuario">
-            <button className="admin-avatar adm-avatar-btn" onClick={abrirPerfil} aria-label="Editar perfil" title="Mi perfil">
+            <button className={AVATAR_BTN} onClick={abrirPerfil} aria-label="Editar perfil" title="Mi perfil">
               {usuario?.foto
                 ? <img src={usuario.foto} alt="Foto de perfil" className="size-full rounded-full object-cover" />
                 : inicial}
@@ -144,26 +145,26 @@ const FundacionLayout = () => {
               <strong>{usuario?.nombre}</strong>
               <small>Fundación</small>
             </div>
-            <button className="admin-icon-btn" onClick={cerrarSesion} aria-label="Cerrar sesión">
+            <button className={ICON_BTN} onClick={cerrarSesion} aria-label="Cerrar sesión">
               <FiLogOut />
             </button>
           </div>
         </aside>
 
-        <div className="admin-content">
-          <header className="admin-topbar">
+        <div className={CONTENT}>
+          <header className={TOPBAR}>
             <div className="fnd-breadcrumb">
               Sello Guardián <span>›</span> <strong>{usuario?.nombre}</strong>
             </div>
 
-            <div className="admin-topbar__search">
+            <div className={TOPBAR_SEARCH}>
               <FiSearch />
               <input ref={buscadorRef} type="text" placeholder="Buscar animal o expediente..." aria-label="Buscar animal o expediente..." />
               <kbd className="fnd-kbd">Ctrl K</kbd>
             </div>
 
-            <div className="admin-topbar__actions">
-              <select className="admin-select" defaultValue="mes">
+            <div className={TOPBAR_ACCIONES}>
+              <select className={SELECT} defaultValue="mes">
                 <option value="mes">Este mes</option>
                 <option value="trimestre">Últimos 3 meses</option>
                 <option value="anio">Este año</option>
@@ -175,7 +176,7 @@ const FundacionLayout = () => {
           </header>
 
           {/* Aquí se renderiza cada página del panel */}
-          <main className="admin-main">
+          <main className={MAIN}>
             <Outlet />
           </main>
         </div>
@@ -184,18 +185,18 @@ const FundacionLayout = () => {
       {/* Modal de perfil de fundación */}
       {perfilAbierto && (
         <div className="fnd-modal__fondo" onClick={() => setPerfilAbierto(false)}>
-          <div className="fnd-modal adm-perfil-modal" onClick={(e) => e.stopPropagation()}>
+          <div className={`fnd-modal`} onClick={(e) => e.stopPropagation()}>
             <button className="fnd-modal__cerrar" onClick={() => setPerfilAbierto(false)}>
               <FiX />
             </button>
 
-            <div className="adm-perfil-modal__cabecera">
-              <div className="adm-perfil-modal__avatar">
+            <div className={PERFIL_CABECERA}>
+              <div className={PERFIL_AVATAR}>
                 {usuario?.foto ? <img src={usuario.foto} alt="Foto de perfil" /> : <FiUser size={28} />}
               </div>
               <div>
                 <h2 className="fnd-modal__titulo" style={{ marginBottom: 2 }}>Mi perfil</h2>
-                <span className="admin-badge--neutro" style={{ fontSize: 12 }}>Fundación</span>
+                <span className={BADGE_COLOR.neutro} style={{ fontSize: 12 }}>Fundación</span>
               </div>
             </div>
 
@@ -222,7 +223,7 @@ const FundacionLayout = () => {
               </div>
               {errorPerfil && <p className="fnd-aviso fnd-aviso--error" role="alert">{errorPerfil}</p>}
               <div className="fnd-modal__acciones">
-                {guardado && <span className="adm-perfil-modal__ok"><FiCheck /> Cambios guardados</span>}
+                {guardado && <span className={PERFIL_OK}><FiCheck /> Cambios guardados</span>}
                 <button type="button" className="fnd-modal__btn fnd-modal__btn--secundario" onClick={() => setPerfilAbierto(false)}>
                   Cancelar
                 </button>

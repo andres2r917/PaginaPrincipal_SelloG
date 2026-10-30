@@ -5,6 +5,8 @@ import { useDenuncias } from '../../Context/DenunciasContext.jsx'
 import { getFundaciones } from '../../Services/adminService.js'
 import { ETIQUETA_TIPO } from '../../Utils/estados.js'
 import Notificaciones from '../Notificaciones.jsx'
+import { BADGE_COLOR } from '../../Utils/adminEstilos'
+import { AVATAR_BTN, PERFIL_AVATAR, PERFIL_CABECERA, TOPBAR, TOPBAR_ACCIONES, TOPBAR_SEARCH } from '../../Utils/panelEstilos'
 
 const AdminTopbar = ({ placeholder = 'Buscar...', valor, onChange, value }) => {
   const { usuario } = useAuth()
@@ -67,8 +69,8 @@ const AdminTopbar = ({ placeholder = 'Buscar...', valor, onChange, value }) => {
 
   return (
     <>
-      <header className="admin-topbar">
-        <div className="admin-topbar__search">
+      <header className={TOPBAR}>
+        <div className={TOPBAR_SEARCH}>
           <FiSearch />
           <input
             type="text"
@@ -78,13 +80,13 @@ const AdminTopbar = ({ placeholder = 'Buscar...', valor, onChange, value }) => {
           />
         </div>
 
-        <div className="admin-topbar__actions">
+        <div className={TOPBAR_ACCIONES}>
           {/* Campana: avisos reales; lo que ya leíste se recuerda en este navegador */}
           <Notificaciones key={usuario?.id} items={avisos} usuarioId={usuario?.id} />
 
           {/* Avatar — abre modal de perfil */}
           <button
-            className="admin-avatar adm-avatar-btn"
+            className={AVATAR_BTN}
             onClick={abrirPerfil}
             aria-label="Ver perfil"
             title="Mi perfil"
@@ -99,21 +101,21 @@ const AdminTopbar = ({ placeholder = 'Buscar...', valor, onChange, value }) => {
       {/* Modal de perfil */}
       {perfilAbierto && (
         <div className="fnd-modal__fondo" onClick={() => setPerfilAbierto(false)}>
-          <div className="fnd-modal adm-perfil-modal" onClick={(e) => e.stopPropagation()}>
+          <div className={`fnd-modal`} onClick={(e) => e.stopPropagation()}>
             <button className="fnd-modal__cerrar" onClick={() => setPerfilAbierto(false)}>
               <FiX />
             </button>
 
             {/* Cabecera del modal */}
-            <div className="adm-perfil-modal__cabecera">
-              <div className="adm-perfil-modal__avatar">
+            <div className={PERFIL_CABECERA}>
+              <div className={PERFIL_AVATAR}>
                 {usuario?.foto
                   ? <img src={usuario.foto} alt="Foto de perfil" />
                   : <FiUser size={28} />}
               </div>
               <div>
                 <h2 className="fnd-modal__titulo" style={{ marginBottom: 2 }}>Mi perfil</h2>
-                <span className="admin-badge--neutro" style={{ fontSize: 12 }}>
+                <span className={BADGE_COLOR.neutro} style={{ fontSize: 12 }}>
                   {usuario?.rol === 'admin' ? 'Administrador' : 'Fundación'}
                 </span>
               </div>

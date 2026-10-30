@@ -780,19 +780,6 @@ select.fnd-modal__input option {
   flex-shrink: 0;
 }
 
-/* Menú lateral colapsable en pantallas pequeñas */
-@media (max-width: 900px) {
-  .admin-sidebar {
-    width: 0;
-    overflow: hidden;
-    padding: 0;
-  }
-
-  .admin-layout {
-    grid-template-columns: 1fr;
-  }
-}
-
 /* ── Ajustes de Sede ── */
 .fnd-form-card {
   max-width: 760px;
@@ -902,8 +889,7 @@ select.fnd-modal__input option {
 
 .fnd-btn-aprobar:disabled,
 .fnd-btn-revisar:disabled,
-.fnd-modal__btn:disabled,
-.admin-modal__btn:disabled {
+.fnd-modal__btn:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }

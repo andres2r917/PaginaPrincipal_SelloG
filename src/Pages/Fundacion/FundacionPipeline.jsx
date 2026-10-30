@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useFundacion } from '../../Context/FundacionContext.jsx'
 import { BADGE_MASCOTA } from '../../Utils/estados.js'
+import { TITULO } from '../../Utils/panelEstilos'
 
 const COLUMNAS = [
   { key: 'en_cuarentena', titulo: 'Ingreso & Cuarentena' },
@@ -36,7 +37,7 @@ const FundacionPipeline = () => {
 
   return (
     <div>
-      <h1 className="admin-title">Pipeline de Peluditos</h1>
+      <h1 className={TITULO}>Pipeline de Peluditos</h1>
       <p style={{ color: 'rgba(241,245,249,0.55)', fontSize: 13, marginBottom: 20 }}>
         Arrastra las tarjetas para cambiar el estado. En pantallas táctiles usa el selector.
       </p>

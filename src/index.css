@@ -47,6 +47,17 @@
   100% { box-shadow: 0 0 0 2px rgba(196, 181, 253, 0.45), 0 12px 32px rgba(124, 58, 237, 0.35); }
 }
 
+/* Entrada de las ventanas modales de los paneles */
+@keyframes adminModalFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes adminModalScaleUp {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;

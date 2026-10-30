@@ -12,17 +12,16 @@ import {
   FiX
 } from 'react-icons/fi'
 import AdminTopbar from '../../Componentes/Admin/AdminTopbar.jsx'
-import '../../Style/Admin/AdminDashboard.css'
-import '../../Style/Admin/AdminTablas.css'
-import '../../Style/Admin/AdminModal.css'
+import { ACCIONES, ACCION_BTN, BADGE, BADGE_COLOR, BTN_EXITO, BTN_PELIGRO, BTN_PRIMARIO, BTN_SECUNDARIO, DETALLE_ITEM, DETALLE_LABEL, DETALLE_VALOR, MODAL_ACCIONES_IZQ, MODAL_CABECERA, MODAL_CABECERA_IZQ, MODAL_CERRAR, MODAL_CUERPO, MODAL_FONDO, MODAL_GALERIA, MODAL_GALERIA_IMG, MODAL_GRID, MODAL_LG, MODAL_PIE, MODAL_SECCION, MODAL_SECCION_TITULO, MODAL_TEXTO, MODAL_TITULO, PAGE_HEADER, TABLA, TABLA_WRAP } from '../../Utils/adminEstilos'
+import { MAIN, TITULO } from '../../Utils/panelEstilos'
 
 const badgePorUrgencia = {
-  Alta: 'admin-badge--critico',
-  Media: 'admin-badge--pendiente',
-  Baja: 'admin-badge--neutro',
-  alta: 'admin-badge--critico',
-  media: 'admin-badge--pendiente',
-  baja: 'admin-badge--neutro',
+  Alta: BADGE_COLOR.critico,
+  Media: BADGE_COLOR.pendiente,
+  Baja: BADGE_COLOR.neutro,
+  alta: BADGE_COLOR.critico,
+  media: BADGE_COLOR.pendiente,
+  baja: BADGE_COLOR.neutro,
 }
 
 const fundacionesDisponibles = [
@@ -58,13 +57,13 @@ const AdminDenuncias = () => {
 
         <AdminTopbar placeholder="Buscar denuncias..." />
 
-        <main className="admin-main">
-          <div className="admin-page-header">
-            <h1 className="admin-title">Denuncias</h1>
+        <main className={MAIN}>
+          <div className={PAGE_HEADER}>
+            <h1 className={TITULO}>Denuncias</h1>
           </div>
 
-          <div className="admin-table-wrap">
-            <table className="admin-table">
+          <div className={TABLA_WRAP}>
+            <table className={TABLA}>
               <thead>
                 <tr>
                   <th>ID</th>
@@ -84,10 +83,10 @@ const AdminDenuncias = () => {
                     <td>{ETIQUETA_TIPO[d.tipo] || d.tipo}</td>
                     <td>{d.ubicacion || d.direccion}</td>
                     <td>
-                      <span className={`admin-badge ${badgePorUrgencia[d.urgencia] || 'admin-badge--neutro'}`}>{d.urgencia}</span>
+                      <span className={`${BADGE} ${badgePorUrgencia[d.urgencia] || BADGE_COLOR.neutro}`}>{d.urgencia}</span>
                     </td>
                     <td>
-                      <span className={`admin-badge ${distintivo(BADGE_DENUNCIA, d.estado).cls}`}>
+                      <span className={`${BADGE} ${distintivo(BADGE_DENUNCIA, d.estado).cls}`}>
                         {distintivo(BADGE_DENUNCIA, d.estado).txt}
                       </span>
                       {d.fundacionAsignada && (
@@ -97,9 +96,9 @@ const AdminDenuncias = () => {
                     <td>{new Date(d.fecha).toLocaleDateString('es-CO')}</td>
                     <td>{d.anonima ? 'Sí' : 'No'}</td>
                     <td>
-                      <div className="admin-actions">
+                      <div className={ACCIONES}>
                         <button
-                          className="admin-action-btn"
+                          className={ACCION_BTN}
                           title="Ver detalle"
                           onClick={() => setDenunciaSeleccionadaId(d.id)}
                         >
@@ -107,7 +106,7 @@ const AdminDenuncias = () => {
                         </button>
                         {d.estado === 'pendiente' && (
                           <button
-                            className="admin-action-btn"
+                            className={ACCION_BTN}
                             title="Verificar evidencia"
                             onClick={() => cambiarEstado(d.id, 'verificada')}
                           >
@@ -116,7 +115,7 @@ const AdminDenuncias = () => {
                         )}
                         {['pendiente', 'verificada'].includes(d.estado) && (
                           <button
-                            className="admin-action-btn"
+                            className={ACCION_BTN}
                             title="Descartar"
                             onClick={() => cambiarEstado(d.id, 'descartada')}
                           >
@@ -135,22 +134,22 @@ const AdminDenuncias = () => {
 
       {/* ── VENTANA MODAL DE DETALLES DE DENUNCIA ── */}
       {denunciaSeleccionada && (
-        <div className="admin-modal-backdrop" onClick={() => setDenunciaSeleccionadaId(null)}>
-          <div className="admin-modal admin-modal--lg" onClick={(e) => e.stopPropagation()}>
-            <div className="admin-modal__header">
-              <div className="admin-modal__header-left">
-                <h2 className="admin-modal__title">
+        <div className={MODAL_FONDO} onClick={() => setDenunciaSeleccionadaId(null)}>
+          <div className={MODAL_LG} onClick={(e) => e.stopPropagation()}>
+            <div className={MODAL_CABECERA}>
+              <div className={MODAL_CABECERA_IZQ}>
+                <h2 className={MODAL_TITULO}>
                   Denuncia #{denunciaSeleccionada.id}
                 </h2>
-                <span className={`admin-badge ${badgePorUrgencia[denunciaSeleccionada.urgencia] || 'admin-badge--neutro'}`}>
+                <span className={`${BADGE} ${badgePorUrgencia[denunciaSeleccionada.urgencia] || BADGE_COLOR.neutro}`}>
                   Urgencia {denunciaSeleccionada.urgencia}
                 </span>
-                <span className={`admin-badge ${distintivo(BADGE_DENUNCIA, denunciaSeleccionada.estado).cls}`}>
+                <span className={`${BADGE} ${distintivo(BADGE_DENUNCIA, denunciaSeleccionada.estado).cls}`}>
                   {distintivo(BADGE_DENUNCIA, denunciaSeleccionada.estado).txt}
                 </span>
               </div>
               <button
-                className="admin-modal__close-btn"
+                className={MODAL_CERRAR}
                 onClick={() => setDenunciaSeleccionadaId(null)}
                 title="Cerrar modal"
               >
@@ -158,27 +157,27 @@ const AdminDenuncias = () => {
               </button>
             </div>
 
-            <div className="admin-modal__body">
+            <div className={MODAL_CUERPO}>
               {/* Grid de información clave */}
-              <div className="admin-modal__grid">
-                <div className="admin-detail-item">
-                  <span className="admin-detail-label">Tipo de denuncia</span>
-                  <span className="admin-detail-value">
+              <div className={MODAL_GRID}>
+                <div className={DETALLE_ITEM}>
+                  <span className={DETALLE_LABEL}>Tipo de denuncia</span>
+                  <span className={DETALLE_VALOR}>
                     {ETIQUETA_TIPO[denunciaSeleccionada.tipo] || denunciaSeleccionada.tipo}
                   </span>
                 </div>
 
-                <div className="admin-detail-item">
-                  <span className="admin-detail-label">Fecha y hora de reporte</span>
-                  <span className="admin-detail-value">
+                <div className={DETALLE_ITEM}>
+                  <span className={DETALLE_LABEL}>Fecha y hora de reporte</span>
+                  <span className={DETALLE_VALOR}>
                     <FiCalendar className="mr-1.5 align-middle" />
                     {new Date(denunciaSeleccionada.fecha).toLocaleString('es-CO')}
                   </span>
                 </div>
 
-                <div className="admin-detail-item">
-                  <span className="admin-detail-label">Denunciante</span>
-                  <span className="admin-detail-value">
+                <div className={DETALLE_ITEM}>
+                  <span className={DETALLE_LABEL}>Denunciante</span>
+                  <span className={DETALLE_VALOR}>
                     <FiUser className="mr-1.5 align-middle" />
                     {denunciaSeleccionada.anonima
                       ? 'Denuncia anónima (identidad protegida)'
@@ -186,9 +185,9 @@ const AdminDenuncias = () => {
                   </span>
                 </div>
 
-                <div className="admin-detail-item">
-                  <span className="admin-detail-label">Fundación asignada</span>
-                  <span className="admin-detail-value">
+                <div className={DETALLE_ITEM}>
+                  <span className={DETALLE_LABEL}>Fundación asignada</span>
+                  <span className={DETALLE_VALOR}>
                     <FiShield className="mr-1.5 align-middle" />
                     {denunciaSeleccionada.fundacionAsignada
                       ? `${denunciaSeleccionada.fundacionAsignada.nombre} (${denunciaSeleccionada.fundacionAsignada.telefono || 'Sin tel.'})`
@@ -198,9 +197,9 @@ const AdminDenuncias = () => {
               </div>
 
               {/* Ubicación */}
-              <div className="admin-modal__section">
-                <span className="admin-modal__section-title">Ubicación de los hechos</span>
-                <p className="admin-modal__text" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <div className={MODAL_SECCION}>
+                <span className={MODAL_SECCION_TITULO}>Ubicación de los hechos</span>
+                <p className={MODAL_TEXTO} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                   <FiMapPin style={{ color: '#C4B5FD', flexShrink: 0 }} />
                   <span>{ubicacionTexto}</span>
                 </p>
@@ -209,7 +208,7 @@ const AdminDenuncias = () => {
                     href={urlMaps}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="admin-modal__btn admin-modal__btn--secondary"
+                    className={BTN_SECUNDARIO}
                     style={{ fontSize: '0.82rem', marginTop: '4px' }}
                   >
                     <FiExternalLink /> Ver ubicación en Google Maps
@@ -218,22 +217,22 @@ const AdminDenuncias = () => {
               </div>
 
               {/* Descripción */}
-              <div className="admin-modal__section">
-                <span className="admin-modal__section-title">Descripción del incidente</span>
-                <p className="admin-modal__text">
+              <div className={MODAL_SECCION}>
+                <span className={MODAL_SECCION_TITULO}>Descripción del incidente</span>
+                <p className={MODAL_TEXTO}>
                   {denunciaSeleccionada.descripcion || 'Sin descripción detallada provista.'}
                 </p>
               </div>
 
               {/* Evidencias fotográficas */}
-              <div className="admin-modal__section">
-                <span className="admin-modal__section-title">Evidencias fotográficas ({listaEvidencias.length})</span>
+              <div className={MODAL_SECCION}>
+                <span className={MODAL_SECCION_TITULO}>Evidencias fotográficas ({listaEvidencias.length})</span>
                 {listaEvidencias.length === 0 ? (
-                  <p className="admin-modal__text" style={{ fontStyle: 'italic', color: '#94A3B8' }}>
+                  <p className={MODAL_TEXTO} style={{ fontStyle: 'italic', color: '#94A3B8' }}>
                     Este caso no cuenta con archivos fotográficos adjuntos.
                   </p>
                 ) : (
-                  <div className="admin-modal__gallery">
+                  <div className={MODAL_GALERIA}>
                     {listaEvidencias.map((ev, idx) => {
                       const urlFoto = typeof ev === 'string' ? ev : ev?.url
                       return (
@@ -241,7 +240,7 @@ const AdminDenuncias = () => {
                           <img
                             src={urlFoto}
                             alt={`Evidencia ${idx + 1}`}
-                            className="admin-modal__gallery-img"
+                            className={MODAL_GALERIA_IMG}
                             loading="lazy"
                           />
                         </a>
@@ -253,14 +252,14 @@ const AdminDenuncias = () => {
 
               {/* Asignación de fundación */}
               {!denunciaSeleccionada.fundacionAsignada && denunciaSeleccionada.estado !== 'descartada' && (
-                <div className="admin-modal__section">
-                  <span className="admin-modal__section-title">Asignar a una fundación de rescate</span>
+                <div className={MODAL_SECCION}>
+                  <span className={MODAL_SECCION_TITULO}>Asignar a una fundación de rescate</span>
                   <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', marginTop: '0.4rem' }}>
                     {fundacionesDisponibles.map(f => (
                       <button
                         key={f.id}
                         type="button"
-                        className="admin-modal__btn admin-modal__btn--secondary"
+                        className={BTN_SECUNDARIO}
                         onClick={() => asignarFundacion(denunciaSeleccionada.id, f)}
                       >
                         Asignar a {f.nombre}
@@ -271,11 +270,11 @@ const AdminDenuncias = () => {
               )}
             </div>
 
-            <div className="admin-modal__footer">
-              <div className="admin-modal__actions-left">
+            <div className={MODAL_PIE}>
+              <div className={MODAL_ACCIONES_IZQ}>
                 {denunciaSeleccionada.estado === 'pendiente' && (
                   <button
-                    className="admin-modal__btn admin-modal__btn--success"
+                    className={BTN_EXITO}
                     onClick={() => cambiarEstado(denunciaSeleccionada.id, 'verificada')}
                   >
                     <FiCheck /> Marcar como Verificada
@@ -284,7 +283,7 @@ const AdminDenuncias = () => {
 
                 {denunciaSeleccionada.estado === 'verificada' && (
                   <button
-                    className="admin-modal__btn admin-modal__btn--primary"
+                    className={BTN_PRIMARIO}
                     onClick={() => cambiarEstado(denunciaSeleccionada.id, 'en_rescate')}
                   >
                     Pasar a "En rescate"
@@ -293,7 +292,7 @@ const AdminDenuncias = () => {
 
                 {['verificada', 'en_rescate'].includes(denunciaSeleccionada.estado) && (
                   <button
-                    className="admin-modal__btn admin-modal__btn--success"
+                    className={BTN_EXITO}
                     onClick={() => cambiarEstado(denunciaSeleccionada.id, 'resuelta')}
                   >
                     <FiCheck /> Marcar como Resuelta
@@ -302,7 +301,7 @@ const AdminDenuncias = () => {
 
                 {denunciaSeleccionada.estado !== 'descartada' && denunciaSeleccionada.estado !== 'resuelta' && (
                   <button
-                    className="admin-modal__btn admin-modal__btn--danger"
+                    className={BTN_PELIGRO}
                     onClick={() => cambiarEstado(denunciaSeleccionada.id, 'descartada')}
                   >
                     <FiX /> Descartar reporte
@@ -311,7 +310,7 @@ const AdminDenuncias = () => {
               </div>
 
               <button
-                className="admin-modal__btn admin-modal__btn--secondary"
+                className={BTN_SECUNDARIO}
                 onClick={() => setDenunciaSeleccionadaId(null)}
               >
                 Cerrar ventana

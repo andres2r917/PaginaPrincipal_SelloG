@@ -6,6 +6,7 @@ import { ESTADOS_ACTIVOS } from '../../Utils/estados.js'
 import TarjetaDenuncia from '../../Componentes/Denuncias/TarjetaDenuncia.jsx'
 import { SelectorUbicacion } from '../../Componentes/Denuncias/DenunciaFormulario.jsx'
 import * as E from '../../Utils/denunciaEstilos.js'
+import { TITULO } from '../../Utils/panelEstilos'
 
 const FILTROS = [
   { id: 'disponibles', texto: 'Disponibles' },
@@ -130,7 +131,7 @@ const FundacionDenuncias = () => {
   return (
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12, flexWrap: 'wrap', marginBottom: 16 }}>
-        <h1 className="admin-title m-0" >Casos de Denuncia</h1>
+        <h1 className={TITULO} >Casos de Denuncia</h1>
         {/* Despliega la ventana modal para realizar la denuncia sin salir del panel */}
         <button
           type="button"

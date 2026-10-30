@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { FiBell, FiCheck } from 'react-icons/fi'
 import { hace } from '../Utils/tiempo.js'
+import { ACTIVIDAD_HORA, ICON_BTN, ICON_BTN_PUNTO, puntoActividad } from '../Utils/panelEstilos'
 
 // Estilos con Tailwind. Los colores de la marca salen de @theme (index.css)
 const PANEL =
@@ -74,13 +75,13 @@ const Notificaciones = ({ items, usuarioId }) => {
     <div ref={contenedorRef} className="relative">
       <button
         type="button"
-        className="admin-icon-btn"
+        className={ICON_BTN}
         onClick={(e) => { e.stopPropagation(); setAbierta((p) => !p) }}
         aria-label={sinLeer.length > 0 ? `Notificaciones, ${sinLeer.length} sin leer` : 'Notificaciones'}
         aria-expanded={abierta}
       >
         <FiBell />
-        {sinLeer.length > 0 && <span className="admin-icon-btn__dot" />}
+        {sinLeer.length > 0 && <span className={ICON_BTN_PUNTO} />}
       </button>
 
       {abierta && (
@@ -102,11 +103,11 @@ const Notificaciones = ({ items, usuarioId }) => {
                     className={nueva ? AVISO_NUEVO : AVISO_LEIDO}
                     onClick={() => abrirAviso(n)}
                   >
-                    <span className={`admin-activity-dot admin-activity-dot--${n.tipo}`} />
+                    <span className={puntoActividad(n.tipo)} />
                     <span className="block">
                       <p className="mb-[3px] text-[13px] leading-[1.4] text-[#e2e8f0]">{n.texto}</p>
                       {n.detalle && <small className="mb-[3px] block text-[12px] leading-[1.4] text-[rgba(226,232,240,0.65)]">{n.detalle}</small>}
-                      <span className="admin-activity-time">{hace(n.fecha)}</span>
+                      <span className={ACTIVIDAD_HORA}>{hace(n.fecha)}</span>
                     </span>
                   </button>
                 </li>

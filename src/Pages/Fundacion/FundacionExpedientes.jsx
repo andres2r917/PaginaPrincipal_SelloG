@@ -3,8 +3,9 @@ import { useState } from 'react'
 import { FiAlertTriangle, FiCheck, FiClipboard, FiPlus, FiSearch, FiShield, FiX } from 'react-icons/fi'
 import { useFundacion } from '../../Context/FundacionContext.jsx'
 import CamposMascota from '../../Componentes/Fundacion/CamposMascota.jsx'
-import '../../Style/Admin/AdminModal.css'
 import { BADGE_MASCOTA, distintivo } from '../../Utils/estados.js'
+import { BADGE, BTN_PRIMARIO, BTN_SECUNDARIO, DETALLE_ITEM, DETALLE_LABEL, DETALLE_VALOR, ETIQUETAS, MODAL, MODAL_CABECERA, MODAL_CABECERA_IZQ, MODAL_CERRAR, MODAL_CUERPO, MODAL_FONDO, MODAL_GRID, MODAL_PIE, MODAL_TITULO, etiqueta } from '../../Utils/adminEstilos'
+import { TITULO, TOPBAR_SEARCH } from '../../Utils/panelEstilos'
 
 // Valores con los que arranca el formulario de ingreso (y a los que vuelve después de guardar)
 const FORM_INGRESO_INICIAL = {
@@ -114,7 +115,7 @@ const FundacionExpedientes = () => {
   return (
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12, flexWrap: 'wrap', marginBottom: 16 }}>
-        <h1 className="admin-title m-0">Expedientes Peluditos</h1>
+        <h1 className={TITULO}>Expedientes Peluditos</h1>
         {/* Abre el modal para registrar el ingreso de una mascota */}
         <button type="button" className="fnd-btn-primario" onClick={() => setModalIngreso(true)}>
           <FiPlus /> Registrar Ingreso
@@ -124,7 +125,7 @@ const FundacionExpedientes = () => {
 
       {/* Barra de filtros */}
       <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginBottom: 20 }}>
-        <div className="admin-topbar__search" style={{ flex: 1, minWidth: 200 }}>
+        <div className={TOPBAR_SEARCH} style={{ flex: 1, minWidth: 200 }}>
           <FiSearch />
           <input
             type="text"
@@ -160,7 +161,7 @@ const FundacionExpedientes = () => {
               <p className="fnd-mascota__nombre">{m.nombre}</p>
               <p className="fnd-mascota__sub">{m.especie} · {m.raza} · {m.edadEstimada}</p>
               <div className="fnd-mascota__chips">
-                <span className={`admin-badge ${distintivo(BADGE_MASCOTA, m.estadoAdopcion).cls}`}>{distintivo(BADGE_MASCOTA, m.estadoAdopcion).txt}</span>
+                <span className={`${BADGE} ${distintivo(BADGE_MASCOTA, m.estadoAdopcion).cls}`}>{distintivo(BADGE_MASCOTA, m.estadoAdopcion).txt}</span>
                 <span className={`fnd-mascota__chip ${m.vacunado ? 'fnd-chip--vacunado' : 'fnd-chip--sin-vacunas'}`}>
                   {m.vacunado ? <><FiCheck /> Vacunado</> : <><FiAlertTriangle /> Sin vacunas</>}
                 </span>
@@ -182,38 +183,38 @@ const FundacionExpedientes = () => {
 
       {/* ── MODAL: REGISTRAR INGRESO (DISEÑO IDÉNTICO AL PANEL ADMIN) ── */}
       {modalIngreso && (
-        <div className="admin-modal-backdrop" onClick={() => setModalIngreso(false)}>
-          <div className="admin-modal" onClick={(e) => e.stopPropagation()}>
-            <div className="admin-modal__header">
-              <div className="admin-modal__header-left">
+        <div className={MODAL_FONDO} onClick={() => setModalIngreso(false)}>
+          <div className={MODAL} onClick={(e) => e.stopPropagation()}>
+            <div className={MODAL_CABECERA}>
+              <div className={MODAL_CABECERA_IZQ}>
                 <span className="admin-modal__icon-badge"><FiPlus /></span>
                 <div>
-                  <h2 className="admin-modal__title">Registrar Ingreso de Mascota</h2>
+                  <h2 className={MODAL_TITULO}>Registrar Ingreso de Mascota</h2>
                   <span className="admin-modal__subtitle">
                     Registra un animal rescatado en el refugio de la fundación
                   </span>
                 </div>
               </div>
-              <button className="admin-modal__close-btn" onClick={() => setModalIngreso(false)}>
+              <button className={MODAL_CERRAR} onClick={() => setModalIngreso(false)}>
                 <FiX />
               </button>
             </div>
 
             <form onSubmit={guardarIngreso}>
-              <div className="admin-modal__body max-h-[70vh] overflow-y-auto" >
+              <div className={`${MODAL_CUERPO} max-h-[70vh] overflow-y-auto`} >
                 <CamposMascota form={formIngreso} setForm={setFormIngreso} />
                 {aviso && <p className="fnd-aviso fnd-aviso--error" role="alert">{aviso}</p>}
               </div>
 
-              <div className="admin-modal__footer">
+              <div className={MODAL_PIE}>
                 <button
                   type="button"
-                  className="admin-modal__btn admin-modal__btn--secondary"
+                  className={BTN_SECUNDARIO}
                   onClick={() => setModalIngreso(false)}
                 >
                   Cancelar
                 </button>
-                <button type="submit" className="admin-modal__btn admin-modal__btn--primary" disabled={enviando}>
+                <button type="submit" className={BTN_PRIMARIO} disabled={enviando}>
                   <FiCheck /> {enviando ? 'Guardando...' : 'Guardar mascota'}
                 </button>
               </div>
@@ -224,28 +225,28 @@ const FundacionExpedientes = () => {
 
       {/* Modal: Gestionar (edita la mascota completa, con los mismos campos que el ingreso) */}
       {modalGestionar && (
-        <div className="admin-modal-backdrop" onClick={() => setModalGestionar(null)}>
-          <div className="admin-modal" onClick={(e) => e.stopPropagation()}>
-            <div className="admin-modal__header">
-              <div className="admin-modal__header-left">
+        <div className={MODAL_FONDO} onClick={() => setModalGestionar(null)}>
+          <div className={MODAL} onClick={(e) => e.stopPropagation()}>
+            <div className={MODAL_CABECERA}>
+              <div className={MODAL_CABECERA_IZQ}>
                 <span className="admin-modal__icon-badge"><FaPaw /></span>
                 <div>
-                  <h2 className="admin-modal__title">Gestionar — {modalGestionar.nombre}</h2>
+                  <h2 className={MODAL_TITULO}>Gestionar — {modalGestionar.nombre}</h2>
                   <span className="admin-modal__subtitle">Edita los datos, la salud, la foto y el estado de adopción</span>
                 </div>
               </div>
-              <button className="admin-modal__close-btn" onClick={() => setModalGestionar(null)}><FiX /></button>
+              <button className={MODAL_CERRAR} onClick={() => setModalGestionar(null)}><FiX /></button>
             </div>
 
             <form onSubmit={guardarGestionar}>
-              <div className="admin-modal__body max-h-[70vh] overflow-y-auto" >
+              <div className={`${MODAL_CUERPO} max-h-[70vh] overflow-y-auto`} >
                 <CamposMascota form={formGestionar} setForm={setFormGestionar} />
                 {aviso && <p className="fnd-aviso fnd-aviso--error" role="alert">{aviso}</p>}
               </div>
 
-              <div className="admin-modal__footer">
-                <button type="button" className="admin-modal__btn admin-modal__btn--secondary" onClick={() => setModalGestionar(null)}>Cancelar</button>
-                <button type="submit" className="admin-modal__btn admin-modal__btn--primary" disabled={enviando}>
+              <div className={MODAL_PIE}>
+                <button type="button" className={BTN_SECUNDARIO} onClick={() => setModalGestionar(null)}>Cancelar</button>
+                <button type="submit" className={BTN_PRIMARIO} disabled={enviando}>
                   <FiCheck /> {enviando ? 'Guardando...' : 'Guardar cambios'}
                 </button>
               </div>
@@ -256,20 +257,20 @@ const FundacionExpedientes = () => {
 
       {/* Modal: Ficha técnica */}
       {modalFicha && (
-        <div className="admin-modal-backdrop" onClick={() => setModalFicha(null)}>
-          <div className="admin-modal max-w-[520px]" onClick={(e) => e.stopPropagation()}>
-            <div className="admin-modal__header">
-              <div className="admin-modal__header-left">
+        <div className={MODAL_FONDO} onClick={() => setModalFicha(null)}>
+          <div className={`${MODAL} max-w-[520px]`} onClick={(e) => e.stopPropagation()}>
+            <div className={MODAL_CABECERA}>
+              <div className={MODAL_CABECERA_IZQ}>
                 <span className="admin-modal__icon-badge"><FiClipboard /></span>
                 <div>
-                  <h2 className="admin-modal__title">Ficha Técnica — {modalFicha.nombre}</h2>
+                  <h2 className={MODAL_TITULO}>Ficha Técnica — {modalFicha.nombre}</h2>
                   <span className="admin-modal__subtitle">Expediente médico y biográfico</span>
                 </div>
               </div>
-              <button className="admin-modal__close-btn" onClick={() => setModalFicha(null)}><FiX /></button>
+              <button className={MODAL_CERRAR} onClick={() => setModalFicha(null)}><FiX /></button>
             </div>
 
-            <div className="admin-modal__body">
+            <div className={MODAL_CUERPO}>
               {modalFicha.fotoUrl && (
                 <img
                   src={modalFicha.fotoUrl}
@@ -278,19 +279,19 @@ const FundacionExpedientes = () => {
                 />
               )}
 
-              <div className="admin-tags-group" style={{ marginBottom: 14 }}>
-                <span className={`admin-tag-toggle ${modalFicha.vacunado ? 'admin-tag-toggle--vacunado' : 'admin-tag-toggle--sin-vacunas'}`}>
+              <div className={ETIQUETAS} style={{ marginBottom: 14 }}>
+                <span className={etiqueta(modalFicha.vacunado ? 'vacunado' : 'sinVacunas')}>
                   {modalFicha.vacunado ? <><FiCheck /> Vacunado</> : <><FiAlertTriangle /> Sin Vacunas</>}
                 </span>
-                <span className={`admin-tag-toggle ${modalFicha.esterilizado ? 'admin-tag-toggle--esterilizado' : 'admin-tag-toggle--sin-esterilizar'}`}>
+                <span className={etiqueta(modalFicha.esterilizado ? 'esterilizado' : 'sinEsterilizar')}>
                   {modalFicha.esterilizado ? <><FiCheck /> Esterilizado</> : 'Sin Esterilizar'}
                 </span>
-                <span className={`admin-tag-toggle ${modalFicha.desparasitado ? 'admin-tag-toggle--desparasitado' : 'admin-tag-toggle--sin-desparasitar'}`}>
+                <span className={etiqueta(modalFicha.desparasitado ? 'desparasitado' : 'sinDesparasitar')}>
                   {modalFicha.desparasitado ? <><FiShield /> Desparasitado</> : <><FiAlertTriangle /> Sin desparasitar</>}
                 </span>
               </div>
 
-              <div className="admin-modal__grid">
+              <div className={MODAL_GRID}>
                 {[
                   ['Especie', modalFicha.especie],
                   ['Raza', modalFicha.raza],
@@ -302,23 +303,23 @@ const FundacionExpedientes = () => {
                   ['Salud', modalFicha.estadoSalud],
                   ['Fecha Ingreso', fechaLocal(modalFicha.fechaIngreso)],
                 ].map(([k, v]) => (
-                  <div key={k} className="admin-detail-item">
-                    <span className="admin-detail-label">{k}</span>
-                    <span className="admin-detail-value">{v || '—'}</span>
+                  <div key={k} className={DETALLE_ITEM}>
+                    <span className={DETALLE_LABEL}>{k}</span>
+                    <span className={DETALLE_VALOR}>{v || '—'}</span>
                   </div>
                 ))}
               </div>
 
               {modalFicha.descripcion && (
                 <div style={{ marginTop: 14, background: 'rgba(255,255,255,0.03)', padding: 12, borderRadius: 10, border: '1px solid rgba(124,58,237,0.15)' }}>
-                  <span className="admin-detail-label">Historia</span>
+                  <span className={DETALLE_LABEL}>Historia</span>
                   <p style={{ color: '#F8FAFC', fontSize: 13, marginTop: 4, lineHeight: 1.5 }}>{modalFicha.descripcion}</p>
                 </div>
               )}
             </div>
 
-            <div className="admin-modal__footer">
-              <button type="button" className="admin-modal__btn admin-modal__btn--secondary" onClick={() => setModalFicha(null)}>
+            <div className={MODAL_PIE}>
+              <button type="button" className={BTN_SECUNDARIO} onClick={() => setModalFicha(null)}>
                 Cerrar
               </button>
             </div>

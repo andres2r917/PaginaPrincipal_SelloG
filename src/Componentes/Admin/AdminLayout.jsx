@@ -5,7 +5,7 @@ import {
 } from 'react-icons/fi'
 import { useAuth } from '../../Context/AuthContext.jsx'
 import Group from '../../assets/Group.svg'
-import '../../Style/Admin/AdminDashboard.css'
+import { BRAND, BRAND_LOGO, CONTENT, FOOTER, LAYOUT, NAV, NAV_SALIR, SIDEBAR, navItem } from '../../Utils/panelEstilos'
 
 const ENLACES = [
   { to: '/admin', texto: 'Dashboard', icono: <FiGrid />, exacto: true },
@@ -23,33 +23,33 @@ const AdminLayout = () => {
   const cerrarSesion = () => { logout(); navigate('/login') }
 
   return (
-    <div className="admin-layout">
-      <aside className="admin-sidebar">
-        <Link to="/home" className="admin-brand" title="Ir al Inicio">
-          <img className="admin-brand__logo" src={Group} alt="Sello Guardián" />
+    <div className={LAYOUT}>
+      <aside className={SIDEBAR}>
+        <Link to="/home" className={BRAND} title="Ir al Inicio">
+          <img className={BRAND_LOGO} src={Group} alt="Sello Guardián" />
         </Link>
 
-        <nav className="admin-nav">
+        <nav className={NAV}>
           {ENLACES.map((e) => (
             <NavLink
               key={e.to}
               to={e.to}
               end={e.exacto}
-              className={({ isActive }) => `admin-nav__item${isActive ? ' admin-nav__item--active' : ''}`}
+              className={navItem}
             >
               {e.icono} <span>{e.texto}</span>
             </NavLink>
           ))}
         </nav>
 
-        <button className="admin-nav__item admin-nav__logout" onClick={cerrarSesion}>
+        <button className={NAV_SALIR} onClick={cerrarSesion}>
           <FiLogOut /> <span>Cerrar sesión</span>
         </button>
       </aside>
 
-      <div className="admin-content">
+      <div className={CONTENT}>
         <Outlet />
-        <footer className="admin-footer">
+        <footer className={FOOTER}>
           Sello Guardián 2026. Panel administrativo.
         </footer>
       </div>

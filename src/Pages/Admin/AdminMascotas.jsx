@@ -3,9 +3,9 @@ import { FaPaw } from 'react-icons/fa'
 import { FiCheck, FiEye, FiX } from 'react-icons/fi'
 import AdminTopbar from '../../Componentes/Admin/AdminTopbar.jsx'
 import { getMascotasAdmin } from '../../Services/adminService.js'
-import '../../Style/Admin/AdminTablas.css'
-import '../../Style/Admin/AdminModal.css'
 import { BADGE_MASCOTA, distintivo } from '../../Utils/estados.js'
+import { ACCIONES, ACCION_BTN, BADGE, BTN_SECUNDARIO, CELDA_VACIA, DETALLE_ITEM, DETALLE_LABEL, DETALLE_NOTA, DETALLE_VALOR, FILTROS, MASCOTA_CELDA, MASCOTA_FOTO, MASCOTA_MINI, MASCOTA_MINI_VACIA, MASCOTA_NOMBRE, MASCOTA_SUB, MODAL, MODAL_CABECERA, MODAL_CABECERA_IZQ, MODAL_CERRAR, MODAL_CUERPO, MODAL_FONDO, MODAL_GRID, MODAL_PIE, MODAL_TITULO, PAGE_HEADER, SUBTITULO, TABLA, TABLA_WRAP } from '../../Utils/adminEstilos'
+import { MAIN, TITULO } from '../../Utils/panelEstilos'
 
 
 // Vista de supervisión: las mascotas las crea y edita cada fundación desde su panel
@@ -35,11 +35,11 @@ const AdminMascotas = () => {
         onChange={(e) => setBusqueda(e.target.value)}
       />
 
-      <main className="admin-main">
-        <div className="admin-page-header">
+      <main className={MAIN}>
+        <div className={PAGE_HEADER}>
           <div>
-            <h1 className="admin-title">Mascotas en Sistema</h1>
-            <p className="admin-subtitulo">
+            <h1 className={TITULO}>Mascotas en Sistema</h1>
+            <p className={SUBTITULO}>
               Animales registrados por las fundaciones. Cada fundación los administra desde su panel.
             </p>
           </div>
@@ -47,7 +47,7 @@ const AdminMascotas = () => {
 
         {error && <p role="alert" className="text-peligro">{error}</p>}
 
-        <div className="admin-filtros">
+        <div className={FILTROS}>
           {['todos', 'en_cuarentena', 'disponible', 'en_proceso', 'adoptado'].map((st) => (
             <button
               key={st}
@@ -59,8 +59,8 @@ const AdminMascotas = () => {
           ))}
         </div>
 
-        <div className="admin-table-wrap">
-          <table className="admin-table">
+        <div className={TABLA_WRAP}>
+          <table className={TABLA}>
             <thead>
               <tr>
                 <th>Mascota</th>
@@ -74,7 +74,7 @@ const AdminMascotas = () => {
             <tbody>
               {filtradas.length === 0 ? (
                 <tr>
-                  <td colSpan="6" className="admin-celda-vacia">
+                  <td colSpan="6" className={CELDA_VACIA}>
                     No se encontraron mascotas.
                   </td>
                 </tr>
@@ -82,17 +82,17 @@ const AdminMascotas = () => {
                 filtradas.map((m) => (
                   <tr key={m.id}>
                     <td>
-                      <div className="mascota-celda">
+                      <div className={MASCOTA_CELDA}>
                         {m.fotoUrl ? (
-                          <img src={m.fotoUrl} alt={m.nombre} className="mascota-mini" />
+                          <img src={m.fotoUrl} alt={m.nombre} className={MASCOTA_MINI} />
                         ) : (
-                          <div className="mascota-mini mascota-mini--vacia">
+                          <div className={MASCOTA_MINI_VACIA}>
                             <FaPaw />
                           </div>
                         )}
                         <div>
-                          <strong className="mascota-celda__nombre">{m.nombre}</strong>
-                          <small className="mascota-celda__sub">{m.especie}</small>
+                          <strong className={MASCOTA_NOMBRE}>{m.nombre}</strong>
+                          <small className={MASCOTA_SUB}>{m.especie}</small>
                         </div>
                       </div>
                     </td>
@@ -100,13 +100,13 @@ const AdminMascotas = () => {
                     <td>{m.edadEstimada}</td>
                     <td>{m.fundacion}</td>
                     <td>
-                      <span className={`admin-badge ${distintivo(BADGE_MASCOTA, m.estadoAdopcion).cls}`}>
+                      <span className={`${BADGE} ${distintivo(BADGE_MASCOTA, m.estadoAdopcion).cls}`}>
                         {distintivo(BADGE_MASCOTA, m.estadoAdopcion).txt}
                       </span>
                     </td>
                     <td>
-                      <div className="admin-actions">
-                        <button className="admin-action-btn" title="Ver detalles" onClick={() => setDetalle(m)}>
+                      <div className={ACCIONES}>
+                        <button className={ACCION_BTN} title="Ver detalles" onClick={() => setDetalle(m)}>
                           <FiEye />
                         </button>
                       </div>
@@ -120,72 +120,72 @@ const AdminMascotas = () => {
       </main>
 
       {detalle && (
-        <div className="admin-modal-backdrop" onClick={() => setDetalle(null)}>
-          <div className="admin-modal" onClick={(e) => e.stopPropagation()}>
-            <div className="admin-modal__header">
-              <div className="admin-modal__header-left">
+        <div className={MODAL_FONDO} onClick={() => setDetalle(null)}>
+          <div className={MODAL} onClick={(e) => e.stopPropagation()}>
+            <div className={MODAL_CABECERA}>
+              <div className={MODAL_CABECERA_IZQ}>
                 <span className="admin-modal__icon-badge"><FaPaw /></span>
                 <div>
-                  <h2 className="admin-modal__title">{detalle.nombre}</h2>
+                  <h2 className={MODAL_TITULO}>{detalle.nombre}</h2>
                   <span className="admin-modal__subtitle">Expediente #{detalle.id} — {detalle.fundacion}</span>
                 </div>
               </div>
-              <button className="admin-modal__close-btn" onClick={() => setDetalle(null)}><FiX /></button>
+              <button className={MODAL_CERRAR} onClick={() => setDetalle(null)}><FiX /></button>
             </div>
 
-            <div className="admin-modal__body">
+            <div className={MODAL_CUERPO}>
               {detalle.fotoUrl && (
-                <div className="mascota-detalle-foto">
+                <div className={MASCOTA_FOTO}>
                   <img src={detalle.fotoUrl} alt={detalle.nombre} />
                 </div>
               )}
 
-              <div className="admin-modal__grid">
-                <div className="admin-detail-item">
-                  <span className="admin-detail-label">Especie / Raza</span>
-                  <span className="admin-detail-value">{detalle.especie} · {detalle.raza}</span>
+              <div className={MODAL_GRID}>
+                <div className={DETALLE_ITEM}>
+                  <span className={DETALLE_LABEL}>Especie / Raza</span>
+                  <span className={DETALLE_VALOR}>{detalle.especie} · {detalle.raza}</span>
                 </div>
-                <div className="admin-detail-item">
-                  <span className="admin-detail-label">Edad estimada</span>
-                  <span className="admin-detail-value">{detalle.edadEstimada}</span>
+                <div className={DETALLE_ITEM}>
+                  <span className={DETALLE_LABEL}>Edad estimada</span>
+                  <span className={DETALLE_VALOR}>{detalle.edadEstimada}</span>
                 </div>
-                <div className="admin-detail-item">
-                  <span className="admin-detail-label">Tamaño / Sexo</span>
-                  <span className="admin-detail-value">{detalle.tamano} · {detalle.sexo}</span>
+                <div className={DETALLE_ITEM}>
+                  <span className={DETALLE_LABEL}>Tamaño / Sexo</span>
+                  <span className={DETALLE_VALOR}>{detalle.tamano} · {detalle.sexo}</span>
                 </div>
-                <div className="admin-detail-item">
-                  <span className="admin-detail-label">Estado actual</span>
-                  <span className="admin-detail-value">
-                    <span className={`admin-badge ${distintivo(BADGE_MASCOTA, detalle.estadoAdopcion).cls}`}>
+                <div className={DETALLE_ITEM}>
+                  <span className={DETALLE_LABEL}>Estado actual</span>
+                  <span className={DETALLE_VALOR}>
+                    <span className={`${BADGE} ${distintivo(BADGE_MASCOTA, detalle.estadoAdopcion).cls}`}>
                       {distintivo(BADGE_MASCOTA, detalle.estadoAdopcion).txt}
                     </span>
                   </span>
                 </div>
-                <div className="admin-detail-item">
-                  <span className="admin-detail-label">Salud</span>
-                  <span className="admin-detail-value">
+                <div className={DETALLE_ITEM}>
+                  <span className={DETALLE_LABEL}>Salud</span>
+                  <span className={DETALLE_VALOR}>
                     {detalle.estadoSalud || 'Sin novedades médicas'}
-                    <span className="detalle-nota">
+                    <span className={DETALLE_NOTA}>
                       Vacunado: {detalle.vacunado ? <><FiCheck /> Sí</> : <><FiX /> No</>} · Esterilizado: {detalle.esterilizado ? <><FiCheck /> Sí</> : <><FiX /> No</>} · Desparasitado: {detalle.desparasitado ? <><FiCheck /> Sí</> : <><FiX /> No</>}
                     </span>
                   </span>
                 </div>
-                <div className="admin-detail-item">
-                  <span className="admin-detail-label">Fecha de ingreso</span>
-                  <span className="admin-detail-value">{new Date(detalle.fechaIngreso).toLocaleDateString('es-CO')}</span>
+                <div className={DETALLE_ITEM}>
+                  <span className={DETALLE_LABEL}>Fecha de ingreso</span>
+                  <span className={DETALLE_VALOR}>{new Date(detalle.fechaIngreso).toLocaleDateString('es-CO')}</span>
                 </div>
               </div>
 
               {detalle.descripcion && (
                 <div className="admin-detail-block mt-3.5" >
-                  <span className="admin-detail-label">Historia</span>
+                  <span className={DETALLE_LABEL}>Historia</span>
                   <p className="admin-detail-text">{detalle.descripcion}</p>
                 </div>
               )}
             </div>
 
-            <div className="admin-modal__footer">
-              <button className="admin-modal__btn admin-modal__btn--secondary" onClick={() => setDetalle(null)}>Cerrar</button>
+            <div className={MODAL_PIE}>
+              <button className={BTN_SECUNDARIO} onClick={() => setDetalle(null)}>Cerrar</button>
             </div>
           </div>
         </div>

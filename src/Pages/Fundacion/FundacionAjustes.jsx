@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { useAuth } from '../../Context/AuthContext.jsx'
 import { useFundacion } from '../../Context/FundacionContext.jsx'
 import { FiHome, FiCheck, FiSave } from 'react-icons/fi'
+import { BADGE_COLOR } from '../../Utils/adminEstilos'
+import { CARD, CARD_SUBTITULO, TITULO } from '../../Utils/panelEstilos'
 
 const FundacionAjustes = () => {
 	const { usuario, guardarPerfilFundacion } = useAuth()
@@ -57,17 +59,17 @@ const FundacionAjustes = () => {
 
 	return (
 		<section>
-			<h1 className="admin-title">Ajustes de Sede y Refugio</h1>
+			<h1 className={TITULO}>Ajustes de Sede y Refugio</h1>
 			{aviso && <p className="fnd-aviso fnd-aviso--error" role="alert">{aviso}</p>}
 
 			{/* Tarjeta para configurar la capacidad del refugio */}
-			<div className="admin-card fnd-form-card" style={{ marginBottom: 24 }}>
+			<div className={`${CARD} fnd-form-card`} style={{ marginBottom: 24 }}>
 				<div className="fnd-ajustes-cabecera">
 					<div>
 						<h2><FiHome style={{ marginRight: 8, verticalAlign: 'middle', color: '#7C3AED' }} /> Capacidad del Refugio</h2>
-						<p className="admin-card__subtitle">Define el límite máximo de animales que el refugio puede albergar simultáneamente.</p>
+						<p className={CARD_SUBTITULO}>Define el límite máximo de animales que el refugio puede albergar simultáneamente.</p>
 					</div>
-					<span className="admin-badge--exito">{enCustodia} / {capacidad} ocupados ({porcentajeOcupacion}%)</span>
+					<span className={BADGE_COLOR.exito}>{enCustodia} / {capacidad} ocupados ({porcentajeOcupacion}%)</span>
 				</div>
 
 				<div style={{ marginTop: 12, marginBottom: 16 }}>
@@ -119,13 +121,13 @@ const FundacionAjustes = () => {
 			</div>
 
 			{/* Tarjeta de información de la organización */}
-			<div className="admin-card fnd-form-card">
+			<div className={`${CARD} fnd-form-card`}>
 				<div className="fnd-ajustes-cabecera">
 					<div>
 						<h2>Información de la fundación</h2>
-						<p className="admin-card__subtitle">Administra los datos visibles de tu organización.</p>
+						<p className={CARD_SUBTITULO}>Administra los datos visibles de tu organización.</p>
 					</div>
-					<span className="admin-badge--exito">{usuario?.estadoVerificacion || 'verificada'}</span>
+					<span className={BADGE_COLOR.exito}>{usuario?.estadoVerificacion || 'verificada'}</span>
 				</div>
 
 				<form className="fnd-ajustes-form" onSubmit={guardarCambios}>

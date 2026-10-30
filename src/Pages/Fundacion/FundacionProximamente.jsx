@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom'
 import { FiClock } from 'react-icons/fi'
+import { CARD } from '../../Utils/panelEstilos'
 
 const FundacionProximamente = ({ titulo }) => (
 	<section className="fnd-proximamente">
-		<div className="admin-card fnd-proximamente__card">
+		<div className={`${CARD} fnd-proximamente__card`}>
 			<FiClock className="fnd-proximamente__icon" />
 			<h1>{titulo}</h1>
 			<p>Este módulo estará disponible en una próxima versión</p>
