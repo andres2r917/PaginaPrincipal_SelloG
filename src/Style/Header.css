@@ -231,7 +231,7 @@
 }
 
 /* --- Logo --- */
-.group {
+.logo-img {
   height: clamp(44px, 8vh, 54px);
   width: auto;
   display: block;
@@ -239,7 +239,7 @@
   transition: transform 0.3s ease;
 }
 
-.group:hover {
+.logo-img:hover {
   transform: scale(1.08);
 }
 

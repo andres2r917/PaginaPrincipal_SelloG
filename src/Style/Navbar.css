@@ -146,4 +146,5 @@
   object-fit: cover;
   z-index: 0;
   background-color: var(--color-fondo); 
+  filter: brightness(0.35) contrast(1.1);
 }

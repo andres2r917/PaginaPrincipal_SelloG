@@ -1,10 +1,32 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FiUser, FiCamera } from 'react-icons/fi';
-import '../Style/Perfil.css';
 // Fondo propio de esta página
 const FONDO = 'https://images.unsplash.com/photo-1537151625747-768eb6cf92b2?w=1920&q=70';
 import { useAuth } from '../Context/AuthContext';
+
+// Estilos con Tailwind. Los colores de la marca salen de @theme (index.css)
+const INPUT =
+  'box-border w-full rounded-[10px] border border-[rgba(255,255,255,0.14)] bg-[rgba(15,23,42,0.7)] ' +
+  'px-3.5 py-2.5 text-[14px] text-texto outline-none [color-scheme:dark] ' +
+  'transition-[border-color,box-shadow,background-color] duration-200 ' +
+  'placeholder:text-[rgba(148,163,184,0.5)] ' +
+  'focus:border-primario focus:bg-[rgba(15,23,42,0.9)] focus:shadow-[0_0_0_3px_rgba(124,58,237,0.25)]';
+const SELECT = `${INPUT} cursor-pointer appearance-none bg-[position:right_14px_center] bg-no-repeat pr-9`;
+// Flecha del desplegable (SVG en línea)
+const FLECHA = {
+  backgroundImage:
+    "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23C4B5FD' d='M6 8L1 3h10z'/%3E%3C/svg%3E\")",
+};
+const FILA = 'grid grid-cols-1 gap-3.5 sm:grid-cols-2';
+const GRUPO = 'flex flex-col gap-1.5';
+const ETIQUETA = 'text-[12.5px] font-semibold tracking-[0.02em] text-acento';
+const OPCION_HIJOS =
+  'flex items-center justify-center gap-2 rounded-[10px] border border-[rgba(255,255,255,0.14)] ' +
+  'bg-[rgba(15,23,42,0.7)] px-3.5 py-[11px] text-[14px] font-semibold text-texto-gris transition-all duration-200 ' +
+  'hover:border-[rgba(124,58,237,0.4)] hover:text-white ' +
+  'peer-checked:border-primario peer-checked:bg-[rgba(124,58,237,0.2)] peer-checked:text-white ' +
+  'peer-checked:shadow-[0_0_16px_rgba(124,58,237,0.25)] peer-checked:hover:border-primario';
 
 const Perfil = () => {
   const navigate = useNavigate();
@@ -69,90 +91,94 @@ const Perfil = () => {
   };
 
   return (
-    <div className="perfil-page">
+    <div className="relative flex min-h-screen items-center justify-center overflow-x-hidden bg-[#0B0F19]">
 
-      <div className="port">
+      <div className="fixed inset-0 z-0 h-full w-full">
         <img className="portada" src={FONDO} alt="" />
       </div>
-      
-      <div className="perfil-overlay" />
-      <div className="perfil-wrapper">
-        <div className="perfil-card">
-          <h1 className="perfil-titulo">Mi Perfil</h1>
-          <p className="perfil-subtitulo">
+
+      <div className="fixed inset-0 z-[1] h-full w-full bg-[radial-gradient(circle_at_center,rgba(15,23,42,0.65)_0%,rgba(11,15,25,0.92)_100%)] backdrop-blur-[8px]" />
+      <div className="relative z-[2] box-border w-full max-w-[620px] px-3.5 pt-6 pb-10 sm:px-4 sm:py-10">
+        <div className="box-border rounded-[20px] border border-[rgba(124,58,237,0.28)] bg-[rgba(15,23,42,0.82)] px-[18px] py-6 shadow-[0_24px_60px_rgba(0,0,0,0.65),0_0_30px_rgba(124,58,237,0.15)] backdrop-blur-[16px] sm:px-8 sm:py-9">
+          <h1 className="mb-1.5 text-center text-[26px] font-extrabold tracking-[-0.02em] text-white">Mi Perfil</h1>
+          <p className="mb-6 text-center text-[14px] leading-[1.55] text-texto-gris">
             Gestiona y actualiza tus datos personales para tus solicitudes de adopción y contacto.
           </p>
-          <form className="perfil-form" onSubmit={handleSubmit}>
-            <div className="foto-wrap">
-              <div className="foto-circulo">
-                <div className="foto-preview">
+          <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+            <div className="mb-2 flex flex-col items-center gap-2">
+              <div className="relative">
+                <div className="flex size-[104px] items-center justify-center overflow-hidden rounded-full border-[3px] border-[rgba(196,181,253,0.4)] bg-[rgba(124,58,237,0.12)] shadow-[0_8px_24px_rgba(0,0,0,0.4),0_0_18px_rgba(124,58,237,0.2)]">
                   {preview
-                    ? <img src={preview} alt="Vista previa" />
-                    : <FiUser style={{ fontSize: 44, color: '#C4B5FD' }} />
+                    ? <img className="h-full w-full object-cover" src={preview} alt="Vista previa" />
+                    : <FiUser className="text-[44px] text-acento" />
                   }
                 </div>
-                <label className="foto-btn" title="Subir foto de perfil">
-                  <FiCamera style={{ fontSize: 16 }} />
+                <label
+                  className="absolute right-0 bottom-0 flex size-[34px] cursor-pointer items-center justify-center rounded-full border-2 border-fondo bg-primario text-white shadow-[0_4px_12px_rgba(124,58,237,0.5)] transition-[scale,background-color] duration-200 hover:scale-110 hover:bg-primario-oscuro"
+                  title="Subir foto de perfil"
+                >
+                  <FiCamera className="text-[16px]" />
                   <input
                     type="file"
                     accept="image/*"
                     onChange={handleFoto}
-                    className="oculto"/>
+                    className="hidden"/>
                 </label>
               </div>
-              <span className="foto-texto">Subir foto de perfil</span>
+              <span className="text-[13px] font-semibold text-acento">Subir foto de perfil</span>
             </div>
-            <div className="perfil-fila">
-              <div className="perfil-grupo">
-                <label className="perfil-label" htmlFor="perfil-documento">Documento de identidad</label>
+            <div className={FILA}>
+              <div className={GRUPO}>
+                <label className={ETIQUETA} htmlFor="perfil-documento">Documento de identidad</label>
                 <input id="perfil-documento"
                   name="documento"
                   type="text"
                   placeholder="Número de documento" aria-label="Número de documento"
                   value={formData.documento}
                   onChange={handleChange}
-                  className="perfil-input"
+                  className={INPUT}
                   required/>
               </div>
-              <div className="perfil-grupo">
-                <label className="perfil-label" htmlFor="perfil-fechaNacimiento">Fecha de nacimiento</label>
+              <div className={GRUPO}>
+                <label className={ETIQUETA} htmlFor="perfil-fechaNacimiento">Fecha de nacimiento</label>
                 <input id="perfil-fechaNacimiento"
                   name="fechaNacimiento"
                   type="date"
                   value={formData.fechaNacimiento}
                   onChange={handleChange}
-                  className="perfil-input"
+                  className={INPUT}
                   required/>
               </div>
             </div>
-            <div className="perfil-fila">
-              <div className="perfil-grupo">
-                <label className="perfil-label" htmlFor="perfil-tipoVivienda">Tipo de vivienda</label>
+            <div className={FILA}>
+              <div className={GRUPO}>
+                <label className={ETIQUETA} htmlFor="perfil-tipoVivienda">Tipo de vivienda</label>
                 <select id="perfil-tipoVivienda"
                   name="tipoVivienda"
                   value={formData.tipoVivienda}
                   onChange={handleChange}
-                  className="perfil-input perfil-select"
+                  className={SELECT}
+                  style={FLECHA}
                   required>
-                  <option value="">Selecciona...</option>
-                  <option value="apartamento">Apartamento</option>
-                  <option value="casa">Casa</option>
-                  <option value="finca">Finca</option>
+                  <option className="bg-fondo text-texto" value="">Selecciona...</option>
+                  <option className="bg-fondo text-texto" value="apartamento">Apartamento</option>
+                  <option className="bg-fondo text-texto" value="casa">Casa</option>
+                  <option className="bg-fondo text-texto" value="finca">Finca</option>
                 </select>
               </div>
-              <div className="perfil-grupo">
-                <label className="perfil-label" htmlFor="perfil-ocupacion">Ocupación</label>
+              <div className={GRUPO}>
+                <label className={ETIQUETA} htmlFor="perfil-ocupacion">Ocupación</label>
                 <input id="perfil-ocupacion"
                   name="ocupacion"
                   type="text"
                   placeholder="Ej. Ingeniero, Docente..." aria-label="Ej. Ingeniero, Docente..."
                   value={formData.ocupacion}
                   onChange={handleChange}
-                  className="perfil-input"/>
+                  className={INPUT}/>
               </div>
             </div>
-            <div className="perfil-grupo">
-              <label className="perfil-label" htmlFor="perfil-direccion">Dirección de residencia</label>
+            <div className={GRUPO}>
+              <label className={ETIQUETA} htmlFor="perfil-direccion">Dirección de residencia</label>
               <input
                 id="perfil-direccion"
                 name="direccion"
@@ -160,11 +186,11 @@ const Perfil = () => {
                 placeholder="Ej. Calle 5 # 10-20, Barrio, Ciudad"
                 value={formData.direccion}
                 onChange={handleChange}
-                className="perfil-input"/>
+                className={INPUT}/>
             </div>
-            <div className="perfil-fila">
-              <div className="perfil-grupo">
-                <label className="perfil-label" htmlFor="perfil-salario">Salario aproximado</label>
+            <div className={FILA}>
+              <div className={GRUPO}>
+                <label className={ETIQUETA} htmlFor="perfil-salario">Salario aproximado</label>
                 <input id="perfil-salario"
                   name="salario"
                   type="number"
@@ -172,52 +198,65 @@ const Perfil = () => {
                   placeholder="$ 0 COP" aria-label="Salario aproximado en pesos"
                   value={formData.salario}
                   onChange={handleChange}
-                  className="perfil-input"/>
+                  className={INPUT}/>
               </div>
-              <div className="perfil-grupo">
-                <label className="perfil-label" htmlFor="perfil-telefono">Teléfono</label>
+              <div className={GRUPO}>
+                <label className={ETIQUETA} htmlFor="perfil-telefono">Teléfono</label>
                 <input id="perfil-telefono"
                   name="telefono"
                   type="tel"
                   placeholder="+57 300 000 0000" aria-label="+57 300 000 0000"
                   value={formData.telefono}
                   onChange={handleChange}
-                  className="perfil-input"/>
+                  className={INPUT}/>
               </div>
             </div>
-            <div className="perfil-grupo">
-              <span className="perfil-label">¿Tienes hijos?</span>
-              <div className="hijos-opciones">
-                <label className="hijos-opcion">
+            <div className={GRUPO}>
+              <span className={ETIQUETA}>¿Tienes hijos?</span>
+              <div className="grid grid-cols-2 gap-3">
+                <label className="cursor-pointer">
                   <input
                     type="radio"
                     name="hijos"
                     value="si"
                     checked={formData.hijos === 'si'}
-                    onChange={handleChange}/>
-                  <div className="hijos-card">
+                    onChange={handleChange}
+                    className="peer hidden"/>
+                  <div className={OPCION_HIJOS}>
                     <span>Sí</span>
                   </div>
                 </label>
-                <label className="hijos-opcion">
+                <label className="cursor-pointer">
                   <input
                     type="radio"
                     name="hijos"
                     value="no"
                     checked={formData.hijos === 'no'}
-                    onChange={handleChange}/>
-                  <div className="hijos-card">
+                    onChange={handleChange}
+                    className="peer hidden"/>
+                  <div className={OPCION_HIJOS}>
                     <span>No</span>
                   </div>
                 </label>
               </div>
             </div>
-            <div className="perfil-botones">
-              {error && <p className="perfil-error" role="alert">{error}</p>}
-              <button type="submit" className="btn-completar" disabled={enviando}>
+            <div className="flex flex-col gap-2.5 pt-2.5">
+              {error && (
+                <p className="mb-3 rounded-[10px] border border-[rgba(225,29,72,0.5)] bg-[rgba(225,29,72,0.15)] px-3.5 py-2.5 text-center text-[14px] text-[#fecdd3]" role="alert">
+                  {error}
+                </p>
+              )}
+              <button
+                type="submit"
+                className="w-full cursor-pointer rounded-full border border-[rgba(124,58,237,0.6)] bg-primario p-3 text-[15px] font-bold text-white shadow-[0_0_20px_rgba(124,58,237,0.35)] transition-all duration-200 hover:-translate-y-px hover:bg-primario-oscuro hover:shadow-[0_0_28px_rgba(124,58,237,0.6)] active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60"
+                disabled={enviando}
+              >
                 {enviando ? 'Guardando...' : 'Guardar Cambios'}
               </button>
-              <Link to="/home" className="btn-omitir">
+              <Link
+                to="/home"
+                className="w-full cursor-pointer bg-transparent p-2 text-center text-[13.5px] font-semibold text-texto-gris no-underline transition-colors duration-200 hover:text-acento"
+              >
                 Volver al inicio
               </Link>
             </div>

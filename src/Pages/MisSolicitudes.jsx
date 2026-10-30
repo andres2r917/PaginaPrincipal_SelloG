@@ -13,18 +13,18 @@ const ETIQUETAS = {
   adoptada: 'Adopción completada',
 }
 
-// Estilos con Tailwind. Los colores salen de las variables de Style/variables.css
-const META = 'text-[13px] text-(color:--color-texto-gris)'
+// Estilos con Tailwind. Los colores de la marca salen de @theme (index.css)
+const META = 'text-[13px] text-texto-gris'
 const ESTADO_CLASES = {
   pendiente: 'bg-[rgba(245,158,11,0.18)] text-[#FBBF24]',
-  en_evaluacion: 'bg-[rgba(124,58,237,0.2)] text-(color:--color-acento)',
+  en_evaluacion: 'bg-[rgba(124,58,237,0.2)] text-acento',
   aprobada: 'bg-[rgba(16,185,129,0.2)] text-[#34D399]',
   rechazada: 'bg-[rgba(225,29,72,0.2)] text-[#FB7185]',
-  adoptada: 'bg-[rgba(16,185,129,0.3)] text-(color:--color-exito-claro)',
+  adoptada: 'bg-[rgba(16,185,129,0.3)] text-exito-claro',
 }
 const FOTO =
   'flex h-24 w-24 shrink-0 grow-0 basis-24 items-center justify-center rounded-xl object-cover ' +
-  'bg-[rgba(124,58,237,0.15)] text-[32px] text-(color:--color-acento) ' +
+  'bg-[rgba(124,58,237,0.15)] text-[32px] text-acento ' +
   'max-[520px]:h-40 max-[520px]:w-full max-[520px]:basis-auto'
 
 const MENSAJES = {
@@ -50,16 +50,16 @@ const MisSolicitudes = () => {
   return (
     <div className="relative min-h-screen bg-[#0B0F19] px-4 pt-[110px] pb-[60px]">
       <div className="fixed inset-0 z-0 bg-cover bg-center brightness-[0.3]" style={{ backgroundImage: `url(${FONDO})` }} />
-      <div className="relative z-[1] mx-auto max-w-[820px] text-(color:--color-texto)">
+      <div className="relative z-[1] mx-auto max-w-[820px] text-texto">
         <h1 className="mb-1.5 text-[28px] font-extrabold">Mis solicitudes</h1>
         <p className={`mb-6 ${META.replace('text-[13px]','text-[14px]')}`}>Aquí ves en qué va cada solicitud de adopción que enviaste.</p>
 
-        {cargando && <p className="px-4 py-10 text-center text-(color:--color-texto-gris)">Cargando…</p>}
+        {cargando && <p className="px-4 py-10 text-center text-texto-gris">Cargando…</p>}
         {error && <p className="p-4 text-center text-[#FB7185]" role="alert">{error}</p>}
 
         {!cargando && !error && solicitudes.length === 0 && (
-          <p className="px-4 py-10 text-center text-(color:--color-texto-gris)">
-            Aún no has enviado solicitudes. <Link className="font-bold text-(color:--color-acento)" to="/adopcion">Conoce a los peluditos en adopción</Link>
+          <p className="px-4 py-10 text-center text-texto-gris">
+            Aún no has enviado solicitudes. <Link className="font-bold text-acento" to="/adopcion">Conoce a los peluditos en adopción</Link>
           </p>
         )}
 
@@ -83,7 +83,7 @@ const MisSolicitudes = () => {
                     <span className={`rounded-full px-2.5 py-1 text-[12px] font-bold whitespace-nowrap ${ESTADO_CLASES[estado]}`}>{ETIQUETAS[estado]}</span>
                   </div>
                   <p className="mt-2.5 text-[13px] leading-[1.5] text-[#E2E8F0]">{MENSAJES[estado]}</p>
-                  {s.comentarios && <p className="mt-2.5 rounded-md border-l-[3px] border-(color:--color-primario) bg-[rgba(255,255,255,0.05)] px-3 py-2.5 text-[13px]">{s.fundacion}: {s.comentarios}</p>}
+                  {s.comentarios && <p className="mt-2.5 rounded-md border-l-[3px] border-primario bg-[rgba(255,255,255,0.05)] px-3 py-2.5 text-[13px]">{s.fundacion}: {s.comentarios}</p>}
                   {estado === 'aprobada' && s.telefonoFundacion && (
                     <p className={`mt-2 ${META}`}>Contacto de la fundación: {s.telefonoFundacion}</p>
                   )}

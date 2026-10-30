@@ -177,7 +177,7 @@ const AdminMascotas = () => {
               </div>
 
               {detalle.descripcion && (
-                <div className="admin-detail-block mt-14" >
+                <div className="admin-detail-block mt-3.5" >
                   <span className="admin-detail-label">Historia</span>
                   <p className="admin-detail-text">{detalle.descripcion}</p>
                 </div>

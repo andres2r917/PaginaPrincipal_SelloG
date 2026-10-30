@@ -91,7 +91,7 @@ const CamposMascota = ({ form, setForm }) => {
       </div>
 
       {/* Foto: se sube desde el computador o se pega un enlace */}
-      <div className="mt-16">
+      <div className="mt-4">
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
           <span className="admin-detail-label">Foto de la mascota</span>
           <button type="button" onClick={() => setModoUrl(!modoUrl)}
@@ -131,13 +131,13 @@ const CamposMascota = ({ form, setForm }) => {
         )}
       </div>
 
-      <div className="mt-14">
+      <div className="mt-3.5">
         <span className="admin-detail-label">Estado de salud *</span>
         <input type="text" className="fnd-modal__input campo-ancho" value={form.estadoSalud} onChange={cambiar('estadoSalud')}
  required placeholder="Ej: Saludable, esquema de vacunas completo..." />
       </div>
 
-      <div className="mt-14">
+      <div className="mt-3.5">
         <span className="admin-detail-label">Etiquetas de salud (clic para alternar)</span>
         <div className="admin-tags-group">
           <button type="button" onClick={alternar('vacunado')}
@@ -155,7 +155,7 @@ const CamposMascota = ({ form, setForm }) => {
         </div>
       </div>
 
-      <div className="mt-14">
+      <div className="mt-3.5">
         <span className="admin-detail-label">Historia de la mascota *</span>
         <textarea className="fnd-modal__input campo-ancho campo-redimensionable" rows="3" value={form.descripcion} onChange={cambiar('descripcion')} required
  placeholder="Cuenta cómo llegó al refugio, su historia y cómo es su carácter. Es lo que leerán quienes quieran adoptarlo."

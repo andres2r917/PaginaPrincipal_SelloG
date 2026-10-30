@@ -157,7 +157,7 @@ const Header = () => {
      <header> 
           <nav className="nav-bar">
             <div className="nav-links">
-               <img className='group' src={Group} alt="Sello Guardián" />
+               <img className='logo-img' src={Group} alt="Sello Guardián" />
               <div className="items">
                 <NavLink to="/home" className={({ isActive }) => isActive ? 'nav-item active' : 'nav-item'}>Inicio</NavLink>
                 <NavLink to="/adopcion" className={({ isActive }) => isActive ? 'nav-item active' : 'nav-item'}>Adopcion</NavLink>

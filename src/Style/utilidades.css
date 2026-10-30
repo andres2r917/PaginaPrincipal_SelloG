@@ -20,8 +20,6 @@
 /* Ayudas generales */
 .oculto { display: none; }
 .sin-margen { margin: 0; }
-.mt-14 { margin-top: 14px; }
-.mt-16 { margin-top: 16px; }
 .texto-error { color: var(--color-peligro); }
 .texto-error--mb { color: var(--color-peligro); margin-bottom: 12px; }
 .texto-claro { color: var(--color-texto); }

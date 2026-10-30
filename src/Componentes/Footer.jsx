@@ -2,30 +2,30 @@ import { Link } from 'react-router-dom';
 import { FaMapMarkerAlt, FaPhoneAlt, FaEnvelope, FaFacebookF, FaInstagram, FaWhatsapp } from 'react-icons/fa';
 import { FaXTwitter } from 'react-icons/fa6';
 
-// Estilos con Tailwind. Los colores salen de las variables de Style/variables.css
+// Estilos con Tailwind. Los colores de la marca salen de @theme (index.css)
 const ENLACE =
   'no-underline transition-[color] duration-200 hover:text-white ' +
   'focus-visible:outline-3 focus-visible:outline-solid focus-visible:outline-offset-[3px] ' +
-  'focus-visible:outline-(color:--color-acento) focus-visible:rounded';
-const ENLACE_TEXTO = `${ENLACE} text-(color:--color-texto-suave)`;
+  'focus-visible:outline-acento focus-visible:rounded';
+const ENLACE_TEXTO = `${ENLACE} text-texto-suave`;
 const ENLACE_RED =
   `${ENLACE} flex size-10 items-center justify-center rounded-full border text-[1rem] ` +
-  'border-[rgba(196,181,253,0.3)] bg-[rgba(124,58,237,0.2)] text-(color:--color-texto-claro) ' +
-  'hover:border-(color:--color-primario) hover:bg-(color:--color-primario)';
+  'border-[rgba(196,181,253,0.3)] bg-[rgba(124,58,237,0.2)] text-texto-claro ' +
+  'hover:border-primario hover:bg-primario';
 
 const TITULO = 'mb-4 border-b border-[rgba(124,58,237,0.55)] pb-[0.6rem] text-[1rem] text-white';
 const LISTA = 'flex list-none flex-col gap-[0.7rem] text-[0.9rem]';
 const ITEM = 'flex items-start gap-[0.6rem]';
-const ICONO = 'mt-[3px] shrink-0 text-(color:--color-acento)';
+const ICONO = 'mt-[3px] shrink-0 text-acento';
 
 export default function Footer() {
   return (
-    <footer className="border-t border-[rgba(196,181,253,0.15)] bg-[#0B1224] text-(color:--color-texto-suave)">
+    <footer className="border-t border-[rgba(196,181,253,0.15)] bg-[#0B1224] text-texto-suave">
       {/* 4 columnas; 2 en tablet y 1 en celular */}
       <div className="grid w-full grid-cols-[1.4fr_1fr_1.2fr_1fr] gap-10 px-10 pt-14 pb-8 max-[900px]:grid-cols-2 max-[560px]:grid-cols-1 max-[560px]:gap-8 max-[560px]:pt-9">
         <div>
           <h2 className="text-[1.4rem] text-white">Sello Guardián</h2>
-          <p className="mt-1 mb-3 text-[0.8rem] tracking-[0.08em] text-(color:--color-acento) uppercase">
+          <p className="mt-1 mb-3 text-[0.8rem] tracking-[0.08em] text-acento uppercase">
             Protección y adopción responsable
           </p>
           <p className="max-w-[34ch] text-[0.9rem] leading-[1.6] text-[#A9B4C8]">
