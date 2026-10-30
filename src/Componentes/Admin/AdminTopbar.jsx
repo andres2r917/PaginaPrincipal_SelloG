@@ -90,7 +90,7 @@ const AdminTopbar = ({ placeholder = 'Buscar...', valor, onChange, value }) => {
             title="Mi perfil"
           >
             {usuario?.foto
-              ? <img src={usuario.foto} alt="Foto de perfil" className="avatar-img" />
+              ? <img src={usuario.foto} alt="Foto de perfil" className="size-full rounded-full object-cover" />
               : inicial}
           </button>
         </div>
@@ -121,11 +121,11 @@ const AdminTopbar = ({ placeholder = 'Buscar...', valor, onChange, value }) => {
 
             <div className="fnd-modal__campo">
               <p className="fnd-modal__label">Nombre</p>
-              <p className="texto-claro">{usuario?.nombre || '—'}</p>
+              <p className="text-texto">{usuario?.nombre || '—'}</p>
             </div>
             <div className="fnd-modal__campo">
               <p className="fnd-modal__label">Correo electrónico</p>
-              <p className="texto-claro">{usuario?.email}</p>
+              <p className="text-texto">{usuario?.email}</p>
             </div>
             <div className="fnd-modal__acciones">
               <button type="button" className="fnd-modal__btn fnd-modal__btn--secundario" onClick={() => setPerfilAbierto(false)}>

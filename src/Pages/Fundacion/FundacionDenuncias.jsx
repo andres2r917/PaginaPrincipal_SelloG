@@ -130,7 +130,7 @@ const FundacionDenuncias = () => {
   return (
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12, flexWrap: 'wrap', marginBottom: 16 }}>
-        <h1 className="admin-title sin-margen" >Casos de Denuncia</h1>
+        <h1 className="admin-title m-0" >Casos de Denuncia</h1>
         {/* Despliega la ventana modal para realizar la denuncia sin salir del panel */}
         <button
           type="button"
@@ -180,13 +180,13 @@ const FundacionDenuncias = () => {
       {/* ── VENTANA MODAL PARA REALIZAR DENUNCIA DESDE EL PANEL ── */}
       {modalReportar && (
         <div className="fnd-modal__fondo" onClick={() => setModalReportar(false)}>
-          <div className="fnd-modal modal-medio" onClick={(e) => e.stopPropagation()}>
+          <div className="fnd-modal max-w-[600px]" onClick={(e) => e.stopPropagation()}>
             <button className="fnd-modal__cerrar" onClick={() => setModalReportar(false)} title="Cerrar ventana">
               <FiX />
             </button>
 
             <h2 className="fnd-modal__titulo" style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
-              <FiAlertTriangle className="texto-error" /> Reportar Caso de Denuncia
+              <FiAlertTriangle className="text-peligro" /> Reportar Caso de Denuncia
             </h2>
             <p style={{ color: 'rgba(241, 245, 249, 0.6)', fontSize: 13, marginBottom: 18 }}>
               Registra un caso de maltrato o abandono detectado. Quedará publicado en el sistema con el sello de tu fundación.
@@ -238,7 +238,7 @@ const FundacionDenuncias = () => {
               <div className="fnd-modal__campo">
                 <label className="fnd-modal__label" htmlFor="fden-descripcion-de-los-hecho">Descripción de los hechos *</label>
                 <textarea id="fden-descripcion-de-los-hecho"
- className="fnd-modal__input campo-redimensionable"
+ className="fnd-modal__input resize-y"
  rows="3"
  required
  placeholder="Describe la condición del animal, situación de peligro y referencias para ubicar el lugar..." aria-label="Describe la condición del animal, situación de peligro y referencias para ubicar el lugar..."
@@ -275,7 +275,7 @@ const FundacionDenuncias = () => {
                       type="file"
                       multiple
                       accept="image/*,video/*"
-                      className="oculto"
+                      className="hidden"
                       onChange={(e) => {
                         if (e.target.files?.length) {
                           agregarArchivos(e.target.files)

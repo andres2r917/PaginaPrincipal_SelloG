@@ -1,4 +1,3 @@
-@import './Style/utilidades.css';
 /* Tailwind sin su reset global (preflight), para no alterar los estilos existentes */
 @import 'tailwindcss/theme.css' layer(theme);
 @import 'tailwindcss/utilities.css';

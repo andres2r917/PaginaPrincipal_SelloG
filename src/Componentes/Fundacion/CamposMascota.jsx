@@ -24,13 +24,13 @@ const CamposMascota = ({ form, setForm }) => {
       <div className="admin-modal__grid">
         <div className="admin-detail-item">
           <span className="admin-detail-label">Nombre *</span>
-          <input type="text" className="fnd-modal__input campo-ancho" value={form.nombre} onChange={cambiar('nombre')}
+          <input type="text" className="fnd-modal__input mt-1 w-full" value={form.nombre} onChange={cambiar('nombre')}
  required placeholder="Ej: Max, Luna" />
         </div>
 
         <div className="admin-detail-item">
           <span className="admin-detail-label">Especie</span>
-          <select className="fnd-modal__input campo-ancho" value={form.especie} onChange={cambiar('especie')} >
+          <select className="fnd-modal__input mt-1 w-full" value={form.especie} onChange={cambiar('especie')} >
             <option value="perro">Perro</option>
             <option value="gato">Gato</option>
             <option value="ave">Ave</option>
@@ -40,19 +40,19 @@ const CamposMascota = ({ form, setForm }) => {
 
         <div className="admin-detail-item">
           <span className="admin-detail-label">Raza *</span>
-          <input type="text" className="fnd-modal__input campo-ancho" value={form.raza} onChange={cambiar('raza')}
+          <input type="text" className="fnd-modal__input mt-1 w-full" value={form.raza} onChange={cambiar('raza')}
  required placeholder="Ej: Criollo, Labrador" />
         </div>
 
         <div className="admin-detail-item">
           <span className="admin-detail-label">Edad estimada *</span>
-          <input type="text" className="fnd-modal__input campo-ancho" value={form.edadEstimada} onChange={cambiar('edadEstimada')}
+          <input type="text" className="fnd-modal__input mt-1 w-full" value={form.edadEstimada} onChange={cambiar('edadEstimada')}
  required placeholder="Ej: 2 años, 8 meses" />
         </div>
 
         <div className="admin-detail-item">
           <span className="admin-detail-label">Tamaño</span>
-          <select className="fnd-modal__input campo-ancho" value={form.tamano} onChange={cambiar('tamano')} >
+          <select className="fnd-modal__input mt-1 w-full" value={form.tamano} onChange={cambiar('tamano')} >
             <option value="pequeño">Pequeño</option>
             <option value="mediano">Mediano</option>
             <option value="grande">Grande</option>
@@ -61,7 +61,7 @@ const CamposMascota = ({ form, setForm }) => {
 
         <div className="admin-detail-item">
           <span className="admin-detail-label">Sexo</span>
-          <select className="fnd-modal__input campo-ancho" value={form.sexo} onChange={cambiar('sexo')} >
+          <select className="fnd-modal__input mt-1 w-full" value={form.sexo} onChange={cambiar('sexo')} >
             <option value="Macho">Macho</option>
             <option value="Hembra">Hembra</option>
           </select>
@@ -69,7 +69,7 @@ const CamposMascota = ({ form, setForm }) => {
 
         <div className="admin-detail-item">
           <span className="admin-detail-label">Estado de adopción</span>
-          <select className="fnd-modal__input campo-ancho" value={form.estadoAdopcion} onChange={cambiar('estadoAdopcion')} >
+          <select className="fnd-modal__input mt-1 w-full" value={form.estadoAdopcion} onChange={cambiar('estadoAdopcion')} >
             <option value="en_cuarentena">En cuarentena</option>
             <option value="disponible">Disponible</option>
             <option value="en_proceso">En proceso</option>
@@ -79,13 +79,13 @@ const CamposMascota = ({ form, setForm }) => {
 
         <div className="admin-detail-item">
           <span className="admin-detail-label">Temperamento</span>
-          <input type="text" className="fnd-modal__input campo-ancho" value={form.temperamento} onChange={cambiar('temperamento')}
+          <input type="text" className="fnd-modal__input mt-1 w-full" value={form.temperamento} onChange={cambiar('temperamento')}
  placeholder="Ej: Juguetón, tranquilo, tímido" />
         </div>
 
         <div className="admin-detail-item">
           <span className="admin-detail-label">Convivencia</span>
-          <input type="text" className="fnd-modal__input campo-ancho" value={form.convivencia} onChange={cambiar('convivencia')}
+          <input type="text" className="fnd-modal__input mt-1 w-full" value={form.convivencia} onChange={cambiar('convivencia')}
  placeholder="Ej: Apto con niños y otros perros" />
         </div>
       </div>
@@ -125,7 +125,7 @@ const CamposMascota = ({ form, setForm }) => {
               <span className="fnd-dropzone__link">Sube una foto</span> desde tu computadora o arrástrala
             </p>
             <span className="fnd-dropzone__hint">PNG, JPG o WEBP (máximo 4 MB)</span>
-            <input ref={inputFotoRef} type="file" accept="image/*" className="oculto"
+            <input ref={inputFotoRef} type="file" accept="image/*" className="hidden"
               onChange={(e) => elegirFoto(e.target.files?.[0])} />
           </div>
         )}
@@ -133,7 +133,7 @@ const CamposMascota = ({ form, setForm }) => {
 
       <div className="mt-3.5">
         <span className="admin-detail-label">Estado de salud *</span>
-        <input type="text" className="fnd-modal__input campo-ancho" value={form.estadoSalud} onChange={cambiar('estadoSalud')}
+        <input type="text" className="fnd-modal__input mt-1 w-full" value={form.estadoSalud} onChange={cambiar('estadoSalud')}
  required placeholder="Ej: Saludable, esquema de vacunas completo..." />
       </div>
 
@@ -157,7 +157,7 @@ const CamposMascota = ({ form, setForm }) => {
 
       <div className="mt-3.5">
         <span className="admin-detail-label">Historia de la mascota *</span>
-        <textarea className="fnd-modal__input campo-ancho campo-redimensionable" rows="3" value={form.descripcion} onChange={cambiar('descripcion')} required
+        <textarea className="fnd-modal__input mt-1 w-full resize-y" rows="3" value={form.descripcion} onChange={cambiar('descripcion')} required
  placeholder="Cuenta cómo llegó al refugio, su historia y cómo es su carácter. Es lo que leerán quienes quieran adoptarlo."
  />
       </div>

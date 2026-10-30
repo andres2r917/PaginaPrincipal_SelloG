@@ -171,7 +171,7 @@ const AdminDenuncias = () => {
                 <div className="admin-detail-item">
                   <span className="admin-detail-label">Fecha y hora de reporte</span>
                   <span className="admin-detail-value">
-                    <FiCalendar className="icono-texto" />
+                    <FiCalendar className="mr-1.5 align-middle" />
                     {new Date(denunciaSeleccionada.fecha).toLocaleString('es-CO')}
                   </span>
                 </div>
@@ -179,7 +179,7 @@ const AdminDenuncias = () => {
                 <div className="admin-detail-item">
                   <span className="admin-detail-label">Denunciante</span>
                   <span className="admin-detail-value">
-                    <FiUser className="icono-texto" />
+                    <FiUser className="mr-1.5 align-middle" />
                     {denunciaSeleccionada.anonima
                       ? 'Denuncia anónima (identidad protegida)'
                       : (denunciaSeleccionada.reportadoPor?.nombre || denunciaSeleccionada.autor || 'Usuario registrado')}
@@ -189,7 +189,7 @@ const AdminDenuncias = () => {
                 <div className="admin-detail-item">
                   <span className="admin-detail-label">Fundación asignada</span>
                   <span className="admin-detail-value">
-                    <FiShield className="icono-texto" />
+                    <FiShield className="mr-1.5 align-middle" />
                     {denunciaSeleccionada.fundacionAsignada
                       ? `${denunciaSeleccionada.fundacionAsignada.nombre} (${denunciaSeleccionada.fundacionAsignada.telefono || 'Sin tel.'})`
                       : 'Sin fundación asignada'}

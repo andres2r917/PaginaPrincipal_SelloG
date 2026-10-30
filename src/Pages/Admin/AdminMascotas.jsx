@@ -45,7 +45,7 @@ const AdminMascotas = () => {
           </div>
         </div>
 
-        {error && <p role="alert" className="texto-error">{error}</p>}
+        {error && <p role="alert" className="text-peligro">{error}</p>}
 
         <div className="admin-filtros">
           {['todos', 'en_cuarentena', 'disponible', 'en_proceso', 'adoptado'].map((st) => (

@@ -137,7 +137,7 @@ const FundacionLayout = () => {
           <div className="fnd-usuario">
             <button className="admin-avatar adm-avatar-btn" onClick={abrirPerfil} aria-label="Editar perfil" title="Mi perfil">
               {usuario?.foto
-                ? <img src={usuario.foto} alt="Foto de perfil" className="avatar-img" />
+                ? <img src={usuario.foto} alt="Foto de perfil" className="size-full rounded-full object-cover" />
                 : inicial}
             </button>
             <div className="fnd-usuario__meta">

@@ -2,7 +2,21 @@ import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { FiBell, FiCheck } from 'react-icons/fi'
 import { hace } from '../Utils/tiempo.js'
-import '../Style/Notificaciones.css'
+
+// Estilos con Tailwind. Los colores de la marca salen de @theme (index.css)
+const PANEL =
+  'absolute top-[calc(100%+12px)] right-0 z-60 w-[min(300px,calc(100vw-32px))] overflow-hidden rounded-2xl border border-[rgba(196,181,253,0.22)] bg-[rgba(15,23,42,0.98)] shadow-[0_20px_48px_rgba(0,0,0,0.55)] backdrop-blur-[12px] min-[481px]:w-[300px]'
+const CABECERA = 'flex items-center justify-between border-b border-[rgba(255,255,255,0.07)] px-4 pt-[14px] pb-[10px]'
+const CONTADOR =
+  'inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-primario px-[5px] text-[11px] font-bold text-white'
+const LISTA = 'max-h-[280px] list-none overflow-y-auto py-2'
+const VACIO = 'px-4 py-[18px] text-center text-[13px] text-[rgba(241,245,249,0.55)]'
+const AVISO =
+  'flex w-full cursor-pointer items-start gap-[10px] border-none px-4 py-[10px] text-left text-inherit [font:inherit] transition-[background-color] duration-150 ease-[ease] hover:bg-[rgba(124,58,237,0.1)]'
+const AVISO_NUEVO = `${AVISO} bg-[rgba(124,58,237,0.14)]`
+const AVISO_LEIDO = `${AVISO} bg-transparent`
+const MARCAR =
+  'flex w-full cursor-pointer items-center justify-center gap-[6px] border-0 border-t border-[rgba(255,255,255,0.07)] bg-transparent px-4 py-[11px] text-[13px] font-semibold text-acento [font-family:inherit] hover:bg-[rgba(124,58,237,0.12)]'
 
 // Qué notificaciones ya leyó cada usuario se recuerda en este navegador
 const clave = (usuarioId) => `notifLeidas:${usuarioId}`
@@ -57,7 +71,7 @@ const Notificaciones = ({ items, usuarioId }) => {
   }
 
   return (
-    <div ref={contenedorRef} className="adm-notif-wrap">
+    <div ref={contenedorRef} className="relative">
       <button
         type="button"
         className="admin-icon-btn"
@@ -70,28 +84,28 @@ const Notificaciones = ({ items, usuarioId }) => {
       </button>
 
       {abierta && (
-        <div className="adm-notif-panel">
-          <div className="adm-notif-panel__head">
-            <strong>Notificaciones</strong>
-            {sinLeer.length > 0 && <span className="adm-notif-badge">{sinLeer.length}</span>}
+        <div className={PANEL}>
+          <div className={CABECERA}>
+            <strong className="text-[14px] text-texto">Notificaciones</strong>
+            {sinLeer.length > 0 && <span className={CONTADOR}>{sinLeer.length}</span>}
           </div>
 
-          <ul className="adm-notif-list">
+          <ul className={LISTA}>
             {ordenados.length === 0 ? (
-              <li className="notif-vacio">No tienes notificaciones</li>
+              <li className={VACIO}>No tienes notificaciones</li>
             ) : ordenados.map((n) => {
               const nueva = !leidas.includes(n.id)
               return (
                 <li key={n.id}>
                   <button
                     type="button"
-                    className={`adm-notif-item notif-item${nueva ? ' notif-item--nueva' : ''}`}
+                    className={nueva ? AVISO_NUEVO : AVISO_LEIDO}
                     onClick={() => abrirAviso(n)}
                   >
                     <span className={`admin-activity-dot admin-activity-dot--${n.tipo}`} />
-                    <span className="adm-notif-item__body">
-                      <p>{n.texto}</p>
-                      {n.detalle && <small className="notif-detalle">{n.detalle}</small>}
+                    <span className="block">
+                      <p className="mb-[3px] text-[13px] leading-[1.4] text-[#e2e8f0]">{n.texto}</p>
+                      {n.detalle && <small className="mb-[3px] block text-[12px] leading-[1.4] text-[rgba(226,232,240,0.65)]">{n.detalle}</small>}
                       <span className="admin-activity-time">{hace(n.fecha)}</span>
                     </span>
                   </button>
@@ -101,7 +115,7 @@ const Notificaciones = ({ items, usuarioId }) => {
           </ul>
 
           {sinLeer.length > 0 && (
-            <button type="button" className="notif-marcar" onClick={() => marcarLeidas(ordenados.map((n) => n.id))}>
+            <button type="button" className={MARCAR} onClick={() => marcarLeidas(ordenados.map((n) => n.id))}>
               <FiCheck /> Marcar todas como leídas
             </button>
           )}

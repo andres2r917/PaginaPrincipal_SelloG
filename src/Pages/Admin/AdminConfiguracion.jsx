@@ -49,7 +49,7 @@ const AdminConfiguracion = () => {
           <h1 className="admin-title">Configuración</h1>
         </div>
 
-        {error && <p role="alert" className="texto-error--mb">{error}</p>}
+        {error && <p role="alert" className="mb-3 text-peligro">{error}</p>}
         {aviso && <p role="status" style={{ color: '#10B981', marginBottom: 12 }}>{aviso}</p>}
 
         {config && (

@@ -72,7 +72,7 @@ const AdminUsuarios = () => {
             ))}
           </div>
 
-          {error && <p role="alert" className="texto-error--mb">{error}</p>}
+          {error && <p role="alert" className="mb-3 text-peligro">{error}</p>}
 
           {tabActiva === 'civiles' && (
             <div className="admin-table-wrap">
@@ -188,28 +188,28 @@ const AdminUsuarios = () => {
                     <div className="admin-detail-item">
                       <span className="admin-detail-label">Correo electrónico</span>
                       <span className="admin-detail-value">
-                        <FiMail className="icono-texto" />
+                        <FiMail className="mr-1.5 align-middle" />
                         {itemActivo.correo}
                       </span>
                     </div>
                     <div className="admin-detail-item">
                       <span className="admin-detail-label">Teléfono de contacto</span>
                       <span className="admin-detail-value">
-                        <FiPhone className="icono-texto" />
+                        <FiPhone className="mr-1.5 align-middle" />
                         {itemActivo.telefono || '—'}
                       </span>
                     </div>
                     <div className="admin-detail-item">
                       <span className="admin-detail-label">Dirección</span>
                       <span className="admin-detail-value">
-                        <FiMapPin className="icono-texto" />
+                        <FiMapPin className="mr-1.5 align-middle" />
                         {itemActivo.direccion || '—'}
                       </span>
                     </div>
                     <div className="admin-detail-item">
                       <span className="admin-detail-label">Fecha de registro</span>
                       <span className="admin-detail-value">
-                        <FiCalendar className="icono-texto" />
+                        <FiCalendar className="mr-1.5 align-middle" />
                         {new Date(itemActivo.fechaRegistro).toLocaleDateString('es-CO')}
                       </span>
                     </div>
@@ -217,7 +217,7 @@ const AdminUsuarios = () => {
 
                   <div className="admin-modal__section">
                     <span className="admin-modal__section-title">
-                      <FiActivity className="icono-texto" />
+                      <FiActivity className="mr-1.5 align-middle" />
                       Actividad en la plataforma
                     </span>
                     <div style={{ display: 'flex', gap: '1.5rem', marginTop: '0.4rem', flexWrap: 'wrap' }}>
@@ -252,21 +252,21 @@ const AdminUsuarios = () => {
                     <div className="admin-detail-item">
                       <span className="admin-detail-label">Teléfono institucional</span>
                       <span className="admin-detail-value">
-                        <FiPhone className="icono-texto" />
+                        <FiPhone className="mr-1.5 align-middle" />
                         {itemActivo.telefono}
                       </span>
                     </div>
                     <div className="admin-detail-item">
                       <span className="admin-detail-label">Correo institucional</span>
                       <span className="admin-detail-value">
-                        <FiMail className="icono-texto" />
+                        <FiMail className="mr-1.5 align-middle" />
                         {itemActivo.correo}
                       </span>
                     </div>
                     <div className="admin-detail-item">
                       <span className="admin-detail-label">Sede / Ubicación</span>
                       <span className="admin-detail-value">
-                        <FiMapPin className="icono-texto" />
+                        <FiMapPin className="mr-1.5 align-middle" />
                         {itemActivo.direccion}
                       </span>
                     </div>
@@ -285,7 +285,7 @@ const AdminUsuarios = () => {
                   {itemActivo.evidencias.length > 0 && (
                     <div className="admin-modal__section">
                       <span className="admin-modal__section-title">
-                        <FiFileText className="icono-texto" />
+                        <FiFileText className="mr-1.5 align-middle" />
                         Archivos adjuntos en el registro
                       </span>
                       <ul style={{ margin: '0.4rem 0 0', paddingLeft: '1.2rem', color: '#CBD5E1', lineHeight: '1.7' }}>
@@ -308,7 +308,7 @@ const AdminUsuarios = () => {
                   </div>
                   <div className="admin-detail-item">
                     <span className="admin-detail-label">
-                      <FiShield className="icono-texto" />
+                      <FiShield className="mr-1.5 align-middle" />
                       Nivel de acceso
                     </span>
                     <span className="admin-detail-value">{itemActivo.nivel}</span>

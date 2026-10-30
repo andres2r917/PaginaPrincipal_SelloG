@@ -58,34 +58,34 @@ const FundacionDashboard = () => {
 
       {/* KPIs */}
       <div className="fnd-kpis">
-        <div className="admin-card admin-card--compacta" >
+        <div className="admin-card p-[18px]" >
           <p className="admin-card__subtitle">En Custodia</p>
-          <p className="fnd-kpi__valor">{enCustodia.length}</p>
+          <p className="mt-1 mb-[6px] text-[28px] font-extrabold text-acento">{enCustodia.length}</p>
           <svg className="fnd-sparkline" viewBox="0 0 60 24">
             <polyline fill="none" stroke="#7C3AED" strokeWidth="1.8" points={puntosSparkline} />
           </svg>
         </div>
 
-        <div className="admin-card admin-card--compacta" >
+        <div className="admin-card p-[18px]" >
           <p className="admin-card__subtitle">Solicitudes Activas</p>
-          <p className="fnd-kpi__valor">{solicitudesActivas.length}</p>
+          <p className="mt-1 mb-[6px] text-[28px] font-extrabold text-acento">{solicitudesActivas.length}</p>
           <p style={{ fontSize: 12, color: '#10B981', marginBottom: 8 }}>{prioritarias.length} prioritarias</p>
           <svg className="fnd-sparkline" viewBox="0 0 60 24">
             <polyline fill="none" stroke="#10B981" strokeWidth="1.8" points={puntosSparkline} />
           </svg>
         </div>
 
-        <div className="admin-card admin-card--compacta" >
+        <div className="admin-card p-[18px]" >
           <p className="admin-card__subtitle">Adopciones Concretadas</p>
-          <p className="fnd-kpi__valor">{concretadas}</p>
+          <p className="mt-1 mb-[6px] text-[28px] font-extrabold text-acento">{concretadas}</p>
           <svg className="fnd-sparkline" viewBox="0 0 60 24">
             <polyline fill="none" stroke="#10B981" strokeWidth="1.8" points={puntosSparkline} />
           </svg>
         </div>
 
-        <div className="admin-card admin-card--compacta" >
+        <div className="admin-card p-[18px]" >
           <p className="admin-card__subtitle">Capacidad del Refugio</p>
-          <p className="fnd-kpi__valor">{porcentajeCapacidad}%</p>
+          <p className="mt-1 mb-[6px] text-[28px] font-extrabold text-acento">{porcentajeCapacidad}%</p>
           <p style={{ fontSize: 12, color: 'rgba(241,245,249,0.5)', marginBottom: 6 }}>{enCustodia.length} / {capacidad}</p>
           <div className="fnd-kpi__barra">
             <div
@@ -100,8 +100,8 @@ const FundacionDashboard = () => {
       <div className="fnd-dos-cols">
 
         {/* Animales bajo cuidado */}
-        <div className="admin-card admin-card--compacta" >
-          <h2 className="fnd-card-titulo">Animales bajo cuidado</h2>
+        <div className="admin-card p-[18px]" >
+          <h2 className="mb-3 text-[15px] font-extrabold text-texto">Animales bajo cuidado</h2>
           <div className="fnd-filtros">
             {[
               { key: 'todos', label: `Todos (${enCustodia.length})` },
@@ -156,8 +156,8 @@ const FundacionDashboard = () => {
         </div>
 
         {/* Solicitudes recientes */}
-        <div className="admin-card admin-card--compacta" >
-          <h2 className="fnd-card-titulo">Solicitudes recientes</h2>
+        <div className="admin-card p-[18px]" >
+          <h2 className="mb-3 text-[15px] font-extrabold text-texto">Solicitudes recientes</h2>
           <div className="fnd-timeline">
             {solicitudesRecientes.map((s) => {
               const punt = calcularPuntuacion(s)
@@ -190,7 +190,7 @@ const FundacionDashboard = () => {
 
       {/* Pipeline Kanban compacto */}
       <div className="admin-card" style={{ padding: '18px', marginBottom: 24 }}>
-        <h2 className="fnd-card-titulo">Pipeline operativo</h2>
+        <h2 className="mb-3 text-[15px] font-extrabold text-texto">Pipeline operativo</h2>
         <div className="fnd-kanban">
           {ESTADOS_KANBAN.map((col) => {
             const lista = mascotas.filter((m) => m.estadoAdopcion === col.key)

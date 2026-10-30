@@ -127,7 +127,7 @@ const FundacionAdopciones = () => {
             <div className="fnd-modal__campo">
               <label className="fnd-modal__label" htmlFor="fadop-comentarios-de-la-fundac">Comentarios de la fundación</label>
               <textarea id="fadop-comentarios-de-la-fundac"
- className="fnd-modal__input campo-redimensionable"
+ className="fnd-modal__input resize-y"
  rows="3"
  value={comentario}
  onChange={(e) => { setComentario(e.target.value); setErrorComentario('') }}

@@ -191,21 +191,21 @@ const AdminFundacionRegistros = () => {
                 <div className="admin-detail-item">
                   <span className="admin-detail-label">Teléfono de contacto</span>
                   <span className="admin-detail-value">
-                    <FiPhone className="icono-texto" />
+                    <FiPhone className="mr-1.5 align-middle" />
                     {solicitudActiva.telefono}
                   </span>
                 </div>
                 <div className="admin-detail-item">
                   <span className="admin-detail-label">Correo electrónico</span>
                   <span className="admin-detail-value">
-                    <FiMail className="icono-texto" />
+                    <FiMail className="mr-1.5 align-middle" />
                     {solicitudActiva.correo}
                   </span>
                 </div>
                 <div className="admin-detail-item">
                   <span className="admin-detail-label">Ciudad / Dirección</span>
                   <span className="admin-detail-value">
-                    <FiMapPin className="icono-texto" />
+                    <FiMapPin className="mr-1.5 align-middle" />
                     {solicitudActiva.direccion}
                   </span>
                 </div>
@@ -216,7 +216,7 @@ const AdminFundacionRegistros = () => {
                 <div className="admin-detail-item">
                   <span className="admin-detail-label">Fecha de solicitud</span>
                   <span className="admin-detail-value">
-                    <FiCalendar className="icono-texto" />
+                    <FiCalendar className="mr-1.5 align-middle" />
                     {formatearFecha(solicitudActiva.fechaSolicitud)}
                   </span>
                 </div>
@@ -225,7 +225,7 @@ const AdminFundacionRegistros = () => {
               {/* Descripción que envió la fundación */}
               <div className="admin-modal__section">
                 <span className="admin-modal__section-title">
-                  <FiShield className="icono-texto" />
+                  <FiShield className="mr-1.5 align-middle" />
                   Descripción de la fundación (enviada por el solicitante)
                 </span>
                 <p className="admin-modal__text">
@@ -236,7 +236,7 @@ const AdminFundacionRegistros = () => {
               {/* Fotos y videos opcionales que adjuntó al registrarse */}
               <div className="admin-modal__section">
                 <span className="admin-modal__section-title">
-                  <FiImage className="icono-texto" />
+                  <FiImage className="mr-1.5 align-middle" />
                   Fotos y videos de la fundación (opcional)
                 </span>
                 {solicitudActiva.evidencias.length === 0 ? (

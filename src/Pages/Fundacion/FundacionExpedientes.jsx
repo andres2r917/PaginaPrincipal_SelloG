@@ -114,7 +114,7 @@ const FundacionExpedientes = () => {
   return (
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12, flexWrap: 'wrap', marginBottom: 16 }}>
-        <h1 className="admin-title sin-margen">Expedientes Peluditos</h1>
+        <h1 className="admin-title m-0">Expedientes Peluditos</h1>
         {/* Abre el modal para registrar el ingreso de una mascota */}
         <button type="button" className="fnd-btn-primario" onClick={() => setModalIngreso(true)}>
           <FiPlus /> Registrar Ingreso
@@ -133,14 +133,14 @@ const FundacionExpedientes = () => {
             onChange={(e) => setBusqueda(e.target.value)}
           />
         </div>
-        <div className="fnd-filtros sin-margen" >
+        <div className="fnd-filtros m-0" >
           {['todos', 'perro', 'gato', 'ave', 'otro'].map((e) => (
             <button key={e} className={`fnd-chip${filtroEspecie === e ? ' fnd-chip--activo' : ''}`} onClick={() => setFiltroEspecie(e)}>
               {e === 'todos' ? 'Todos' : e.charAt(0).toUpperCase() + e.slice(1)}
             </button>
           ))}
         </div>
-        <div className="fnd-filtros sin-margen" >
+        <div className="fnd-filtros m-0" >
           {['todos', 'en_cuarentena', 'disponible', 'en_proceso', 'adoptado'].map((st) => (
             <button key={st} className={`fnd-chip${filtroEstado === st ? ' fnd-chip--activo' : ''}`} onClick={() => setFiltroEstado(st)}>
               {st === 'todos' ? 'Todos' : BADGE_MASCOTA[st].txt}
@@ -200,7 +200,7 @@ const FundacionExpedientes = () => {
             </div>
 
             <form onSubmit={guardarIngreso}>
-              <div className="admin-modal__body admin-modal__body--scroll" >
+              <div className="admin-modal__body max-h-[70vh] overflow-y-auto" >
                 <CamposMascota form={formIngreso} setForm={setFormIngreso} />
                 {aviso && <p className="fnd-aviso fnd-aviso--error" role="alert">{aviso}</p>}
               </div>
@@ -238,7 +238,7 @@ const FundacionExpedientes = () => {
             </div>
 
             <form onSubmit={guardarGestionar}>
-              <div className="admin-modal__body admin-modal__body--scroll" >
+              <div className="admin-modal__body max-h-[70vh] overflow-y-auto" >
                 <CamposMascota form={formGestionar} setForm={setFormGestionar} />
                 {aviso && <p className="fnd-aviso fnd-aviso--error" role="alert">{aviso}</p>}
               </div>
@@ -257,7 +257,7 @@ const FundacionExpedientes = () => {
       {/* Modal: Ficha técnica */}
       {modalFicha && (
         <div className="admin-modal-backdrop" onClick={() => setModalFicha(null)}>
-          <div className="admin-modal modal-angosto" onClick={(e) => e.stopPropagation()}>
+          <div className="admin-modal max-w-[520px]" onClick={(e) => e.stopPropagation()}>
             <div className="admin-modal__header">
               <div className="admin-modal__header-left">
                 <span className="admin-modal__icon-badge"><FiClipboard /></span>

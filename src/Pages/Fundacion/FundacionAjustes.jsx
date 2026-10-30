@@ -75,9 +75,9 @@ const FundacionAjustes = () => {
 						<span>Ocupación actual</span>
 						<span>{enCustodia} de {capacidad} cupos</span>
 					</div>
-					<div className="barra-progreso">
+					<div className="h-[10px] w-full overflow-hidden rounded-full bg-[rgba(255,255,255,0.08)]">
 						<div
-							className="barra-progreso__relleno"
+							className="h-full rounded-full transition-[width] duration-[400ms] ease-[ease]"
 							style={{
 								width: `${porcentajeOcupacion}%`,
 								background: porcentajeOcupacion > 90 ? 'var(--color-peligro)' : porcentajeOcupacion > 70 ? 'var(--color-aviso)' : 'var(--color-exito)'
