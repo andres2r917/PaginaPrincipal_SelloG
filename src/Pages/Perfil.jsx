@@ -94,7 +94,7 @@ const Perfil = () => {
     <div className="relative flex min-h-screen items-center justify-center overflow-x-hidden bg-[#0B0F19]">
 
       <div className="fixed inset-0 z-0 h-full w-full">
-        <img className="portada" src={FONDO} alt="" />
+        <img className="absolute inset-0 z-0 h-full w-full bg-fondo object-cover brightness-[0.35] contrast-[1.1]" src={FONDO} alt="" />
       </div>
 
       <div className="fixed inset-0 z-[1] h-full w-full bg-[radial-gradient(circle_at_center,rgba(15,23,42,0.65)_0%,rgba(11,15,25,0.92)_100%)] backdrop-blur-[8px]" />

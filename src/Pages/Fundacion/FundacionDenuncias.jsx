@@ -5,6 +5,7 @@ import { useDenuncias } from '../../Context/DenunciasContext.jsx'
 import { ESTADOS_ACTIVOS } from '../../Utils/estados.js'
 import TarjetaDenuncia from '../../Componentes/Denuncias/TarjetaDenuncia.jsx'
 import { SelectorUbicacion } from '../../Componentes/Denuncias/DenunciaFormulario.jsx'
+import * as E from '../../Utils/denunciaEstilos.js'
 
 const FILTROS = [
   { id: 'disponibles', texto: 'Disponibles' },
@@ -153,21 +154,21 @@ const FundacionDenuncias = () => {
         ))}
       </div>
 
-      {aviso && <div className={`dnfeed-aviso dnfeed-aviso--${aviso.tipo}`}>{aviso.texto}</div>}
+      {aviso && <div className={`${E.AVISO} ${E.AVISO_COLOR[aviso.tipo] ?? ''}`}>{aviso.texto}</div>}
 
       {filtradas.length === 0 ? (
-        <p className="dnfeed-vacio">No hay casos en esta vista.</p>
+        <p className={E.VACIO}>No hay casos en esta vista.</p>
       ) : (
-        <div className="dnfeed-lista dnfeed-lista--grid">
+        <div className={E.LISTA_GRID}>
           {filtradas.map((d) => (
             <TarjetaDenuncia key={d.id} denuncia={d}>
               {estaDisponible(d) && (
-                <button type="button" className="dnfeed-btn dnfeed-btn--primario" onClick={() => hacermeCargo(d.id)}>
+                <button type="button" className={E.FEED_BTN_PRIMARIO} onClick={() => hacermeCargo(d.id)}>
                   Hacerme cargo de este caso
                 </button>
               )}
               {esMia(d) && d.estado === 'en_rescate' && (
-                <button type="button" className="dnfeed-btn dnfeed-btn--secundario" onClick={() => marcarResuelto(d.id)}>
+                <button type="button" className={E.FEED_BTN_SECUNDARIO} onClick={() => marcarResuelto(d.id)}>
                   Marcar como resuelto
                 </button>
               )}

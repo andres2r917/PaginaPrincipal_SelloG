@@ -1,6 +1,6 @@
 import { FiCheckCircle, FiClock, FiHome, FiLifeBuoy, FiMapPin, FiPhone } from 'react-icons/fi'
 import { useState } from 'react'
-import '../../Style/DenunciaFeed.css'
+import * as E from '../../Utils/denunciaEstilos.js'
 import { useDenuncias } from '../../Context/DenunciasContext.jsx'
 import { ETIQUETA_TIPO, ESTADOS_ACTIVOS } from '../../Utils/estados.js'
 import { tiempoRelativo } from '../../Utils/tiempoRelativo.js'
@@ -29,37 +29,37 @@ const TarjetaDenuncia = ({ denuncia, children }) => {
   const urlComoLlegar = crearUrlRuta(denuncia.latitud, denuncia.longitud, denuncia.ubicacion)
 
   return (
-    <article className="dnfeed-card">
-      <header className="dnfeed-card__head">
-        <h3 className="dnfeed-card__titulo">{ETIQUETA_TIPO[denuncia.tipo] || denuncia.tipo}</h3>
-        <div className="dnfeed-card__badges">
-          <span className={`dnfeed-badge dnfeed-badge--urgencia-${denuncia.urgencia.toLowerCase()}`}>
+    <article className={E.CARD}>
+      <header className={E.CARD_CABECERA}>
+        <h3 className={E.CARD_TITULO}>{ETIQUETA_TIPO[denuncia.tipo] || denuncia.tipo}</h3>
+        <div className={E.CARD_BADGES}>
+          <span className={`${E.BADGE} ${E.BADGE_COLOR[`urgencia-${denuncia.urgencia.toLowerCase()}`] ?? ''}`}>
             Urgencia {denuncia.urgencia}
           </span>
-          <span className={`dnfeed-badge dnfeed-badge--${denuncia.estado}`}>
+          <span className={`${E.BADGE} ${E.BADGE_COLOR[denuncia.estado] ?? ''}`}>
             {ETIQUETA_ESTADO[denuncia.estado]}
           </span>
         </div>
       </header>
 
-      <p className="dnfeed-card__meta">
+      <p className={E.CARD_META}>
         {reportadoPor.tipo === 'fundacion' ? (
-          <span className="dnfeed-reportero dnfeed-reportero--fundacion"><FiHome /> Reportado por {reportadoPor.nombre}</span>
+          <span className={E.REPORTERO_FUNDACION}><FiHome /> Reportado por {reportadoPor.nombre}</span>
         ) : (
-          <span className="dnfeed-reportero">{reportadoPor.nombre}</span>
+          <span>{reportadoPor.nombre}</span>
         )}
         <span> · {tiempoRelativo(denuncia.fecha)}</span>
       </p>
 
-      <p className="dnfeed-card__desc">{denuncia.descripcion}</p>
+      <p className={E.CARD_DESC}>{denuncia.descripcion}</p>
 
       {/* Ubicación exacta: visible a propósito para que la comunidad cercana pueda ir a verificar o ayudar */}
-      <p className="dnfeed-card__ubicacion"><FiMapPin /> {denuncia.ubicacion}</p>
-      <div className="dnfeed-card__acciones">
-        <button type="button" className="dnfeed-btn dnfeed-btn--secundario" onClick={() => setMapaVisible((v) => !v)}>
+      <p className={E.CARD_UBICACION}><FiMapPin /> {denuncia.ubicacion}</p>
+      <div className={E.CARD_ACCIONES}>
+        <button type="button" className={E.FEED_BTN_SECUNDARIO} onClick={() => setMapaVisible((v) => !v)}>
           {mapaVisible ? 'Ocultar mapa' : 'Ver en el mapa'}
         </button>
-        <a className="dnfeed-btn dnfeed-btn--secundario" href={urlComoLlegar} target="_blank" rel="noreferrer">
+        <a className={E.FEED_BTN_SECUNDARIO} href={urlComoLlegar} target="_blank" rel="noreferrer">
           Cómo llegar
         </a>
       </div>
@@ -67,13 +67,13 @@ const TarjetaDenuncia = ({ denuncia, children }) => {
 
       {/* Evidencia: imágenes y videos */}
       {evidencias.length > 0 && (
-        <div className="dnfeed-evidencias">
+        <div className={E.EVIDENCIAS}>
           {evidencias.map((ev) =>
             ev.tipoArchivo?.startsWith('video/') ? (
-              <video key={ev.id} src={ev.url} controls preload="metadata" className="dnfeed-evidencia" />
+              <video key={ev.id} src={ev.url} controls preload="metadata" className={E.EVIDENCIA} />
             ) : (
               <a key={ev.id} href={ev.url} target="_blank" rel="noreferrer">
-                <img src={ev.url} alt="Evidencia de la denuncia" className="dnfeed-evidencia" loading="lazy" />
+                <img src={ev.url} alt="Evidencia de la denuncia" className={E.EVIDENCIA} loading="lazy" />
               </a>
             )
           )}
@@ -81,15 +81,15 @@ const TarjetaDenuncia = ({ denuncia, children }) => {
       )}
 
       {fundacionAsignada && (
-        <p className="dnfeed-card__asignada">
+        <p className={E.CARD_ASIGNADA}>
           Caso asignado a <strong>{fundacionAsignada.nombre}</strong>
           {denuncia.fechaAsignacion && <> · {tiempoRelativo(denuncia.fechaAsignacion)}</>}
         </p>
       )}
 
-      <footer className="dnfeed-card__acciones">
+      <footer className={E.CARD_ACCIONES}>
         {puedeContactar && (
-          <a className="dnfeed-btn dnfeed-btn--contacto" href={`tel:${telefono.replace(/\s+/g, '')}`}>
+          <a className={E.FEED_BTN_CONTACTO} href={`tel:${telefono.replace(/\s+/g, '')}`}>
             <FiPhone /> {textoContacto}
           </a>
         )}

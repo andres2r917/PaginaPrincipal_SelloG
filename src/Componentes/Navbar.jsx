@@ -1,6 +1,17 @@
 import { useEffect, useRef, useState } from 'react'
-import '../Style/Navbar.css'
 import portada from '../assets/portada.jpeg'
+
+// Estilos con Tailwind. Los colores de la marca salen de @theme (index.css)
+const HERO =
+  'relative flex min-h-screen items-center overflow-hidden px-6 py-[60px] before:absolute before:inset-0 before:z-1 before:bg-[rgba(15,23,42,0.6)]'
+const PORTADA = 'absolute inset-0 z-0 h-full w-full bg-fondo object-cover brightness-[0.35] contrast-[1.1]'
+const CONTENEDOR = 'relative z-2 max-w-[680px] animate-[fadeUp_0.9s_cubic-bezier(.22,1,.36,1)_both] px-12 pt-16 pb-12'
+const TITULO = 'mb-4 text-[clamp(2.2rem,5vw,3.6rem)] leading-[1.08] font-black tracking-[-1px] text-white [text-shadow:0_2px_24px_rgba(0,0,0,0.4)]'
+const TEXTO = 'mb-8 text-[1.05rem] leading-[1.6] font-semibold text-[rgba(255,255,255,0.82)]'
+const BTN =
+  'inline-flex items-center gap-[0.4rem] rounded-full border-2 border-transparent bg-primario px-[1.6rem] py-3 text-[1rem] font-extrabold text-white no-underline shadow-[0_4px_20px_rgba(124,58,237,0.45)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-acento hover:text-fondo hover:shadow-[0_6px_28px_rgba(196,181,253,0.55)]'
+const NUMERO = 'text-[1.6rem] leading-none font-black text-primario tabular-nums' // los dígitos no se mueven mientras cuentan
+const ETIQUETA = 'mt-[2px] text-[0.78rem] font-semibold text-[rgba(255,255,255,0.65)]'
 
 // Estadísticas del hero (cuando exista la API se reemplazan por los datos reales)
 const ESTADISTICAS = [
@@ -42,38 +53,38 @@ const Contador = ({ valor, sufijo }) => {
     }
   }, [valor, sinMovimiento])
 
-  return <span className="stat-num" ref={ref}>{actual.toLocaleString('es-CO')}{sufijo}</span>
+  return <span className={NUMERO} ref={ref}>{actual.toLocaleString('es-CO')}{sufijo}</span>
 }
 
 const Navbar = () => {
   return (
-   <section className="hero">
-    <div className='portada-container'>
-    <img className='portada' src={portada} alt=""/>
+   <section className={HERO}>
+    <div>
+    <img className={PORTADA} src={portada} alt=""/>
     </div>
-  <div className="hero-container">
-    <h1 className="hero-title">
+  <div className={CONTENEDOR}>
+    <h1 className={TITULO}>
       La lucha contra el<br />
-      <span className="hero-highlight">maltrato animal</span><br />
+      <span className="text-primario">maltrato animal</span><br />
       nunca termina
     </h1>
-    <p className="hero-text">
+    <p className={TEXTO}>
       Anímate a denunciar, adoptar y proteger <br /> a los que no tienen voz
     </p>
 
-    <div className="hero-btns">
-      <a href="#adopta" className="btn btn-primary">
+    <div className="mb-10 flex flex-wrap gap-4">
+      <a href="#adopta" className={BTN}>
          Adoptar ahora
       </a>
     </div>
 
-    <div className="hero-stats">
+    <div className="flex flex-wrap items-center gap-6">
       {ESTADISTICAS.map((e, i) => (
-        <div className="stat-item-wrap" key={e.texto}>
-          {i > 0 && <div className="stat-divider" />}
-          <div className="stat-item">
+        <div className="flex items-center gap-6" key={e.texto}>
+          {i > 0 && <div className="h-9 w-px bg-[rgba(196,181,253,0.3)]" />}
+          <div className="flex flex-col">
             <Contador valor={e.valor} sufijo={e.sufijo} />
-            <span className="stat-label">{e.texto}</span>
+            <span className={ETIQUETA}>{e.texto}</span>
           </div>
         </div>
       ))}

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import '../../Style/DenunciaFeed.css'
+import * as E from '../../Utils/denunciaEstilos.js'
 import { useAuth } from '../../Context/AuthContext.jsx'
 import { useDenuncias } from '../../Context/DenunciasContext.jsx'
 import { ESTADOS_ACTIVOS } from '../../Utils/estados.js'
@@ -47,13 +47,13 @@ const FeedDenuncias = () => {
   }
 
   return (
-    <section className="dnfeed-feed">
-      <div className="dnfeed-tabs">
+    <section className={E.FEED}>
+      <div className={E.TABS}>
         {PESTANAS.map((p) => (
           <button
             key={p.id}
             type="button"
-            className={`dnfeed-tab${pestana === p.id ? ' dnfeed-tab--activa' : ''}`}
+            className={pestana === p.id ? E.TAB_ACTIVA : E.TAB_REPOSO}
             onClick={() => cambiarPestana(p.id)}
           >
             {p.texto} ({porPestana[p.id].length})
@@ -62,13 +62,13 @@ const FeedDenuncias = () => {
       </div>
 
       {pestana === 'mias' && !usuario ? (
-        <p className="dnfeed-vacio">
+        <p className={E.VACIO}>
           <Link to="/login">Inicia sesión</Link> para ver las denuncias que has enviado.
         </p>
       ) : lista.length === 0 ? (
-        <p className="dnfeed-vacio">{MENSAJE_VACIO[pestana]}</p>
+        <p className={E.VACIO}>{MENSAJE_VACIO[pestana]}</p>
       ) : (
-        <div className="dnfeed-lista">
+        <div className={E.LISTA}>
           {lista.slice(0, visibles).map((d) => (
             <TarjetaDenuncia key={d.id} denuncia={d} />
           ))}
@@ -77,7 +77,7 @@ const FeedDenuncias = () => {
 
       {/* Paginación manual: el usuario decide cuándo seguir bajando */}
       {lista.length > visibles && (
-        <button type="button" className="dnfeed-btn dnfeed-btn--secundario dnfeed-mas" onClick={() => setVisibles((v) => v + POR_PAGINA)}>
+        <button type="button" className={E.FEED_BTN_MAS} onClick={() => setVisibles((v) => v + POR_PAGINA)}>
           Cargar más
         </button>
       )}

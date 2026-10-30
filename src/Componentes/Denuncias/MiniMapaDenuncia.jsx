@@ -3,6 +3,7 @@ import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import { crearCapaBase } from '../../Utils/mapaBase.js'
 import { crearIconoPatica } from '../../Utils/iconoPatica.js'
+import { MINIMAPA } from '../../Utils/denunciaEstilos.js'
 
 // Patica morada de la paleta (evita el problema de iconos por defecto de Leaflet con Vite)
 const ICONO_PIN = crearIconoPatica('#7C3AED')
@@ -22,7 +23,7 @@ const MiniMapaDenuncia = ({ latitud, longitud }) => {
     return () => mapa.remove()
   }, [latitud, longitud])
 
-  return <div ref={contenedor} className="dnfeed-minimapa" />
+  return <div ref={contenedor} className={MINIMAPA} />
 }
 
 export default MiniMapaDenuncia

@@ -1,8 +1,7 @@
 import { FiCheckCircle, FiX } from 'react-icons/fi'
 import { useState, useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { PAGINA, CONTENIDO, TOAST } from '../Utils/denunciaEstilos.js'
-import '../Style/DenunciaFeed.css'
+import * as E from '../Utils/denunciaEstilos.js'
 // Fondo propio de esta página
 const FONDO = 'https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=1920&q=70'
 import DenunciaFormulario from '../Componentes/Denuncias/DenunciaFormulario.jsx'
@@ -69,28 +68,28 @@ const Denuncia = () => {
   const cambiarPestana = (id) => setPestana(id)
 
   return (
-    <div className={PAGINA} style={{ backgroundImage: `url(${FONDO})` }}>
-      <div className={`dnfeed-wrap ${CONTENIDO}`}>
+    <div className={E.PAGINA} style={{ backgroundImage: `url(${FONDO})` }}>
+      <div className={`${E.FEED_WRAP} ${E.CONTENIDO}`}>
         {/* Acordeón: el formulario solo se monta al abrirlo para que el mapa de Leaflet cargue bien */}
         <button
           type="button"
-          className="dnfeed-acordeon"
+          className={E.ACORDEON}
           onClick={() => setFormAbierto((abierto) => !abierto)}
           aria-expanded={formAbierto}
         >
           <span>{formAbierto ? 'Cerrar formulario' : '+ Reportar una denuncia'}</span>
-          <span className={`dnfeed-acordeon__flecha${formAbierto ? ' dnfeed-acordeon__flecha--abierta' : ''}`}>▼</span>
+          <span className={`${E.ACORDEON_FLECHA}${formAbierto ? ' rotate-180' : ''}`}>▼</span>
         </button>
 
         {formAbierto && <DenunciaFormulario onEnviar={manejarEnvio} />}
 
         {/* Pestañas de filtro */}
-        <div className="dnfeed-tabs">
+        <div className={E.TABS}>
           {PESTANAS.map((p) => (
             <button
               key={p.id}
               type="button"
-              className={`dnfeed-tab${pestana === p.id ? ' dnfeed-tab--activa' : ''}`}
+              className={pestana === p.id ? E.TAB_ACTIVA : E.TAB_REPOSO}
               onClick={() => cambiarPestana(p.id)}
             >
               {p.texto}
@@ -99,7 +98,7 @@ const Denuncia = () => {
         </div>
 
         {buscar && (
-          <button type="button" className="dnfeed-tab dnfeed-tab--activa" onClick={() => setSearchParams({})}>
+          <button type="button" className={E.TAB_ACTIVA} onClick={() => setSearchParams({})}>
             Búsqueda: «{buscar}» <FiX />
           </button>
         )}
@@ -107,7 +106,7 @@ const Denuncia = () => {
         {/* Lista de tarjetas usando el componente compartido */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
           {denunciasFiltradas.length === 0 ? (
-            <p className="dnfeed-vacio">No hay denuncias en esta sección.</p>
+            <p className={E.VACIO}>No hay denuncias en esta sección.</p>
           ) : (
             denunciasFiltradas.map((d) => (
               <DenunciaCard
@@ -122,8 +121,8 @@ const Denuncia = () => {
         </div>
       </div>
 
-      {errorEnvio && <div className={TOAST} style={{ background: 'var(--color-error)' }}><FiX /> {errorEnvio}</div>}
-      {enviado && <div className={TOAST}><FiCheckCircle /> Denuncia enviada correctamente</div>}
+      {errorEnvio && <div className={E.TOAST} style={{ background: 'var(--color-error)' }}><FiX /> {errorEnvio}</div>}
+      {enviado && <div className={E.TOAST}><FiCheckCircle /> Denuncia enviada correctamente</div>}
     </div>
   )
 }
